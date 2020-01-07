@@ -15,6 +15,7 @@
     "bootstrap-vue": "^2.1.0",
     "core-js": "^3.4.3",
     "verida-datastore": "git+https://github.com/verida/datastore.git",
+    "verida-schema": "git+https://github.com/verida/schemas.git",
     "vue": "^2.6.10"
   },
   "devDependencies": {
