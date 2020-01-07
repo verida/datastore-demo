@@ -75,7 +75,7 @@
 </template>
 
 <script>
-import VeridaApp from '../../../lib/app';
+import VeridaApp from 'verida-datastore';
 
 export default {
   name: 'Home',
