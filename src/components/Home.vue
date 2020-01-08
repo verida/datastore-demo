@@ -99,7 +99,8 @@ export default {
           profile: {
             privacy: "public"
           }
-        }
+        },
+        serverUrl: "http://datastore.dev.verida.io:5000/",
       });
       
       // Connect the user's wallet
