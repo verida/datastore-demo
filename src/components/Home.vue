@@ -14,7 +14,7 @@
               <b-col>
                 <label>Address:</label>
               </b-col>
-              <b-col>{{ veridaApp._user.address }}</b-col>
+              <b-col>{{ veridaApp.user.address }}</b-col>
             </b-row>
           </div>
         </b-card>
@@ -95,12 +95,7 @@ export default {
     login: async function() {
       window.App = this;
       this.veridaApp = new VeridaApp("Verida Demo Application", {
-        datastores: {
-          profile: {
-            privacy: "public"
-          }
-        },
-        serverUrl: "http://datastore.dev.verida.io:5000/",
+        appServerUrl: "http://datastore.dev.verida.io:5000/",
       });
       
       // Connect the user's wallet
@@ -112,8 +107,13 @@ export default {
 
       this.writeLog("Loading employment docs");
 
+      this.datastores = {
+        employment: this.veridaApp.openDatastore("employment"),
+        song: this.veridaApp.openDatastore("song")
+      };
+
       this.loadDocs("employment");
-      this.loadDocs("profile");
+      this.loadProfile();
       this.loadDocs("song");
       this.bindChanges();
 
@@ -133,7 +133,7 @@ export default {
 
       switch (docType) {
         case 'employment':
-          response = await this.veridaApp.save("employment", {
+          response = await this.datastores["employment"].save({
             "organisationName": "Telstra",
             "position": "Store Manager",
             "startDate": "2015-10-12",
@@ -141,13 +141,11 @@ export default {
           });
           break;
         case 'profile':
-          response = await this.veridaApp.save("profile", {
-            "key": "email",
-            "value": "john@test.com"
-          });
+          response = await this.veridaApp.wallet.profile.set("email", "john@test.com");
+          await this.loadProfile();
           break;
         case 'song':
-          response = await this.veridaApp.save("song", {
+          response = await this.datastores["song"].save({
             "name": "Bitter Sweet Symphony",
             "artist": "The Verve"
           });
@@ -161,12 +159,17 @@ export default {
     },
     loadDocs: async function(docType) {
       this.writeLog("Loading "+docType+" documents...");
-      this.docs[docType] = await this.veridaApp.getMany(docType);
+      this.docs[docType] = await this.datastores[docType].getMany();
       this.writeLog("Loaded "+docType+" documents");
+    },
+    loadProfile: async function() {
+      this.writeLog("Loading profile documents...");
+      this.docs["profile"] = await this.veridaApp.wallet.profile.getMany();
+      this.writeLog("Loaded profile documents");
     },
     deleteDoc: async function(docId, docType) {
       this.writeLog("Deleting "+docType+" document: "+docId);
-      this.veridaApp.delete(docType, docId);
+      this.datastores[docType].delete(docId);
     },
     updateDoc: async function(doc, docType) {
       this.writeLog("Updating "+docType+" document: "+doc._id);
@@ -174,22 +177,19 @@ export default {
         case "employment":
           doc.position = "CEO (Updated)";
           break;
-        case "profile":
-          doc.value = "jane@test.com";
-          break;
         case "song":
           doc.duration = 358;
           break;
       }
       
-      this.veridaApp.save(docType, doc);
+      this.datastores[docType].save(doc);
     },
     bindChanges: async function() {
       // TODO: Work out how to bind changes within app.js
       let app = this;
 
       async function bind(docType) {
-        let dataStore = await app.veridaApp.getDataStore(docType);
+        let dataStore = app.datastores[docType];
         let db = await dataStore.getDb();
       
         db.changes({
@@ -205,7 +205,6 @@ export default {
       }
 
       await bind("employment");
-      await bind("profile");
       await bind("song");
 
       this.writeLog("Database change tracking setup");
