@@ -95,7 +95,9 @@ export default {
     login: async function() {
       window.App = this;
       this.veridaApp = new VeridaApp("Verida Demo Application", {
-        appServerUrl: "http://datastore.dev.verida.io:5000/",
+        appServerUrl: "http://localhost:5000/",
+        userServerUrl: "http://localhost:5000/",
+        walletDsn: 'http://localhost:5984/',
       });
       
       // Connect the user's wallet
@@ -151,7 +153,7 @@ export default {
           });
           break;
       }
-      
+
       this.writeLog("Document created (" + docType + "): " + JSON.stringify(response));
     },
     writeLog: function(log) {
@@ -185,12 +187,13 @@ export default {
       this.datastores[docType].save(doc);
     },
     bindChanges: async function() {
-      // TODO: Work out how to bind changes within app.js
+      // TODO: Work out how to bind changes within app.js (possible PouchDB bug)
       let app = this;
 
       async function bind(docType) {
         let dataStore = app.datastores[docType];
         let db = await dataStore.getDb();
+        db = await db.getInstance();
       
         db.changes({
           since: 'now',
