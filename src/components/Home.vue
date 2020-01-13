@@ -43,11 +43,11 @@
       </b-col>
       <b-col>
         <b-card title="Profile" class="docs-list">
-          <ol class="" v-for="doc in docs.profile" v-bind:key="doc._id">
+          <ol class="" v-for="doc in docs.profile" v-bind:key="doc.key">
             <li>
-              {{ doc._id }}: {{ JSON.stringify(doc) }}<br />
-              <b-button v-on:click="updateDoc(doc, 'profile')" variant="light" size="sm">Update</b-button>
-              <b-button v-on:click="deleteDoc(doc._id, 'profile')" variant="danger" size="sm">Delete</b-button>
+              {{ doc.key }}: {{ doc.value }}<br />
+              <b-button v-on:click="updateProfile(doc.key)" variant="light" size="sm">Update</b-button>
+              <b-button v-on:click="deleteProfile(doc.key)" variant="danger" size="sm">Delete</b-button>
             </li>
           </ol>
         </b-card>
@@ -167,7 +167,16 @@ export default {
     loadProfile: async function() {
       this.writeLog("Loading profile documents...");
       this.docs["profile"] = await this.veridaApp.wallet.profile.getMany();
+      this.datastores["profile"] = await this.veridaApp.wallet.profile.getDatastore();
       this.writeLog("Loaded profile documents");
+    },
+    updateProfile: async function(key) {
+      this.writeLog("Updating profile value for: "+key);
+      await this.veridaApp.wallet.profile.set(key, "jane@test.com");
+    },
+    deleteProfile: async function(key) {
+      this.writeLog("Deleting profile key: "+key);
+      await this.veridaApp.wallet.profile.delete(key);
     },
     deleteDoc: async function(docId, docType) {
       this.writeLog("Deleting "+docType+" document: "+docId);
@@ -208,6 +217,7 @@ export default {
       }
 
       await bind("employment");
+      await bind("profile");
       await bind("song");
 
       this.writeLog("Database change tracking setup");
