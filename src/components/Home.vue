@@ -102,22 +102,22 @@ export default {
       
       // Connect the user's wallet
       this.writeLog("Authenticating user with this demo app...");
-      await this.veridaApp.connectUser();
+      await this.veridaApp.connect();
 
       this.writeLog("Logged in");
       this.loggedIn = true;
 
-      this.writeLog("Loading employment docs");
+      this.writeLog("Initialising app");
 
       this.datastores = {
-        employment: this.veridaApp.openDatastore("employment"),
-        song: this.veridaApp.openDatastore("song")
+        employment: await this.veridaApp.openDatastore("employment"),
+        song: await this.veridaApp.openDatastore("song")
       };
 
-      this.loadDocs("employment");
-      this.loadProfile();
-      this.loadDocs("song");
-      this.bindChanges();
+      await this.loadDocs("employment");
+      await this.loadProfile();
+      await this.loadDocs("song");
+      await this.bindChanges();
 
       /*let datastore = await this.veridaApp.getDataStore("employment");
       datastore.on("afterInsert", function(data, response) {
@@ -200,8 +200,8 @@ export default {
       let app = this;
 
       async function bind(docType) {
-        let dataStore = app.datastores[docType];
-        let db = await dataStore.getDb();
+        let datastore = app.datastores[docType];
+        let db = await datastore.getDb();
         db = await db.getInstance();
       
         db.changes({
