@@ -95,9 +95,9 @@ export default {
     login: async function() {
       window.App = this;
       this.veridaApp = new VeridaApp("Verida Demo Application", {
-        appServerUrl: "http://localhost:5000/",
-        userServerUrl: "http://localhost:5000/",
-        walletDsn: 'http://localhost:5984/',
+        //appServerUrl: "http://localhost:5000/",
+        //userServerUrl: "http://localhost:5000/",
+        //walletDsn: 'http://localhost:5984/',
       });
       
       // Connect the user's wallet
