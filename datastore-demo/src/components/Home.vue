@@ -26,6 +26,7 @@
           <b-button v-on:click="createDoc('employment')" variant="light">Create Employment Document</b-button>
           <b-button v-on:click="createDoc('profile')" variant="light">Create Profile Document</b-button>
           <b-button v-on:click="createDoc('song')" variant="light">Create Song Document</b-button>
+          <b-button v-on:click="sendInboxMessage()" variant="light">Send Inbox Message</b-button>
         </b-button-group>
       </b-col>
     </b-row>
@@ -43,11 +44,11 @@
       </b-col>
       <b-col>
         <b-card title="Profile" class="docs-list">
-          <ol class="" v-for="doc in docs.profile" v-bind:key="doc._id">
+          <ol class="" v-for="doc in docs.profile" v-bind:key="doc.key">
             <li>
-              {{ doc._id }}: {{ JSON.stringify(doc) }}<br />
-              <b-button v-on:click="updateDoc(doc, 'profile')" variant="light" size="sm">Update</b-button>
-              <b-button v-on:click="deleteDoc(doc._id, 'profile')" variant="danger" size="sm">Delete</b-button>
+              {{ doc.key }}: {{ doc.value }}<br />
+              <b-button v-on:click="updateProfile(doc.key)" variant="light" size="sm">Update</b-button>
+              <b-button v-on:click="deleteProfile(doc.key)" variant="danger" size="sm">Delete</b-button>
             </li>
           </ol>
         </b-card>
@@ -93,29 +94,40 @@ export default {
   },
   methods: {
     login: async function() {
+      let web3Provider = await VeridaApp.WalletHelper.connectWeb3('ethr');
+      if (!web3Provider) {
+        throw "Unable to locate valid web3 provider";
+      }
+
+      this.address = await VeridaApp.WalletHelper.getAddress('ethr');
+
       window.App = this;
-      this.veridaApp = new VeridaApp("Verida Demo Application", {
-        appServerUrl: "http://datastore.dev.verida.io:5000/",
+      this.veridaApp = new VeridaApp("Verida Demo Application", 'ethr', this.address, web3Provider, {
+        //appServerUrl: "http://localhost:5000/",
+        //userServerUrl: "http://localhost:5000/",
+        //didServerUrl: "http://localhost:5001/",
       });
       
       // Connect the user's wallet
       this.writeLog("Authenticating user with this demo app...");
-      await this.veridaApp.connectUser();
+      await this.veridaApp.connect();
 
       this.writeLog("Logged in");
-      this.loggedIn = true;
 
-      this.writeLog("Loading employment docs");
+      this.loggedIn = true;
+      return;
+/*
+      this.writeLog("Initialising app");
 
       this.datastores = {
-        employment: this.veridaApp.openDatastore("employment"),
-        song: this.veridaApp.openDatastore("song")
+        employment: await this.veridaApp.openDatastore("employment"),
+        song: await this.veridaApp.openDatastore("song")
       };
 
-      this.loadDocs("employment");
-      this.loadProfile();
-      this.loadDocs("song");
-      this.bindChanges();
+      await this.loadDocs("employment");
+      await this.loadProfile();
+      await this.loadDocs("song");
+      await this.bindChanges();
 
       /*let datastore = await this.veridaApp.getDataStore("employment");
       datastore.on("afterInsert", function(data, response) {
@@ -124,6 +136,7 @@ export default {
       */
     },
     logout: async function() {
+      this.veridaApp.disconnect();
       this.veridaApp = null;
       this.loggedIn = false;
       this.writeLog("Logged out");
@@ -151,7 +164,7 @@ export default {
           });
           break;
       }
-      
+
       this.writeLog("Document created (" + docType + "): " + JSON.stringify(response));
     },
     writeLog: function(log) {
@@ -165,7 +178,16 @@ export default {
     loadProfile: async function() {
       this.writeLog("Loading profile documents...");
       this.docs["profile"] = await this.veridaApp.wallet.profile.getMany();
+      this.datastores["profile"] = await this.veridaApp.wallet.profile.getDatastore();
       this.writeLog("Loaded profile documents");
+    },
+    updateProfile: async function(key) {
+      this.writeLog("Updating profile value for: "+key);
+      await this.veridaApp.wallet.profile.set(key, "jane@test.com");
+    },
+    deleteProfile: async function(key) {
+      this.writeLog("Deleting profile key: "+key);
+      await this.veridaApp.wallet.profile.delete(key);
     },
     deleteDoc: async function(docId, docType) {
       this.writeLog("Deleting "+docType+" document: "+docId);
@@ -185,12 +207,13 @@ export default {
       this.datastores[docType].save(doc);
     },
     bindChanges: async function() {
-      // TODO: Work out how to bind changes within app.js
+      // TODO: Work out how to bind changes within app.js (possible PouchDB bug)
       let app = this;
 
       async function bind(docType) {
-        let dataStore = app.datastores[docType];
-        let db = await dataStore.getDb();
+        let datastore = app.datastores[docType];
+        let db = await datastore.getDb();
+        db = await db.getInstance();
       
         db.changes({
           since: 'now',
@@ -205,9 +228,20 @@ export default {
       }
 
       await bind("employment");
+      await bind("profile");
       await bind("song");
 
       this.writeLog("Database change tracking setup");
+    },
+    sendInboxMessage: async function() {
+      let did = "did:ethr:0x2e922f72f4f1a27701dde0627dfd693376ab0d02";
+      let message = {
+        "subject": "Hello chris",
+        "message": "Welcome to the future of data",
+        "schema": "inbox/message"
+      };
+
+      await this.veridaApp.inbox.send(did, message);
     }
   }
 }
