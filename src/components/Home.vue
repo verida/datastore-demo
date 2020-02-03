@@ -26,6 +26,7 @@
           <b-button v-on:click="createDoc('employment')" variant="light">Create Employment Document</b-button>
           <b-button v-on:click="createDoc('profile')" variant="light">Create Profile Document</b-button>
           <b-button v-on:click="createDoc('song')" variant="light">Create Song Document</b-button>
+          <b-button v-on:click="sendInboxMessage()" variant="light">Send Inbox Message</b-button>
         </b-button-group>
       </b-col>
     </b-row>
@@ -93,11 +94,18 @@ export default {
   },
   methods: {
     login: async function() {
+      let web3Provider = await VeridaApp.WalletHelper.connectWeb3('ethr');
+      if (!web3Provider) {
+        throw "Unable to locate valid web3 provider";
+      }
+
+      this.address = await VeridaApp.WalletHelper.getAddress('ethr');
+
       window.App = this;
-      this.veridaApp = new VeridaApp("Verida Demo Application", {
+      this.veridaApp = new VeridaApp("Verida Demo Application", 'ethr', this.address, web3Provider, {
         //appServerUrl: "http://localhost:5000/",
         //userServerUrl: "http://localhost:5000/",
-        //walletDsn: 'http://localhost:5984/',
+        //didServerUrl: "http://localhost:5001/",
       });
       
       // Connect the user's wallet
@@ -105,8 +113,10 @@ export default {
       await this.veridaApp.connect();
 
       this.writeLog("Logged in");
-      this.loggedIn = true;
 
+      this.loggedIn = true;
+      return;
+/*
       this.writeLog("Initialising app");
 
       this.datastores = {
@@ -126,6 +136,7 @@ export default {
       */
     },
     logout: async function() {
+      this.veridaApp.disconnect();
       this.veridaApp = null;
       this.loggedIn = false;
       this.writeLog("Logged out");
@@ -221,6 +232,16 @@ export default {
       await bind("song");
 
       this.writeLog("Database change tracking setup");
+    },
+    sendInboxMessage: async function() {
+      let did = "did:ethr:0x2e922f72f4f1a27701dde0627dfd693376ab0d02";
+      let message = {
+        "subject": "Hello chris",
+        "message": "Welcome to the future of data",
+        "schema": "inbox/message"
+      };
+
+      await this.veridaApp.inbox.send(did, message);
     }
   }
 }
