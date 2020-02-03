@@ -9,4 +9,3 @@ node_modules
 *.njsproj
 *.sln
 *.sw?
-/datastore-demo/public/js
