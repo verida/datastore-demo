@@ -16,12 +16,37 @@
 </template>
 
 <script>
+import { createNamespacedHelpers } from 'vuex'
+const { mapGetters: mapSchemaGetters } = createNamespacedHelpers('schema')
+
 export default {
     name: "CreateReceipt",
-    async mounted () {
-      const schema = await window.veridaApp.getSchema('shopping_receipt')
-      const { properties } = schema.getSpecification()
-      console.log(properties)
+    data () {
+      return {
+          data: {},
+          attributes: {},
+          title: null
+      }
     },
+    computed: {
+        ...mapSchemaGetters(['create']),
+    },
+    async mounted () {
+      await this.init()
+    },
+    methods: {
+        async init () {
+            const { title, properties } =  await this.create('shopping/receipt')
+
+            this.title = title
+            this.data = {}
+            this.attributes = {}
+
+            Object.keys(properties).forEach(key => {
+                this.$set(this.data, key, null)
+                this.$set(this.attributes, key, properties[key])
+            })
+        }
+    }
 }
 </script>

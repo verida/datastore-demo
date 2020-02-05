@@ -1,0 +1,66 @@
+{
+  "shopping": {
+    "card": [
+      "name"
+    ],
+    "view": [
+      "name"
+    ],
+    "create": [
+      "name",
+      "totalAmount",
+      "totalTax",
+      "totalDiscount",
+      "currency",
+      "transactionTimestamp",
+      "constituents"
+    ]
+  },
+  "shopping/receipt": {
+    "grid": [
+      "name",
+      "totalAmount",
+      "totalTax",
+      "totalDiscount",
+      "currency",
+      "transactionTimestamp"
+    ],
+    "create": [
+      "name",
+      "totalAmount",
+      "totalTax",
+      "totalDiscount",
+      "currency",
+      "transactionTimestamp",
+      "item"
+    ],
+    "view": [
+      "name",
+      "totalAmount",
+      "totalTax",
+      "totalDiscount",
+      "currency",
+      "transactionTimestamp",
+      "item"
+    ]
+  },
+  "shopping/receipt/item": {
+    "grid": [
+      "name",
+      "quantity",
+      "price",
+      "currency",
+      "barcode"
+    ],
+    "view": [
+      "name",
+      "quantity",
+      "price",
+      "currency",
+      "barcode",
+      "totalAmount",
+      "totalTax",
+      "totalDiscount"
+    ]
+  }
+}

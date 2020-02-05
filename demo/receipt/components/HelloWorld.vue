@@ -56,7 +56,7 @@ export default {
       this.address = await address()
       this.recipient = recipient
 
-      const store = await window.veridaApp.openDatastore('shopping_receipt')
+      const store = await window.veridaApp.openDatastore('shopping/receipt')
       store.getMany()
       /*store.on("afterInsert", function(data, response) {
         console.log("afterInsert() triggered");
