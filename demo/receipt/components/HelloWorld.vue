@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { init, address } from 'helpers/VeridaTransmitter'
+// import { init, address } from 'helpers/VeridaTransmitter'
 
 export default {
   name: 'HelloWorld',
@@ -27,9 +27,9 @@ export default {
   },
   methods: {
     async connect () {
-      await init()
-      console.log(await address(), 'this.connected')
-      this.address = await address()
+      // await init()
+      // console.log(await address(), 'this.connected')
+      // this.address = await address()
     }
   }
 }
