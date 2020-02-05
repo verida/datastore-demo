@@ -4,6 +4,9 @@ const getters = {
   create () {
     return tab => new JsonReader(tab).filter('create')
   },
+  fields () {
+    return tab => new JsonReader(tab).filter('view')
+  },
   grid (state, getters, rootState) {
     return async (tab, id) => {
       const cards = rootState.tabs.cards[tab]

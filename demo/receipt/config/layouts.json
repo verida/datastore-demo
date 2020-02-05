@@ -8,14 +8,6 @@
     ]
   },
   "shopping/receipt": {
-    "grid": [
-      "name",
-      "totalAmount",
-      "totalTax",
-      "totalDiscount",
-      "currency",
-      "transactionTimestamp"
-    ],
     "create": [
       "name",
       "totalAmount",

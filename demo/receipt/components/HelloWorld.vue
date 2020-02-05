@@ -28,8 +28,12 @@
           </div>
         </b-col>
       </b-row>
+      <b-row>
+        <b-col>
+          <b-table hover :items="list" :fields="headers" />
+        </b-col>
+      </b-row>
     </template>
-
     <recepient-did @update-address="updateAddress" />
   </b-container>
 </template>
@@ -38,6 +42,9 @@
 import RecepientDid from '@/components/RecepientDid'
 import { address } from 'helpers/VeridaTransmitter'
 import CreateReceipt from "./CreateReceipt";
+
+import { createNamespacedHelpers } from 'vuex'
+const { mapGetters: mapSchemaGetters } = createNamespacedHelpers('schema')
 
 export default {
   name: 'HelloWorld',
@@ -48,19 +55,37 @@ export default {
   data () {
     return {
       address: null,
-      recipient: null
+      recipient: null,
+      list: [],
+      headers: [],
+      category: 'shopping/receipt',
     }
+  },
+  computed: {
+    ...mapSchemaGetters(['fields']),
+  },
+  async beforeMount () {
+    const { properties } = await this.fields(this.category)
+    this.headers = Object.keys(properties)
   },
   methods: {
     async updateAddress (recipient) {
       this.address = await address()
       this.recipient = recipient
 
-      const store = await window.veridaApp.openDatastore('shopping/receipt')
-      store.getMany()
-      /*store.on("afterInsert", function(data, response) {
-        console.log("afterInsert() triggered");
-      });*/
+      const store = await window.veridaApp.openDatastore(this.category)
+      this.list = await store.getMany()
+
+      const database = await store.getDb()
+      const instance = await database.getInstance()
+
+      instance.changes({
+        since: 'now',
+        live: true,
+        include_docs: true
+      }).on('change', async () => {
+        this.list = await store.getMany()
+      })
     },
     disconnect () {
       this.address = null
