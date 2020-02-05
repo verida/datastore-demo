@@ -1,8 +1,12 @@
 const getters = {
     getRandomReceiptItems: (state) => {
-        console.log(state);
         return (receiptId) => {
-            return state.receiptItemsList.map(ri => ({...ri, receiptId}))
+            return _.chain(state.receiptItemsList)
+              .sample(3)
+              .map(item => {
+                return { ...item, receiptId: receiptId }
+              })
+              .value()
         }
     }
 };

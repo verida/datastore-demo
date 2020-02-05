@@ -10,6 +10,7 @@
     "build:receipt-demo": "vue-cli-service build --mode receipt-demo --no-clean"
   },
   "dependencies": {
+    "@vue/eslint-config-standard": "^5.1.0",
     "ajv": "^6.10.2",
     "axios": "^0.19.0",
     "bootstrap": "^4.4.1",
@@ -21,6 +22,7 @@
     "json-loader": "^0.5.7",
     "node-sass": "^4.13.1",
     "sass-loader": "^8.0.2",
+    "underscore": "^1.9.2",
     "vee-validate": "^3.2.3",
     "verida-datastore": "git+https://github.com/verida/datastore.git",
     "verida-schema": "git+https://github.com/verida/schemas.git",
@@ -34,7 +36,7 @@
     "@vue/cli-service": "^4.1.0",
     "babel-eslint": "^10.0.3",
     "eslint": "^5.16.0",
-    "eslint-plugin-vue": "^5.0.0",
+    "eslint-plugin-vue": "^5.2.3",
     "vue-template-compiler": "^2.6.10"
   },
   "eslintConfig": {

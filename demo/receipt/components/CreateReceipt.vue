@@ -12,7 +12,8 @@
                     {{ errors[0] }}
                 </b-form-invalid-feedback>
             </ValidationProvider>
-            <b-button @click="submit" :disabled="invalid" block variant="success">
+            <b-button @click="submit" :disabled="invalid || processing"
+                      block variant="success">
                 Create
             </b-button>
         </ValidationObserver>
@@ -22,6 +23,7 @@
 <script>
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters: mapSchemaGetters } = createNamespacedHelpers('schema')
+const { mapGetters: mapItemGetters } = createNamespacedHelpers('receipt')
 
 export default {
     name: "CreateReceipt",
@@ -31,11 +33,13 @@ export default {
           attributes: {},
           title: null,
           category: 'shopping/receipt',
-          visibility: false
+          visibility: false,
+          processing: false
       }
     },
     computed: {
         ...mapSchemaGetters(['create']),
+        ...mapItemGetters(['getRandomReceiptItems'])
     },
     async mounted () {
       await this.init()
@@ -54,11 +58,19 @@ export default {
             })
         },
         async submit () {
+            this.processing = true
             const store = await window.veridaApp.openDatastore(this.category)
-            await store.save({
+            const { id: receiptId } = await store.save({
                 name: this.data.name,
                 ...this.data
             })
+
+            const itemStore = await window.veridaApp.openDatastore(`${this.category}/item`)
+            const items = this.getRandomReceiptItems(receiptId)
+                .map(async (item) => itemStore.save(item))
+
+            await Promise.all(items)
+            this.processing = false
             this.$bvModal.hide('create-receipt')
         }
     },

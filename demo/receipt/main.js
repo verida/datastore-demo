@@ -8,6 +8,8 @@ import store from './store'
 
 import '@/assets/scss/index.scss'
 
+import * as _ from 'underscore'
+
 Vue.use(BootstrapVue)
 Vue.component('ValidationProvider', ValidationProvider)
 Vue.component('ValidationObserver', ValidationObserver)
@@ -19,6 +21,8 @@ extend('did', value => {
 
   return "The entered value doesn't match the format did:[chain]:0x[numbers]";
 });
+
+window._ = _
 
 new Vue({
   router,
