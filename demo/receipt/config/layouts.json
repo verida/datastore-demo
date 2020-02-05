@@ -31,8 +31,7 @@
       "totalTax",
       "totalDiscount",
       "currency",
-      "transactionTimestamp",
-      "item"
+      "transactionTimestamp"
     ],
     "view": [
       "name",
@@ -40,8 +39,7 @@
       "totalTax",
       "totalDiscount",
       "currency",
-      "transactionTimestamp",
-      "item"
+      "transactionTimestamp"
     ]
   },
   "shopping/receipt/item": {
