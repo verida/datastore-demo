@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { init, address } from '@/helpers/VeridaTransmitter'
+import { init, address } from 'helpers/VeridaTransmitter'
 
 export default {
   name: 'HelloWorld',

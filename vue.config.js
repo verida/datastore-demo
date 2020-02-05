@@ -2,8 +2,8 @@ const HtmlPlugin = require('html-webpack-plugin')
 const path = require('path')
 
 const directory = {
-  app: `${__dirname}/${process.env.APP_PATH}/src`,
-  public: `${__dirname}/${process.env.APP_PATH}/public`
+  app: `${__dirname}/demo/${process.env.APP_PATH}`,
+  public: `${__dirname}/public/${process.env.APP_PATH}`
 }
 
 module.exports = {
@@ -16,7 +16,7 @@ module.exports = {
       symlinks: false,
       alias: {
         '@': directory.app,
-        '@schemas': path.resolve(directory.public, 'schemas'),
+        '@schemas': path.resolve(__dirname, 'public/schemas'),
         'assets': `${directory.app}/assets`
       }
     },
