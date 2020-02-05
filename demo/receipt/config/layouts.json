@@ -5,15 +5,6 @@
     ],
     "view": [
       "name"
-    ],
-    "create": [
-      "name",
-      "totalAmount",
-      "totalTax",
-      "totalDiscount",
-      "currency",
-      "transactionTimestamp",
-      "constituents"
     ]
   },
   "shopping/receipt": {

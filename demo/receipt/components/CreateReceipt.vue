@@ -1,8 +1,8 @@
 <template>
-    <b-modal id="create-receipt" title="Create Receipt" hide-footer>
+    <b-modal id="create-receipt" title="Create Receipt" hide-footer v-model="visibility">
         <ValidationObserver v-slot="{ invalid }">
             <ValidationProvider v-slot="{ errors }"
-                                rules="did"
+                                rules="required"
                                 v-for="(item, key) in data" :key="key">
                 <label>{{attributes[key].title}}</label>
                 <b-form-input class="form-control"
@@ -12,7 +12,7 @@
                     {{ errors[0] }}
                 </b-form-invalid-feedback>
             </ValidationProvider>
-            <b-button @click="create" :disabled="invalid" block variant="success">
+            <b-button @click="submit" :disabled="invalid" block variant="success">
                 Create
             </b-button>
         </ValidationObserver>
@@ -30,7 +30,8 @@ export default {
           data: {},
           attributes: {},
           title: null,
-          category: 'shopping/receipt'
+          category: 'shopping/receipt',
+          visibility: false
       }
     },
     computed: {
@@ -52,12 +53,20 @@ export default {
                 this.$set(this.attributes, key, properties[key])
             })
         },
-        async create () {
+        async submit () {
             const store = await window.veridaApp.openDatastore(this.category)
             await store.save({
                 name: this.data.name,
                 ...this.data
             })
+            this.$bvModal.hide('create-receipt')
+        }
+    },
+    watch: {
+        async visibility () {
+            if (this.visibility) {
+                await this.init()
+            }
         }
     }
 }

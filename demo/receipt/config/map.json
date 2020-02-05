@@ -4,8 +4,7 @@
         "icon": "icons/receipt.svg",
         "display": "cards",
         "folders": [
-            "shopping/receipt",
-            "shopping/coupon"
+            "shopping/receipt"
         ]
     },
     "shopping/receipt": {
