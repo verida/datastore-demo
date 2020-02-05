@@ -5,7 +5,9 @@
   "license": "Apache-2.0",
   "scripts": {
     "serve:datastore-demo": "vue-cli-service serve --mode datastore-demo",
-    "build:datastore-demo": "vue-cli-service build --mode datastore-demo --no-clean"
+    "build:datastore-demo": "vue-cli-service build --mode datastore-demo --no-clean",
+    "serve:receipt-demo": "vue-cli-service serve --mode receipt-demo",
+    "build:receipt-demo": "vue-cli-service build --mode receipt-demo --no-clean"
   },
   "dependencies": {
     "ajv": "^6.10.2",
@@ -16,9 +18,13 @@
     "dotenv": "^8.2.0",
     "html-webpack-plugin": "^3.2.0",
     "json-loader": "^0.5.7",
+    "node-sass": "^4.13.1",
+    "sass-loader": "^8.0.2",
     "verida-datastore": "git+https://github.com/verida/datastore.git",
     "verida-schema": "git+https://github.com/verida/schemas.git",
-    "vue": "^2.6.10"
+    "vue": "^2.6.10",
+    "vue-router": "^3.1.5",
+    "vuex": "^3.1.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.1.0",

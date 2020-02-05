@@ -10,13 +10,6 @@ module.exports = {
   lintOnSave: true,
   runtimeCompiler: true,
   outputDir: directory.public,
-  css: {
-    loaderOptions: {
-      sass: {
-        prependData: `@import "~@/assets/scss/_variables.scss";`
-      }
-    }
-  },
   configureWebpack: {
     entry: { app: `${directory.app}/main.js` },
     resolve: {
@@ -49,8 +42,9 @@ module.exports = {
     },
     plugins: [
       new HtmlPlugin({
-        template: path.resolve(directory.app, 'assets/index.html'),
-        favicon: path.resolve(directory.app, 'assets/logo.png'),
+        title: process.env.TITLE,
+        template: `${directory.app}/assets/index.html`,
+        favicon: `${directory.app}/assets/logo.png`,
         hash: true
       })
     ]
