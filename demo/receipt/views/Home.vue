@@ -1,8 +1,6 @@
 <template>
   <div>
     <HelloWorld />
-<!--    <CreateReceipt />-->
-    <ReceiptList></ReceiptList>
   </div>
 </template>
 
@@ -16,17 +14,5 @@ export default {
     ReceiptList,
     HelloWorld
   },
-
-  data() {
-    return {
-      datastore: {}
-    }
-  },
-
-  async created() {
-    this.$store.dispatch()
-  }
-
-
 }
 </script>

@@ -5,31 +5,44 @@
         <b-button variant="outline-success" v-if="!address" v-b-modal.recepient-did>
           Connect Wallet
         </b-button>
-        <b-button variant="outline-secondary" v-else @click="disconnect">
+        <b-button variant="secondary" v-else @click="disconnect">
           Disconnect
         </b-button>
       </b-col>
-      <b-col v-if="address" class="text-success font-weight-bold">
-        <div>Address: {{ address }}</div>
-        <div>Recipient: {{ recipient }}</div>
-      </b-col>
     </b-row>
-    <b-row v-if="address">
-      <b-col>
-        <h4 class="my-4 text-info">Receipts</h4>
-      </b-col>
-    </b-row>
-    <RecepientDid @update-address="updateAddress" />
+    <hr />
+    <template v-if="address">
+      <b-row>
+        <b-col cols="12" class="connection-statistics">
+          <div> Address: {{ address }} </div>
+          <div> Recipient: {{ recipient }} </div>
+        </b-col>
+      </b-row>
+      <hr />
+      <b-row>
+        <b-col cols="12" class="mt-3 d-flex">
+          <div class="d-flex justify-content-between align-items-center w-100">
+            <h5 class="my-4 text-info">Receipts</h5>
+            <b-button variant="info" v-b-modal.create-receipt>Create</b-button>
+            <create-receipt />
+          </div>
+        </b-col>
+      </b-row>
+    </template>
+
+    <recepient-did @update-address="updateAddress" />
   </b-container>
 </template>
 
 <script>
 import RecepientDid from '@/components/RecepientDid'
 import { address } from 'helpers/VeridaTransmitter'
+import CreateReceipt from "./CreateReceipt";
 
 export default {
   name: 'HelloWorld',
   components: {
+    CreateReceipt,
     RecepientDid
   },
   data () {
@@ -45,9 +58,9 @@ export default {
 
       const store = await window.veridaApp.openDatastore('shopping_receipt')
       store.getMany()
-      store.on("afterInsert", function(data, response) {
+      /*store.on("afterInsert", function(data, response) {
         console.log("afterInsert() triggered");
-      });
+      });*/
     },
     disconnect () {
       this.address = null
