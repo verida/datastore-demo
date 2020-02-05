@@ -110,7 +110,7 @@ export default {
       
       // Connect the user's wallet
       this.writeLog("Authenticating user with this demo app...");
-      await this.veridaApp.connect();
+      await this.veridaApp.connect(true);
 
       this.writeLog("Logged in");
 
