@@ -17,6 +17,7 @@ module.exports = {
       alias: {
         '@': directory.app,
         '@schemas': path.resolve(__dirname, 'public/schemas'),
+        'helpers': path.resolve(__dirname, 'helpers'),
         'assets': `${directory.app}/assets`
       }
     },
