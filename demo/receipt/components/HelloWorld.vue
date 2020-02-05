@@ -14,6 +14,11 @@
         <div>Recipient: {{ recipient }}</div>
       </b-col>
     </b-row>
+    <b-row v-if="address">
+      <b-col>
+        <h4 class="my-4 text-info">Receipts</h4>
+      </b-col>
+    </b-row>
     <RecepientDid @update-address="updateAddress" />
   </b-container>
 </template>
@@ -37,6 +42,12 @@ export default {
     async updateAddress (recipient) {
       this.address = await address()
       this.recipient = recipient
+
+      const store = await window.veridaApp.openDatastore('shopping_receipt')
+      store.getMany()
+      store.on("afterInsert", function(data, response) {
+        console.log("afterInsert() triggered");
+      });
     },
     disconnect () {
       this.address = null

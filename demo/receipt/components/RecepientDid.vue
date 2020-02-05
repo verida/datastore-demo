@@ -1,5 +1,5 @@
 <template>
-    <b-modal id="recepient-did" title="Enter the Recipient's DID" hide-footer size="sm">
+    <b-modal id="recepient-did" title="Enter the Recipient's DID" hide-footer>
         <ValidationObserver v-slot="{ invalid }">
             <ValidationProvider v-slot="{ errors }" rules="did">
                 <b-form-input class="form-control" name="did" aria-describedby="did-error" v-model="did"
