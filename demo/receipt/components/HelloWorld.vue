@@ -29,11 +29,9 @@
         </b-col>
       </b-row>
       <b-row>
-        <b-col v-if="loaded">
-          <b-table hover :items="list" :fields="headers" />
-        </b-col>
         <b-col>
-          Loading ...
+          <b-table v-if="loaded" hover :items="list" :fields="headers" />
+          <div v-else>Loading ...</div>
         </b-col>
       </b-row>
     </template>
@@ -62,25 +60,51 @@ export default {
       list: [],
       headers: null,
       category: 'shopping/receipt',
-      loaded: false
+      loaded: false,
+
+      store: {},
+      collections: [
+        'shopping/receipt',
+        'shopping/receipt/item'
+      ]
     }
   },
   computed: {
     ...mapSchemaGetters(['fields']),
   },
   methods: {
+    getActionName (key) {
+      const name = key.split('/')
+        .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+        .join('')
+
+      return `update${name}List`
+    },
+    async initDatastore () {
+      this.store = {}
+      for(let i = 0; i < this.collections.length; i++) {
+        const key = this.collections[i]
+        const datastore = await window.veridaApp.openDatastore(key)
+        this.$set(this.store, key, datastore)
+
+        await this.enableWatcher(key, this.getActionName(key))
+      }
+    },
+    async updateShoppingReceiptList (paylaod) {
+      this.list = await this.store['shopping/receipt'].getMany()
+    },
+    async initReceiptList () {
+      this.list = await this.store[this.category].getMany()
+      const { properties } = await this.fields(this.category)
+      this.headers = Object.keys(properties)
+    },
     async updateAddress (recipient) {
       this.loaded = false
       this.address = await address()
       this.recipient = recipient
 
-      const store = await window.veridaApp.openDatastore(this.category)
-      this.list = await store.getMany()
-
-      await this.enableWatcher(store)
-
-      const { properties } = await this.fields(this.category)
-      this.headers = Object.keys(properties)
+      await this.initDatastore()
+      await this.initReceiptList()
 
       this.loaded = true
     },
@@ -90,26 +114,17 @@ export default {
       window.veridaApp.disconnect()
       window.veridaApp = null
     },
-    async enableWatcher (store) {
-      const database = await store.getDb()
+    async enableWatcher (category, onInstanceChange) {
+      const database = await this.store[category].getDb()
       const instance = await database.getInstance()
+      const handler = this.hasOwnProperty(onInstanceChange) ?
+        this[onInstanceChange] : () => {}
 
       instance.changes({
         since: 'now',
         live: true,
         include_docs: true
-      }).on('change', async ({ id, doc }) => {
-        const did = `did:ethr:${this.recipient}`;
-        const message = {
-          subject: "New receipt is created",
-          schema: this.category,
-          receiptId: id,
-          ...doc
-        };
-
-        await window.veridaApp.inbox.send(did, message);
-        this.list = await store.getMany()
-      })
+      }).on('change', handler)
     }
   }
 }
