@@ -24,7 +24,7 @@
           <div class="d-flex justify-content-between align-items-center w-100">
             <h5 class="my-4 text-info">Receipts</h5>
             <b-button variant="info" v-b-modal.create-receipt>Create</b-button>
-            <create-receipt />
+            <create-receipt :did="'did:ethr:'+recipient"/>
           </div>
         </b-col>
       </b-row>
@@ -90,7 +90,7 @@ export default {
         await this.enableWatcher(key, this.getActionName(key))
       }
     },
-    async updateShoppingReceiptList (paylaod) {
+    async updateShoppingReceiptList () {
       this.list = await this.store['shopping/receipt'].getMany()
     },
     async initReceiptList () {

@@ -27,6 +27,9 @@ const { mapGetters: mapItemGetters } = createNamespacedHelpers('receipt')
 
 export default {
     name: "CreateReceipt",
+    props: [
+        'did'
+    ],
     data () {
       return {
           data: {},
@@ -59,17 +62,26 @@ export default {
         },
         async submit () {
             this.processing = true
+            const message = []
             const store = await window.veridaApp.openDatastore(this.category)
-            const { id: receiptId } = await store.save({
+            const receipt = {
                 name: this.data.name,
                 ...this.data
-            })
+            }
+            const { id: receiptId } = await store.save(receipt)
+
+            message.push(receipt)
 
             const itemStore = await window.veridaApp.openDatastore(`${this.category}/item`)
             const items = this.getRandomReceiptItems(receiptId)
-                .map(async (item) => itemStore.save(item))
 
-            await Promise.all(items)
+            for(let i = 0; i < items.length; i++) {
+                await itemStore.save(items[i])
+                message.push(items[i])
+            }
+
+            await window.veridaApp.inbox.send(this.did, message, {});
+
             this.processing = false
             this.$bvModal.hide('create-receipt')
         }
