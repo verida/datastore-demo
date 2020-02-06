@@ -57,7 +57,7 @@ export default {
       address: null,
       recipient: null,
       list: [],
-      headers: [],
+      headers: null,
       category: 'shopping/receipt',
     }
   },
@@ -76,6 +76,15 @@ export default {
       const store = await window.veridaApp.openDatastore(this.category)
       this.list = await store.getMany()
 
+      this.enableWatcher(store)
+    },
+    disconnect () {
+      this.address = null
+      this.recipient = null
+      window.veridaApp.disconnect()
+      window.veridaApp = null
+    },
+    async enableWatcher (store) {
       const database = await store.getDb()
       const instance = await database.getInstance()
 
@@ -86,12 +95,6 @@ export default {
       }).on('change', async () => {
         this.list = await store.getMany()
       })
-    },
-    disconnect () {
-      this.address = null
-      this.recipient = null
-      window.veridaApp.disconnect()
-      window.veridaApp = null
     }
   }
 }
