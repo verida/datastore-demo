@@ -29,8 +29,11 @@
         </b-col>
       </b-row>
       <b-row>
-        <b-col>
+        <b-col v-if="loaded">
           <b-table hover :items="list" :fields="headers" />
+        </b-col>
+        <b-col>
+          Loading ...
         </b-col>
       </b-row>
     </template>
@@ -59,24 +62,27 @@ export default {
       list: [],
       headers: null,
       category: 'shopping/receipt',
+      loaded: false
     }
   },
   computed: {
     ...mapSchemaGetters(['fields']),
   },
-  async beforeMount () {
-    const { properties } = await this.fields(this.category)
-    this.headers = Object.keys(properties)
-  },
   methods: {
     async updateAddress (recipient) {
+      this.loaded = false
       this.address = await address()
       this.recipient = recipient
 
       const store = await window.veridaApp.openDatastore(this.category)
       this.list = await store.getMany()
 
-      this.enableWatcher(store)
+      await this.enableWatcher(store)
+
+      const { properties } = await this.fields(this.category)
+      this.headers = Object.keys(properties)
+
+      this.loaded = true
     },
     disconnect () {
       this.address = null
@@ -92,7 +98,16 @@ export default {
         since: 'now',
         live: true,
         include_docs: true
-      }).on('change', async () => {
+      }).on('change', async ({ id, doc }) => {
+        const did = `did:ethr:${this.recipient}`;
+        const message = {
+          subject: "New receipt is created",
+          schema: this.category,
+          receiptId: id,
+          ...doc
+        };
+
+        await window.veridaApp.inbox.send(did, message);
         this.list = await store.getMany()
       })
     }
