@@ -22,16 +22,19 @@
 
 <script>
 import { createNamespacedHelpers } from 'vuex'
+import extract from '../helpers/NameModifier'
 const { mapGetters: mapSchemaGetters } = createNamespacedHelpers('schema')
 const { mapGetters: mapItemGetters } = createNamespacedHelpers('receipt')
 
 export default {
     name: 'CreateModal',
     props: [ 'did' ],
-    inject: [
-        'category',
-        'internalSubmit'
-    ],
+    inject: {
+        'category': {},
+        'internalSubmit': {
+            default: () => {}
+        }
+    },
     data () {
       return {
           data: {},
@@ -66,16 +69,14 @@ export default {
             const message = []
             const store = await window.veridaApp.openDatastore(this.category)
             const payload = {
-                name: this.data.name,
+                name: extract(this.data, this.category),
                 ...this.data
             }
+
             message.push(payload)
             const saved = await store.save(payload)
 
-            if (typeof this.internalSubmit === 'function') {
-                this.internalSubmit({ saved, message })
-            }
-
+            await this.internalSubmit({ saved, message })
             await window.veridaApp.inbox.send(this.did, message, {});
 
             this.processing = false
