@@ -13,14 +13,28 @@ export default {
   components: {
     Layout
   },
-  provide: {
-    category: 'identity/kyc/AU'
+  provide () {
+    return {
+      category: 'identity/kyc/AU',
+      internalSubmit: this.submit
+    }
   },
   data () {
     return {
       collections: [
         'identity/kyc/AU'
       ]
+    }
+  },
+  methods: {
+    async submit ({ saved, message }) {
+      const itemStore = await window.veridaApp.openDatastore(`${this.category}/item`)
+      const items = this.getRandomReceiptItems(saved.id)
+
+      for(let i = 0; i < items.length; i++) {
+        await itemStore.save(items[i])
+        message.push(items[i])
+      }
     }
   }
 }

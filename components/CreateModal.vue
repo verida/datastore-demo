@@ -1,5 +1,5 @@
 <template>
-    <b-modal id="create-receipt" title="Create Receipt" hide-footer v-model="visibility">
+    <b-modal id="create-modal" title="Create Receipt" hide-footer v-model="visibility">
         <ValidationObserver v-slot="{ invalid }">
             <ValidationProvider v-slot="{ errors }"
                                 rules="required"
@@ -28,7 +28,10 @@ const { mapGetters: mapItemGetters } = createNamespacedHelpers('receipt')
 export default {
     name: 'CreateModal',
     props: [ 'did' ],
-    inject: ['category'],
+    inject: [
+        'category',
+        'internalSubmit'
+    ],
     data () {
       return {
           data: {},
@@ -62,26 +65,21 @@ export default {
             this.processing = true
             const message = []
             const store = await window.veridaApp.openDatastore(this.category)
-            const receipt = {
+            const payload = {
                 name: this.data.name,
                 ...this.data
             }
-            const { id: receiptId } = await store.save(receipt)
+            message.push(payload)
+            const saved = await store.save(payload)
 
-            message.push(receipt)
-
-            const itemStore = await window.veridaApp.openDatastore(`${this.category}/item`)
-            const items = this.getRandomReceiptItems(receiptId)
-
-            for(let i = 0; i < items.length; i++) {
-                await itemStore.save(items[i])
-                message.push(items[i])
+            if (typeof this.internalSubmit === 'function') {
+                this.internalSubmit({ saved, message })
             }
 
             await window.veridaApp.inbox.send(this.did, message, {});
 
             this.processing = false
-            this.$bvModal.hide('create-receipt')
+            this.$bvModal.hide('create-modal')
         }
     },
     watch: {

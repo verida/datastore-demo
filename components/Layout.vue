@@ -23,7 +23,7 @@
         <b-col cols="12" class="mt-3 d-flex">
           <div class="d-flex justify-content-between align-items-center w-100">
             <h5 class="my-4 text-info">{{ title }}</h5>
-            <b-button variant="info" v-b-modal.create-receipt>
+            <b-button variant="info" v-b-modal.create-modal>
               {{ createBtn }}
             </b-button>
             <create-modal :did="recipient" />
@@ -56,6 +56,9 @@ export default {
     'title',
     'createBtn'
   ],
+  inject: [
+    'category'
+  ],
   components: {
     CreateModal,
     RecepientDid
@@ -66,7 +69,6 @@ export default {
       recipient: null,
       list: [],
       headers: null,
-      category: 'shopping/receipt',
       loaded: false,
 
       store: {}
@@ -89,12 +91,11 @@ export default {
         const key = this.collections[i]
         const datastore = await window.veridaApp.openDatastore(key)
         this.$set(this.store, key, datastore)
-
-        await this.enableWatcher(key, this.getActionName(key))
       }
+      await this.enableWatcher(this.category, this.updateList)
     },
-    async updateShoppingReceiptList () {
-      this.list = await this.store['shopping/receipt'].getMany()
+    async updateList () {
+      this.list = await this.store[this.category].getMany()
     },
     async initReceiptList () {
       this.list = await this.store[this.category].getMany()
