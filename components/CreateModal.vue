@@ -26,16 +26,14 @@ const { mapGetters: mapSchemaGetters } = createNamespacedHelpers('schema')
 const { mapGetters: mapItemGetters } = createNamespacedHelpers('receipt')
 
 export default {
-    name: "CreateReceipt",
-    props: [
-        'did'
-    ],
+    name: 'CreateModal',
+    props: [ 'did' ],
+    inject: ['category'],
     data () {
       return {
           data: {},
           attributes: {},
           title: null,
-          category: 'shopping/receipt',
           visibility: false,
           processing: false
       }

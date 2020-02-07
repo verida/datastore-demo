@@ -22,7 +22,7 @@ export default {
     name: 'RecepientDid',
     data () {
         return {
-            did: '0x57127C0C0b891125af4441a51BF37F465cDb9d73'
+            did: 'did:ethr:0x57127C0C0b891125af4441a51BF37F465cDb9d73'
         }
     },
     methods: {

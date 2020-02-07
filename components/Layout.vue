@@ -22,9 +22,11 @@
       <b-row>
         <b-col cols="12" class="mt-3 d-flex">
           <div class="d-flex justify-content-between align-items-center w-100">
-            <h5 class="my-4 text-info">Receipts</h5>
-            <b-button variant="info" v-b-modal.create-receipt>Create</b-button>
-            <create-receipt :did="'did:ethr:'+recipient"/>
+            <h5 class="my-4 text-info">{{ title }}</h5>
+            <b-button variant="info" v-b-modal.create-receipt>
+              {{ createBtn }}
+            </b-button>
+            <create-modal :did="recipient" />
           </div>
         </b-col>
       </b-row>
@@ -40,17 +42,22 @@
 </template>
 
 <script>
-import RecepientDid from '@/components/RecepientDid'
+import CreateModal from './CreateModal';
+import RecepientDid from './RecepientDid'
 import { address } from 'helpers/VeridaTransmitter'
-import CreateReceipt from "./CreateReceipt";
 
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters: mapSchemaGetters } = createNamespacedHelpers('schema')
 
 export default {
   name: 'HelloWorld',
+  props: [
+    'collections',
+    'title',
+    'createBtn'
+  ],
   components: {
-    CreateReceipt,
+    CreateModal,
     RecepientDid
   },
   data () {
@@ -62,11 +69,7 @@ export default {
       category: 'shopping/receipt',
       loaded: false,
 
-      store: {},
-      collections: [
-        'shopping/receipt',
-        'shopping/receipt/item'
-      ]
+      store: {}
     }
   },
   computed: {

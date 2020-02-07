@@ -1,7 +1,7 @@
 <template>
   <Layout
-    title="Receipts"
-    createBtn="Create Receipt"
+    title="Identities"
+    createBtn="Create Citizen Verification"
     :collections="collections" />
 </template>
 
@@ -14,13 +14,12 @@ export default {
     Layout
   },
   provide: {
-    category: 'shopping/receipt'
+    category: 'identity/kyc/AU'
   },
   data () {
     return {
       collections: [
-        'shopping/receipt',
-        'shopping/receipt/item'
+        'identity/kyc/AU'
       ]
     }
   }
