@@ -45,12 +45,10 @@ const { mapGetters: mapItemGetters } = createNamespacedHelpers('receipt')
 export default {
     name: 'CreateModal',
     props: [ 'did' ],
-    inject: {
-        'category': {},
-        'internalSubmit': {
-            default: () => {}
-        }
-    },
+    inject: [
+        'category',
+        'internalSubmit'
+    ],
     data () {
       return {
           data: {},
@@ -61,8 +59,7 @@ export default {
       }
     },
     computed: {
-        ...mapSchemaGetters(['create']),
-        ...mapItemGetters(['getRandomReceiptItems'])
+        ...mapSchemaGetters(['create'])
     },
     async mounted () {
       await this.init()
@@ -83,6 +80,7 @@ export default {
         async submit () {
             this.processing = true
             const message = []
+
             const store = await window.veridaApp.openDatastore(this.category)
             const payload = {
                 name: extract(this.data, this.category),
@@ -92,7 +90,10 @@ export default {
             message.push(payload)
             const saved = await store.save(payload)
 
-            await this.internalSubmit({ saved, message })
+            if(typeof this.internalSubmit === 'function') {
+                await this['internalSubmit']({ saved, message })
+            }
+
             await window.veridaApp.inbox.send(this.did, message, {});
 
             this.processing = false

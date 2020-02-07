@@ -97,7 +97,7 @@ export default {
     async updateList () {
       this.list = await this.store[this.category].getMany()
     },
-    async initReceiptList () {
+    async initList () {
       this.list = await this.store[this.category].getMany()
       const { properties } = await this.fields(this.category)
       this.headers = Object.keys(properties)
@@ -108,7 +108,7 @@ export default {
       this.recipient = recipient
 
       await this.initDatastore()
-      await this.initReceiptList()
+      await this.initList()
 
       this.loaded = true
     },
