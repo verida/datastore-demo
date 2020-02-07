@@ -9,7 +9,6 @@ export class JsonReader {
   }
 
   async filter (property) {
-    console.log(require(`@/config/layouts.json`), this.tab)
     const action = require(`@/config/layouts.json`)[this.tab][property]
     const { title, properties, color } = await this.schema()
 

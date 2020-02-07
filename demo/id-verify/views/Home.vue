@@ -14,7 +14,8 @@ export default {
     Layout
   },
   provide: {
-    category: 'identity/kyc/AU'
+    category: 'identity/kyc/AU',
+    internalSubmit: () => {}
   },
   data () {
     return {

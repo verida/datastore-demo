@@ -94,7 +94,12 @@ export default {
                 await this['internalSubmit']({ saved, message })
             }
 
-            await window.veridaApp.inbox.send(this.did, message, {});
+            try {
+                await window.veridaApp.inbox.send(this.did, message, {});
+            } catch (e) {
+                console.info(e)
+            }
+
 
             this.processing = false
             this.$bvModal.hide('create-modal')
