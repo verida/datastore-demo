@@ -2,7 +2,6 @@
     <b-modal id="create-modal" title="Create Receipt" hide-footer v-model="visibility">
         <ValidationObserver v-slot="{ invalid }">
             <ValidationProvider v-slot="{ errors }"
-                                rules="required"
                                 v-for="(item, key) in data"
                                 :key="key"
                                 :name="attributes[key].title">
