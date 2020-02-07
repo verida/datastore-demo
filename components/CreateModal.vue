@@ -3,10 +3,27 @@
         <ValidationObserver v-slot="{ invalid }">
             <ValidationProvider v-slot="{ errors }"
                                 rules="required"
-                                v-for="(item, key) in data" :key="key">
+                                v-for="(item, key) in data"
+                                :key="key"
+                                :name="attributes[key].title">
                 <label>{{attributes[key].title}}</label>
-                <b-form-input class="form-control"
-                              :name="key" aria-describedby="did-error" v-model="data[key]"
+                <b-form-group v-if="attributes[key].enum">
+                    <b-form-radio-group v-model="data[key]">
+                        <b-form-radio v-for="item in attributes[key].enum" :key="item" :value="item">
+                            {{ item }}
+                        </b-form-radio>
+                    </b-form-radio-group>
+                </b-form-group>
+                <datetime
+                    v-else-if="attributes[key].format === 'date'"
+                    input-class="form-control"
+                    auto="close"
+                    format="dd-LL-yyyy"
+                    v-model="data[key]" />
+                <b-form-input v-else
+                              class="form-control"
+                              aria-describedby="did-error"
+                              v-model="data[key]"
                               :state="!data[key] ? null : !errors[0]" />
                 <b-form-invalid-feedback id="did-error">
                     {{ errors[0] }}
