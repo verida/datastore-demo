@@ -45,7 +45,14 @@ import CreateModal from './CreateModal';
 import RecepientDid from './RecepientDid'
 import DidStatistics from './DidStatistics'
 
-import { connectVerida, isConnected, getRecipient, getAddress } from 'helpers/VeridaTransmitter'
+import {
+  connectVerida,
+  isConnected,
+  getRecipient,
+  getAddress,
+  logout,
+  bind
+} from 'helpers/VeridaTransmitter'
 
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters: mapSchemaGetters } = createNamespacedHelpers('schema')
@@ -103,6 +110,7 @@ export default {
       this.headers = Object.keys(properties)
     },
     async updateAddress () {
+      await bind(this.updateAddress, this.disconnect)
       await connectVerida()
 
       this.loaded = false
@@ -117,9 +125,7 @@ export default {
     disconnect () {
       this.address = null
       this.recipient = null
-      window.veridaApp.disconnect()
-      window.veridaApp = null
-      localStorage.removeItem('did')
+      logout()
     },
     async enableWatcher (category, onInstanceChange) {
       const database = await this.store[category].getDb()
