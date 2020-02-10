@@ -88,6 +88,7 @@ export default {
             }
 
             message.push(payload)
+            console.log(payload);
             const saved = await store.save(payload)
 
             if(typeof this.internalSubmit === 'function') {

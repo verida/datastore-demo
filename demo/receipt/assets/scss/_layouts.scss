@@ -6,4 +6,7 @@
 
 .connection-statistics {
   word-break: break-all;
+  .btn + .btn {
+    margin-left: 10px;
+  }
 }

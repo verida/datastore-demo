@@ -1,8 +1,17 @@
 <template>
   <Layout
     title="Receipts"
-    createBtn="Create Receipt"
-    :collections="collections" />
+    :collections="collections">
+    <b-button variant="info">
+      Send Coupon
+    </b-button>
+    <b-button variant="info">
+      Request...
+    </b-button>
+    <b-button variant="info" v-b-modal.create-modal>
+      Create Receipt
+    </b-button>
+  </Layout>
 </template>
 
 <script>

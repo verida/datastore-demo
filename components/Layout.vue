@@ -1,21 +1,22 @@
 <template>
   <b-container>
     <b-row>
-      <b-col>
+      <b-col class="d-flex justify-content-between">
         <b-button variant="outline-success" v-if="!address" v-b-modal.recepient-did>
           Connect Wallet
         </b-button>
         <b-button variant="secondary" v-else @click="disconnect">
           Disconnect
         </b-button>
+        <div v-if="address"> Address: {{ address }} </div>
       </b-col>
     </b-row>
     <hr />
     <template v-if="address">
       <b-row>
-        <b-col cols="12" class="connection-statistics">
-          <div> Address: {{ address }} </div>
+        <b-col cols="12" class="connection-statistics d-flex justify-content-between align-items-center">
           <div> Recipient: {{ recipient }} </div>
+          <div> <slot></slot> </div>
         </b-col>
       </b-row>
       <hr />
@@ -23,9 +24,6 @@
         <b-col cols="12" class="mt-3 d-flex">
           <div class="d-flex justify-content-between align-items-center w-100">
             <h5 class="my-4 text-info">{{ title }}</h5>
-            <b-button variant="info" v-b-modal.create-modal>
-              {{ createBtn }}
-            </b-button>
             <create-modal :did="recipient" />
           </div>
         </b-col>
@@ -54,7 +52,6 @@ export default {
   props: [
     'collections',
     'title',
-    'createBtn'
   ],
   inject: [
     'category'
@@ -92,7 +89,7 @@ export default {
         const datastore = await window.veridaApp.openDatastore(key)
         this.$set(this.store, key, datastore)
       }
-      await this.enableWatcher(this.category, this.updateList)
+      await this.enableWatcher(this.category, 'updateList')
     },
     async updateList () {
       this.list = await this.store[this.category].getMany()
@@ -121,9 +118,7 @@ export default {
     async enableWatcher (category, onInstanceChange) {
       const database = await this.store[category].getDb()
       const instance = await database.getInstance()
-      const handler = this.hasOwnProperty(onInstanceChange) ?
-        this[onInstanceChange] : () => {}
-
+      const handler = this.hasOwnProperty(onInstanceChange) ? this[onInstanceChange] : () => {}
       instance.changes({
         since: 'now',
         live: true,

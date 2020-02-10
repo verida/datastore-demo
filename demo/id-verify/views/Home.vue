@@ -1,8 +1,11 @@
 <template>
   <Layout
     title="Identities"
-    createBtn="Create Citizen Verification"
-    :collections="collections" />
+    :collections="collections">
+    <b-button variant="info" v-b-modal.create-modal>
+      Create Citizen Verification
+    </b-button>
+  </Layout>
 </template>
 
 <script>
