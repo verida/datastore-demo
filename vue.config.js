@@ -50,5 +50,12 @@ module.exports = {
         hash: true
       })
     ]
+  },
+  css: {
+    loaderOptions: {
+      scss: {
+        prependData: `@import "./scss/index.scss";`
+      }
+    }
   }
 }

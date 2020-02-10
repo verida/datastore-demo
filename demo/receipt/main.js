@@ -15,4 +15,4 @@ new Vue({
   render: h => h(App)
 }).$mount('#app')
 
-import 'assets/scss/index.scss'
+import '@/assets/scss/index.scss'
