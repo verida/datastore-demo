@@ -17,6 +17,10 @@
   height: 40px;
   background-position: center;
   background-size: contain;
+
+  &:hover {
+    filter: brightness(0.8);
+  }
 }
 
 .connection-statistics__title {
@@ -25,6 +29,11 @@
 
 .connection-statistics__text {
   font-size: 14px;
+}
+
+.connection-statistics__title,
+.connection-statistics__text {
+  cursor: default;
 }
 
 .connection-statistics__action-panel {
