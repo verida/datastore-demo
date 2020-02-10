@@ -7,15 +7,14 @@
 .connection-statistics {
   display: flex;
   justify-content: start;
-  align-items: center;
   word-break: break-all;
 }
 
 .connection-statistics__img {
-  background: url('~assets/img/user.png');
+  display: block;
+  background: url('~assets/img/user.png') no-repeat center;
   width: 40px;
   height: 40px;
-  background-position: center;
   background-size: contain;
 
   &:hover {

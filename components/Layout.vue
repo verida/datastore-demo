@@ -10,7 +10,7 @@
         </b-button>
       </b-col>
       <did-statistics v-if="address" :img="true"
-                      title="User DID" :text="`did:ethr: ${address}`" />
+                      title="User DID" :text="`did:ethr:${address}`" />
     </b-row>
     <hr />
     <template v-if="address">
@@ -43,10 +43,11 @@
 <script>
 import CreateModal from './CreateModal';
 import RecepientDid from './RecepientDid'
-import { address, init } from 'helpers/VeridaTransmitter'
+import DidStatistics from './DidStatistics'
+
+import { connectVerida, isConnected, getRecipient, getAddress } from 'helpers/VeridaTransmitter'
 
 import { createNamespacedHelpers } from 'vuex'
-import DidStatistics from "./DidStatistics";
 const { mapGetters: mapSchemaGetters } = createNamespacedHelpers('schema')
 
 export default {
@@ -101,10 +102,12 @@ export default {
       const { properties } = await this.fields(this.category)
       this.headers = Object.keys(properties)
     },
-    async updateAddress (recipient) {
+    async updateAddress () {
+      await connectVerida()
+
       this.loaded = false
-      this.address = await address()
-      this.recipient = recipient
+      this.address = await getAddress()
+      this.recipient = getRecipient()
 
       await this.initDatastore()
       await this.initList()
@@ -129,11 +132,10 @@ export default {
       }).on('change', handler)
     }
   },
-  async mounted() {
-    const did = localStorage.getItem('did')
+  beforeMount () {
+    const did = isConnected()
     if (did) {
-      await init()
-      this.updateAddress(did)
+      this.updateAddress()
     }
   }
 }

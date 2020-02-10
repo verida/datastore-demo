@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { init } from 'helpers/VeridaTransmitter';
+import { setRecipient } from '../helpers/VeridaTransmitter'
 
 export default {
     name: 'RecepientDid',
@@ -27,9 +27,8 @@ export default {
     },
     methods: {
         async confirm () {
-            await init()
-            this.$emit('update-address', this.did)
-            localStorage.setItem('did', this.did)
+            setRecipient(this.did)
+            this.$emit('update-address')
             this.$bvModal.hide('recepient-did')
         },
     }
