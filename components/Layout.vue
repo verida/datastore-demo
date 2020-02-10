@@ -15,8 +15,8 @@
     <template v-if="address">
       <b-row>
         <b-col cols="12" class="connection-statistics d-flex justify-content-between align-items-center">
-          <div> Recipient: {{ recipient }} </div>
-          <div> <slot></slot> </div>
+          <div> Recipient DID: {{ recipient }} </div>
+          <div> <slot /> </div>
         </b-col>
       </b-row>
       <hr />

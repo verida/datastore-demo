@@ -14,10 +14,11 @@
                     </b-form-radio-group>
                 </b-form-group>
                 <datetime
-                    v-else-if="attributes[key].format === 'date-time'"
+                    v-else-if="attributes[key].format && attributes[key].format.includes('date')"
                     :auto="true"
+                    :format="format(attributes[key].format)"
+                    :type="attributes[key].format.replace('-', '')"
                     input-class="form-control"
-                    format="dd-LL-yyyy"
                     v-model="data[key]" />
                 <b-form-input v-else
                               class="form-control"
@@ -42,9 +43,12 @@ import extract from '../helpers/NameModifier'
 const { mapGetters: mapSchemaGetters } = createNamespacedHelpers('schema')
 const { mapGetters: mapItemGetters } = createNamespacedHelpers('receipt')
 
+import DateFormatMixin from '../mixins/date-format'
+
 export default {
     name: 'CreateModal',
     props: [ 'did' ],
+    mixins: [ DateFormatMixin ],
     inject: [
         'category',
         'internalSubmit'
