@@ -14,7 +14,7 @@
                     </b-form-radio-group>
                 </b-form-group>
                 <datetime
-                    v-else-if="attributes[key].format === 'date'"
+                    v-else-if="attributes[key].format === 'date-time'"
                     :auto="true"
                     input-class="form-control"
                     format="dd-LL-yyyy"

@@ -8,7 +8,7 @@
         <b-button variant="secondary" v-else @click="disconnect">
           Disconnect
         </b-button>
-        <div v-if="address"> Address: {{ address }} </div>
+        <div v-if="address"> User DID: {{ 'did:ethr:' + address }} </div>
       </b-col>
     </b-row>
     <hr />
