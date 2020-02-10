@@ -1,22 +1,23 @@
 <template>
   <b-container>
     <b-row>
-      <b-col class="d-flex justify-content-between">
+      <b-col sm="12" md="6">
         <b-button variant="outline-success" v-if="!address" v-b-modal.recepient-did>
           Connect Wallet
         </b-button>
-        <b-button variant="secondary" v-else @click="disconnect">
+        <b-button variant="success" v-else @click="disconnect">
           Disconnect
         </b-button>
-        <div v-if="address"> User DID: {{ 'did:ethr:' + address }} </div>
       </b-col>
+      <did-statistics v-if="address" :img="true"
+                      title="User DID" :text="`did:ethr: ${address}`" />
     </b-row>
     <hr />
     <template v-if="address">
       <b-row>
-        <b-col cols="12" class="connection-statistics d-flex justify-content-between align-items-center">
-          <div> Recipient DID: {{ recipient }} </div>
-          <div> <slot /> </div>
+        <did-statistics title="Recipient DID" :text="recipient" />
+        <b-col sm="12" md="6">
+          <slot name="action-panel" />
         </b-col>
       </b-row>
       <hr />
@@ -45,6 +46,7 @@ import RecepientDid from './RecepientDid'
 import { address } from 'helpers/VeridaTransmitter'
 
 import { createNamespacedHelpers } from 'vuex'
+import DidStatistics from "./DidStatistics";
 const { mapGetters: mapSchemaGetters } = createNamespacedHelpers('schema')
 
 export default {
@@ -57,6 +59,7 @@ export default {
     'category'
   ],
   components: {
+    DidStatistics,
     CreateModal,
     RecepientDid
   },

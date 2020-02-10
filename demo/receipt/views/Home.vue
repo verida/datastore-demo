@@ -2,15 +2,19 @@
   <Layout
     title="Receipts"
     :collections="collections">
-    <b-button variant="info">
-      Send Coupon
-    </b-button>
-    <b-button variant="info">
-      Request...
-    </b-button>
-    <b-button variant="info" v-b-modal.create-modal>
-      Create Receipt
-    </b-button>
+    <template v-slot:action-panel>
+      <div class="connection-statistics__action-panel">
+        <b-button variant="outline-info" size="sm" v-b-modal.create-modal>
+          Send Coupon
+        </b-button>
+        <b-button variant="outline-info" size="sm">
+          Request...
+        </b-button>
+        <b-button variant="info" size="sm" v-b-modal.create-modal>
+          Create Receipt
+        </b-button>
+      </div>
+    </template>
   </Layout>
 </template>
 

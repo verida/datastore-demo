@@ -5,8 +5,33 @@
 }
 
 .connection-statistics {
+  display: flex;
+  justify-content: start;
+  align-items: center;
   word-break: break-all;
-  .btn + .btn {
-    margin-left: 10px;
+}
+
+.connection-statistics__img {
+  background: url('~assets/img/user.png');
+  width: 40px;
+  height: 40px;
+  background-position: center;
+  background-size: contain;
+}
+
+.connection-statistics__title {
+  font-weight: bold;
+}
+
+.connection-statistics__text {
+  font-size: 14px;
+}
+
+.connection-statistics__action-panel {
+  display: flex;
+  justify-content: flex-end;
+
+  .btn {
+    margin: 5px 0 10px 10px;
   }
 }
