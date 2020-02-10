@@ -43,7 +43,7 @@
 <script>
 import CreateModal from './CreateModal';
 import RecepientDid from './RecepientDid'
-import { address } from 'helpers/VeridaTransmitter'
+import { address, init } from 'helpers/VeridaTransmitter'
 
 import { createNamespacedHelpers } from 'vuex'
 import DidStatistics from "./DidStatistics";
@@ -70,7 +70,6 @@ export default {
       list: [],
       headers: null,
       loaded: false,
-
       store: {}
     }
   },
@@ -117,6 +116,7 @@ export default {
       this.recipient = null
       window.veridaApp.disconnect()
       window.veridaApp = null
+      localStorage.removeItem('did')
     },
     async enableWatcher (category, onInstanceChange) {
       const database = await this.store[category].getDb()
@@ -127,6 +127,13 @@ export default {
         live: true,
         include_docs: true
       }).on('change', handler)
+    }
+  },
+  async mounted() {
+    const did = localStorage.getItem('did')
+    if (did) {
+      await init()
+      this.updateAddress(did)
     }
   }
 }
