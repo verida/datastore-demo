@@ -2,9 +2,11 @@
   <Layout
     title="Identities"
     :collections="collections">
-    <b-button variant="info" v-b-modal.create-modal>
-      Create Citizen Verification
-    </b-button>
+    <template v-slot:actions>
+      <b-button variant="info" v-b-modal.create-modal>
+        Create Citizen Verification
+      </b-button>
+    </template>
   </Layout>
 </template>
 

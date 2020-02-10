@@ -29,6 +29,7 @@ export default {
         async confirm () {
             await init()
             this.$emit('update-address', this.did)
+            localStorage.setItem('did', this.did)
             this.$bvModal.hide('recepient-did')
         },
     }
