@@ -23,22 +23,16 @@
         </b-col>
       </b-row>
       <hr />
-      <b-row>
-        <b-col cols="12" class="mt-3 d-flex">
-          <div class="d-flex justify-content-between align-items-center w-100">
-            <h5 class="my-4 text-info">{{ title }}</h5>
-            <create-modal :did="recipient" />
-          </div>
+      <b-row v-if="loaded">
+        <b-col sm="12" v-for="key in collections" :key="key">
+          <h5 class="my-4 text-info">{{ key | title }}</h5>
+          <b-table hover :items="list[key]" :fields="headers[key]" />
         </b-col>
       </b-row>
-      <b-row>
-        <b-col>
-          <b-table
-            v-for="key in collections" :key="key"
-            v-if="loaded" hover :items="list[key]" :fields="headers[key]" />
-          <div v-else>Loading ...</div>
-        </b-col>
+      <b-row v-else>
+        <b-col sm="12"> Loading ... </b-col>
       </b-row>
+      <create-modal :did="recipient" />
     </template>
     <recepient-did @update-address="updateAddress" />
   </b-container>
@@ -71,6 +65,14 @@ export default {
     DidStatistics,
     CreateModal,
     RecepientDid
+  },
+  filters: {
+    title: (str) => {
+      return str
+        .split('/')
+        .map(item => item.charAt(0).toUpperCase() + item.slice(1))
+        .join(' ')
+    }
   },
   data () {
     return {
