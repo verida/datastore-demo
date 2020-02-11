@@ -5,7 +5,7 @@ import router from './router'
 import store from './store'
 
 import * as _ from 'underscore'
-import '../../plugins'
+import '@src/mixins/plugins'
 
 window._ = _
 
@@ -15,4 +15,4 @@ new Vue({
   render: h => h(App)
 }).$mount('#app')
 
-import '@/assets/scss/index.scss'
+import '@src/assets/scss/index.scss'

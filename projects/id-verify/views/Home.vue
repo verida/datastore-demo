@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import Layout from '@components/Layout'
+import Layout from '@src/components/Layout'
 
 export default {
   name: 'home',

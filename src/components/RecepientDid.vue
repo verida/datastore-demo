@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { setRecipient } from '../helpers/VeridaTransmitter'
+import { setRecipient } from '@src/helpers/VeridaTransmitter'
 
 export default {
     name: 'RecepientDid',

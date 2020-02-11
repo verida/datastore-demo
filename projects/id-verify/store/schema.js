@@ -1,4 +1,4 @@
-import { JsonReader } from 'helpers/JsonReader'
+import { JsonReader } from '@src/helpers/JsonReader'
 
 const getters = {
   create () {

@@ -17,7 +17,9 @@
       <b-row>
         <did-statistics title="Recipient DID" :text="recipient" />
         <b-col sm="12" md="6">
-          <slot name="action-panel" />
+          <div class="connection-statistics__action-panel">
+            <slot name="actions" />
+          </div>
         </b-col>
       </b-row>
       <hr />
@@ -52,7 +54,7 @@ import {
   getAddress,
   logout,
   bind
-} from 'helpers/VeridaTransmitter'
+} from '@src/helpers/VeridaTransmitter'
 
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters: mapSchemaGetters } = createNamespacedHelpers('schema')

@@ -2,24 +2,22 @@
   <Layout
     title="Receipts"
     :collections="collections">
-    <template v-slot:action-panel>
-      <div class="connection-statistics__action-panel">
-        <b-button variant="outline-info" size="sm" v-b-modal.create-modal>
-          Send Coupon
-        </b-button>
-        <b-button variant="outline-info" size="sm">
-          Request...
-        </b-button>
-        <b-button variant="info" size="sm" v-b-modal.create-modal>
-          Create Receipt
-        </b-button>
-      </div>
+    <template v-slot:actions>
+      <b-button variant="outline-info" size="sm" v-b-modal.create-modal>
+        Send Coupon
+      </b-button>
+      <b-button variant="outline-info" size="sm">
+        Request...
+      </b-button>
+      <b-button variant="info" size="sm" v-b-modal.create-modal>
+        Create Receipt
+      </b-button>
     </template>
   </Layout>
 </template>
 
 <script>
-import Layout from '@components/Layout'
+import Layout from '@src/components/Layout'
 
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters: mapItemGetters } = createNamespacedHelpers('receipt')
