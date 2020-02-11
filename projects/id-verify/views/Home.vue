@@ -1,9 +1,10 @@
 <template>
-  <Layout
-    title="Identities"
-    :collections="collections">
+  <Layout title="Identities" :collections="collections">
     <template v-slot:actions>
-      <b-button variant="info" v-b-modal.create-modal>
+      <b-button
+          variant="info" size="sm"
+          v-b-modal.create-modal
+          @click="createVerification">
         Create Citizen Verification
       </b-button>
     </template>
@@ -12,21 +13,26 @@
 
 <script>
 import Layout from '@src/components/Layout'
+import CreateModalMixin from '@src/mixins/create-modal'
+
+const category = 'identity/kyc/AU'
 
 export default {
   name: 'home',
+  mixins: [
+    CreateModalMixin
+  ],
   components: {
     Layout
   },
-  provide: {
-    category: 'identity/kyc/AU',
-    internalSubmit: () => {}
-  },
   data () {
     return {
-      collections: [
-        'identity/kyc/AU'
-      ]
+      collections: [category]
+    }
+  },
+  methods: {
+    createVerification () {
+      this.showModal(category)
     }
   }
 }

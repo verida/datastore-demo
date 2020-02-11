@@ -30,8 +30,24 @@ const state = {
             "totalDiscount": 12,
             "currency": 'USD',
         }
-    ],
-    receiptList: []
+    ]
 };
 
-export default state
+const getters = {
+    getRandomReceiptItems: (state) => {
+        return (receiptId) => {
+            return _.chain(state.receiptItemsList)
+                .sample(3)
+                .map(item => {
+                    return { ...item, receiptId: receiptId }
+                })
+                .value()
+        }
+    }
+};
+
+export default {
+    namespaced: true,
+    state,
+    getters
+}

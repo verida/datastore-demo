@@ -41,7 +41,7 @@
 import { createNamespacedHelpers } from 'vuex'
 import extract from '../helpers/NameModifier'
 const { mapGetters: mapSchemaGetters } = createNamespacedHelpers('schema')
-const { mapGetters: mapItemGetters } = createNamespacedHelpers('receipt')
+const { mapState: mapModalState } = createNamespacedHelpers('modal')
 
 import DateFormatMixin from '../mixins/date-format'
 
@@ -49,10 +49,6 @@ export default {
     name: 'CreateModal',
     props: [ 'did' ],
     mixins: [ DateFormatMixin ],
-    inject: [
-        'category',
-        'internalSubmit'
-    ],
     data () {
       return {
           data: {},
@@ -63,10 +59,8 @@ export default {
       }
     },
     computed: {
-        ...mapSchemaGetters(['create'])
-    },
-    async mounted () {
-      await this.init()
+        ...mapSchemaGetters(['create']),
+        ...mapModalState([ 'category', 'internalSubmit' ]),
     },
     methods: {
         async init () {
@@ -92,12 +86,8 @@ export default {
             }
 
             message.push(payload)
-            console.log(payload);
             const saved = await store.save(payload)
-
-            if(typeof this.internalSubmit === 'function') {
-                await this['internalSubmit']({ saved, message })
-            }
+            await this.internalSubmit({ saved, message })
 
             try {
                 await window.veridaApp.inbox.send(this.did, message, {});

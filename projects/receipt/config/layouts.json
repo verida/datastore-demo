@@ -43,5 +43,23 @@
       "totalTax",
       "totalDiscount"
     ]
+  },
+  "shopping/coupon": {
+    "create": [
+      "name",
+      "description",
+      "value",
+      "valueType",
+      "currency",
+      "barcode"
+    ],
+    "view": [
+      "name",
+      "description",
+      "value",
+      "valueType",
+      "currency",
+      "barcode"
+    ]
   }
 }

@@ -33,7 +33,9 @@
       </b-row>
       <b-row>
         <b-col>
-          <b-table v-if="loaded" hover :items="list" :fields="headers" />
+          <b-table
+            v-for="key in collections" :key="key"
+            v-if="loaded" hover :items="list[key]" :fields="headers[key]" />
           <div v-else>Loading ...</div>
         </b-col>
       </b-row>
@@ -60,13 +62,10 @@ import { createNamespacedHelpers } from 'vuex'
 const { mapGetters: mapSchemaGetters } = createNamespacedHelpers('schema')
 
 export default {
-  name: 'HelloWorld',
+  name: 'Layout',
   props: [
     'collections',
     'title',
-  ],
-  inject: [
-    'category'
   ],
   components: {
     DidStatistics,
@@ -75,41 +74,44 @@ export default {
   },
   data () {
     return {
+      loaded: false,
+
       address: null,
       recipient: null,
-      list: [],
-      headers: null,
-      loaded: false,
-      store: {}
+
+      headers: {},
+      store: {},
+      list: {}
     }
   },
   computed: {
     ...mapSchemaGetters(['fields']),
   },
   methods: {
-    getActionName (key) {
-      const name = key.split('/')
-        .map(w => w.charAt(0).toUpperCase() + w.slice(1))
-        .join('')
-
-      return `update${name}List`
-    },
     async initDatastore () {
       this.store = {}
+      this.list = {}
+      this.headers = {}
+
       for(let i = 0; i < this.collections.length; i++) {
         const key = this.collections[i]
         const datastore = await window.veridaApp.openDatastore(key)
+
+        this.$set(this.list, key, [])
         this.$set(this.store, key, datastore)
+        this.$set(this.headers, key, [])
+
+        await this.initList(key)
+        await this.enableWatcher(key, 'updateList')
       }
-      await this.enableWatcher(this.category, 'updateList')
     },
-    async updateList () {
-      this.list = await this.store[this.category].getMany()
+    async updateList (key) {
+      this.list[key] = await this.store[key].getMany()
     },
-    async initList () {
-      this.list = await this.store[this.category].getMany()
-      const { properties } = await this.fields(this.category)
-      this.headers = Object.keys(properties)
+    async initList (key) {
+      this.list[key] = await this.store[key].getMany()
+      const { properties } = await this.fields(key)
+      this.headers[key] = Object.keys(properties)
     },
     async updateAddress () {
       await bind(this.updateAddress, this.disconnect)
@@ -120,7 +122,6 @@ export default {
       this.recipient = getRecipient()
 
       await this.initDatastore()
-      await this.initList()
 
       this.loaded = true
     },
@@ -129,15 +130,15 @@ export default {
       this.recipient = null
       logout()
     },
-    async enableWatcher (category, onInstanceChange) {
+    async enableWatcher (category) {
       const database = await this.store[category].getDb()
       const instance = await database.getInstance()
-      const handler = this.hasOwnProperty(onInstanceChange) ? this[onInstanceChange] : () => {}
+
       instance.changes({
         since: 'now',
         live: true,
         include_docs: true
-      }).on('change', handler)
+      }).on('change', async () => await this.updateList(category))
     }
   },
   beforeMount () {

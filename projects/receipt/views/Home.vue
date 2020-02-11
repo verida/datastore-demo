@@ -3,13 +3,20 @@
     title="Receipts"
     :collections="collections">
     <template v-slot:actions>
-      <b-button variant="outline-info" size="sm" v-b-modal.create-modal>
+      <b-button
+        variant="outline-info" size="sm"
+        v-b-modal.create-modal
+        @click="sendCoupon">
         Send Coupon
       </b-button>
       <b-button variant="outline-info" size="sm">
         Request...
       </b-button>
-      <b-button variant="info" size="sm" v-b-modal.create-modal>
+      <b-button
+        variant="info"
+        size="sm"
+        v-b-modal.create-modal
+        @click="createReceipt">
         Create Receipt
       </b-button>
     </template>
@@ -18,20 +25,18 @@
 
 <script>
 import Layout from '@src/components/Layout'
+import CreateModalMixin from '@src/mixins/create-modal'
 
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters: mapItemGetters } = createNamespacedHelpers('receipt')
 
 export default {
   name: 'home',
+  mixins: [
+    CreateModalMixin
+  ],
   components: {
     Layout
-  },
-  provide () {
-    return {
-      category: 'shopping/receipt',
-      internalSubmit: this.submit
-    }
   },
   computed: {
     ...mapItemGetters(['getRandomReceiptItems'])
@@ -39,6 +44,7 @@ export default {
   data () {
     return {
       collections: [
+        'shopping/coupon',
         'shopping/receipt',
         'shopping/receipt/item'
       ]
@@ -53,6 +59,12 @@ export default {
         await itemStore.save(items[i])
         message.push(items[i])
       }
+    },
+    sendCoupon () {
+      this.showModal('shopping/coupon',() => {})
+    },
+    createReceipt () {
+      this.showModal('shopping/receipt', this.submit)
     }
   }
 }

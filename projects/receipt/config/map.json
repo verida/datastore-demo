@@ -4,11 +4,14 @@
         "icon": "icons/receipt.svg",
         "display": "cards",
         "folders": [
-            "shopping/receipt"
+            "shopping/receipt",
+            "shopping/coupon"
         ]
     },
     "shopping/receipt": {
-        "display": "grid",
         "schema": "shopping/receipt"
+    },
+    "shopping/coupon": {
+        "schema": "shopping/coupon"
     }
 }
