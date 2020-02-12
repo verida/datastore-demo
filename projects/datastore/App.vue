@@ -6,7 +6,7 @@
 
 <script>
 import Home from '@/components/Home.vue'
-import RecepientDid from '@/components/RecepientDid'
+import RecepientDid from '@src/components/RecepientDid'
 
 export default {
   name: 'app',
