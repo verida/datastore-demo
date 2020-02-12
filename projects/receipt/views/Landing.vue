@@ -35,11 +35,10 @@ export default {
             this.$bvModal.show('recepient-did')
         },
         async connect () {
-            if (!this.authorized) {
-                await bind(this.showRecipientDidModal, this.disconnect)
-                await connectVerida()
-            }
-            if (this.authorized && !this.recipient) {
+            await bind(this.showRecipientDidModal, this.disconnect)
+            await connectVerida()
+
+            if (!this.recipient) {
                 this.showRecipientDidModal()
             }
         },
@@ -47,12 +46,6 @@ export default {
             this.setAuthorized(null)
             this.setRecipient(null)
             logout()
-        }
-    },
-    async beforeMount () {
-        if (this.authorized) {
-            await bind(this.showRecipientDidModal, this.disconnect)
-            await connectVerida()
         }
     }
 }

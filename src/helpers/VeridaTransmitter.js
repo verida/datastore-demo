@@ -22,7 +22,18 @@ let callbacks = {}
 export async function connectVerida (force) {
   const web3Provider = await VeridaApp.WalletHelper.connectWeb3('ethr')
   const address = await VeridaApp.WalletHelper.getAddress('ethr')
-  window.veridaApp = new VeridaApp(VUE_APP_DATASTORE_NAME, 'ethr', address, web3Provider, config)
+
+  if (!window.veridaApp) {
+    window.veridaApp = new VeridaApp(VUE_APP_DATASTORE_NAME, 'ethr', address, web3Provider, config)
+    window.veridaApp.inbox.on("newMessage", function(message) {
+      console.log("verida wallet detected new message", message);
+    });
+  }
+
+  let connected = await window.veridaApp.connect(force);
+  if (connected) {
+    callbacks.auth()
+  }
 }
 
 export async function getAddress () {
@@ -40,15 +51,19 @@ export async function bind (auth, unauth = () => {}) {
   callbacks.unauth = unauth
 
   window.ethereum.on('accountsChanged', async (accounts) => {
-   accounts.length ? callbacks.auth() : callbacks.unauth()
+   accounts.length ? null : callbacks.unauth()
   })
 }
 
 export async function logout () {
   window.veridaApp.disconnect()
   window.veridaApp = null
-  const key = `VERIDA_SESSION_${VUE_APP_DATASTORE_NAME}recipient-did`
-  localStorage.setItem(key, null)
+
+  const key1 = `VERIDA_SESSION_${VUE_APP_DATASTORE_NAME}recipient-did`
+  localStorage.removeItem(key1)
+
+  const key2 = `VERIDA_SESSION_${VUE_APP_DATASTORE_NAME}did`
+  localStorage.removeItem(key2)
 }
 
 export function isConnected () {

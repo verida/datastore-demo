@@ -34,7 +34,8 @@ import DidStatistics from './DidStatistics'
 import Documents from './Documents'
 
 const {
-  mapGetters: userGetters
+  mapGetters: userGetters,
+  mapMutations: userMutations
 } = createNamespacedHelpers('did')
 
 import {
@@ -60,7 +61,7 @@ export default {
     RecepientDid
   },
   computed: {
-    ...userGetters(['recipient', 'authorized'])
+    ...userGetters(['recipient', 'authorized']),
   },
   data () {
     return {
@@ -68,21 +69,24 @@ export default {
     }
   },
   methods: {
+    ...userMutations(['setRecipient', 'setAuthorized']),
     async updateAddress() {
-      this.loaded = false
-
       await this.$nextTick()
       await this.$refs.documents.initDatastore()
+    },
+    async connect () {
+      this.loaded = false
+
+      await bind(this.updateAddress, this.disconnect)
+      await connectVerida(true)
 
       this.loaded = true
     },
-    async connect () {
-      await bind(this.updateAddress, this.disconnect)
-      await connectVerida()
-      await this.updateAddress()
-    },
-    disconnect () {
-      logout()
+    async disconnect () {
+      await logout()
+      this.setRecipient(null)
+      this.setAuthorized(null)
+      this.$router.push({ name: 'connect' })
     }
   },
   async mounted () {
