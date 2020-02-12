@@ -42,7 +42,6 @@ const mutations = {
         state.authorized = payload
     },
     setRecipient (state, payload) {
-        setRecipient(payload)
         state.recipient = payload
     }
 }

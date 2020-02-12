@@ -25,7 +25,11 @@
 
 <script>
 import { createNamespacedHelpers } from 'vuex'
-const { mapMutations: userMutations } = createNamespacedHelpers('did')
+const {
+    mapMutations: userMutations
+} = createNamespacedHelpers('did')
+
+import { setRecipient } from '@src/helpers/VeridaTransmitter'
 
 export default {
     name: 'RecepientDid',
@@ -36,10 +40,12 @@ export default {
         }
     },
     methods: {
-        ...userMutations([ 'setRecipient' ]),
+        ...userMutations({
+            'setRecipientDid': 'setRecipient'
+        }),
         confirm () {
-            this.setRecipient(this.did)
-            this.$bvModal.hide('recepient-did')
+            setRecipient(this.did)
+            this.setRecipientDid(this.did)
             this.$router.push({ name: 'home' })
         },
     }

@@ -73,6 +73,7 @@ export function isConnected () {
 
 export function setRecipient (did) {
   const key = `VERIDA_SESSION_${VUE_APP_DATASTORE_NAME}recipient-did`
+  console.log('setRecipient')
   return localStorage.setItem(key, did)
 }
 
