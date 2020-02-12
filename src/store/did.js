@@ -4,9 +4,8 @@ const { VUE_APP_DATASTORE_NAME } = process.env
 const sessionKey = `VERIDA_SESSION_${VUE_APP_DATASTORE_NAME}`
 
 const getAuthorizedDid = () => {
-    const key = `${sessionKey}did:ethr`
-    const did = Object.keys(localStorage).find(prop => prop.includes(key))
-    return localStorage.getItem(did)
+    const key = `${sessionKey}did`
+    return localStorage.getItem(key)
 }
 
 const getRecipientDid = () => {
