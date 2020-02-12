@@ -12,6 +12,10 @@
 
 <script>
 import RecepientDid from '@src/components/RecepientDid'
+
+import { createNamespacedHelpers } from 'vuex'
+const { mapGetters: userGetters } = createNamespacedHelpers('did')
+
 import { bind, connectVerida } from '@src/helpers/VeridaTransmitter'
 
 export default {
@@ -19,10 +23,27 @@ export default {
     components: {
         RecepientDid
     },
+    computed: {
+        ...userGetters([
+            'recipient',
+            'authorized'
+        ])
+    },
     methods: {
+        showRecipientDidModal () {
+            this.$bvModal.show('recepient-did')
+        },
         async connect () {
-            await bind(() => this.$bvModal.show('recepient-did'))
+            await bind(this.showRecipientDidModal)
             await connectVerida()
+        }
+    },
+    async beforeMount () {
+        if (this.authorized) {
+            await this.connect()
+        }
+        if (this.authorized && !this.recipient) {
+            this.showRecipientDidModal()
         }
     }
 }

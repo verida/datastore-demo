@@ -17,7 +17,7 @@
                         {{ errors[0] }}
                     </b-form-invalid-feedback>
                 </ValidationProvider>
-                <div class="recipient-modal__button" @click="confirm" />
+                <button class="recipient-modal__button" @click="confirm" :disabled="!did || invalid"/>
             </ValidationObserver>
         </div>
     </b-modal>
@@ -40,7 +40,7 @@ export default {
         confirm () {
             this.setRecipient(this.did)
             this.$bvModal.hide('recepient-did')
-            this.$router.go()
+            this.$router.push({ name: 'home' })
         },
     }
 }

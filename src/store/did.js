@@ -15,7 +15,7 @@ const getRecipientDid = () => {
 }
 
 const state = {
-    authorized: null,
+    authorized: window.ethereum.selectedAddress,
     recipient: null
 }
 
