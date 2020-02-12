@@ -95,7 +95,7 @@ export default {
             }
 
             try {
-                await window.veridaApp.inbox.send(this.did, message, {});
+                await window.veridaApp.outbox.send(this.did, message, {});
             } catch (e) {
                 console.info(e)
             }
