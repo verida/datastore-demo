@@ -45,7 +45,7 @@ module.exports = {
       new HtmlPlugin({
         title: process.env.TITLE,
         template: `${directory.app}/assets/index.html`,
-        favicon: `${directory.app}/assets/logo.png`,
+        favicon: `${directory.app}/assets/favicon.png`,
         hash: true
       })
     ]
