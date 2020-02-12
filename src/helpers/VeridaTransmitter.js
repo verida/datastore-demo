@@ -52,7 +52,7 @@ export async function logout () {
 }
 
 export function isConnected () {
-  const address = Object.keys(localStorage).find(key => key.includes(`VERIDA_SESSION_${VUE_APP_DATASTORE_NAME}did:ethr`))
+  const address = Object.keys(localStorage).find(key => key.includes(`VERIDA_SESSION_${VUE_APP_DATASTORE_NAME}did`))
   return localStorage.getItem(address)
 }
 
