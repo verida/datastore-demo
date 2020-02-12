@@ -28,7 +28,7 @@ export default {
     methods: {
         async confirm () {
             setRecipient(this.did)
-            this.$emit('update-address')
+            this.$emit('init-recepient')
             this.$bvModal.hide('recepient-did')
         },
     }

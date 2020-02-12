@@ -2,8 +2,9 @@
   <b-container>
     <b-row>
       <b-col sm="12" md="6">
-        <b-button variant="outline-success" v-if="!address" v-b-modal.recepient-did>
-          Connect Wallet
+        <b-button variant="outline-success"
+          v-if="!address || !recipient" @click="connect" :disabled="address && !recipient">
+          {{ address && recipient ? 'Connected' : 'Connect Wallet' }}
         </b-button>
         <b-button variant="success" v-else @click="disconnect">
           Disconnect
@@ -28,7 +29,7 @@
         :loaded="loaded" />
       <create-modal :did="recipient" />
     </template>
-    <recepient-did @update-address="updateAddress" />
+    <recepient-did @init-recepient="initRecipient" />
   </b-container>
 </template>
 
@@ -68,17 +69,22 @@ export default {
   },
   methods: {
     async updateAddress() {
-      await bind(this.updateAddress, this.disconnect)
-      await connectVerida()
-
       this.loaded = false
       this.address = await getAddress()
-      this.recipient = getRecipient()
 
       await this.$nextTick()
       await this.$refs.documents.initDatastore()
 
       this.loaded = true
+    },
+    initRecipient () {
+      this.recipient = getRecipient()
+    },
+    async connect () {
+      await bind(this.updateAddress, this.disconnect)
+      await connectVerida()
+      await this.updateAddress()
+      this.$bvModal.show('recepient-did')
     },
     disconnect () {
       this.address = null
@@ -89,7 +95,7 @@ export default {
   async mounted () {
     const did = isConnected()
     if (did) {
-      await this.updateAddress()
+      await this.connect()
     }
   }
 }
