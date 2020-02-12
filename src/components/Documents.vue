@@ -1,23 +1,36 @@
 <template>
     <div>
-        <b-row v-if="loaded">
+        <b-row>
+            <CircleLoader
+                class="custom-class"
+                color="#0AE75A"
+                :loading="true"
+                :size="50" />
+        </b-row>
+        <b-row v-if="!loaded">
             <b-col sm="12" v-for="key in collections" :key="key">
                 <h5 class="my-4 text-info">{{ key | title }}</h5>
-                <b-table hover :items="list[key]" :fields="headers[key]" />
+                <b-table hover :items="list[key]" :fields="headers[key]" v-if="list[key] && list[key].length"/>
+                <div v-else>{{ key | title }} list is empty</div>
             </b-col>
         </b-row>
         <b-row v-else>
-            <b-col sm="12"> Loading ... </b-col>
+            <b-col sm="12"></b-col>
         </b-row>
     </div>
 </template>
 
 <script>
+import { CircleLoader } from '@saeris/vue-spinners'
+
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters: mapSchemaGetters } = createNamespacedHelpers('schema')
 
 export default {
     name: 'Documents',
+    components: {
+        CircleLoader
+    },
     props: {
       loaded: {
           type: Boolean,

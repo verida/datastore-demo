@@ -5,7 +5,7 @@ import router from './router'
 import store from '@src/store'
 
 import * as _ from 'underscore'
-import '@src/mixins/plugins'
+import '@src/plugins'
 
 window._ = _
 
