@@ -67,7 +67,7 @@ export function getRecipient () {
 }
 
 export function setAddress (callback) {
-  const key = `VERIDA_SESSION_${VUE_APP_DATASTORE_NAME}did:ethr`
+  const key = `VERIDA_SESSION_${VUE_APP_DATASTORE_NAME}did`
   const init = (err, accounts) => {
     if (accounts.length) {
       localStorage.setItem(key, accounts[0])
