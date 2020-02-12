@@ -1,0 +1,47 @@
+.recipient-modal {
+  border: 2px solid #19C6C6;
+}
+
+.recipient-modal__header {
+  background: rgb(0,181,255);
+  background: linear-gradient(90deg, rgba(14,129,176,1) 0%, rgba(42,152,145,1) 100%);
+  border-bottom: none;
+  height: 55px;
+  color: white;
+
+  h5 {
+    font-size: 16px;
+    font-weight: 600;
+  }
+}
+
+.recipient-modal__content {
+  margin: 15px 5px 0;
+}
+
+.recipient-modal__button {
+  position: absolute;
+  display: block;
+  padding: 5px 30px;
+  height: 30px;
+  border: 2px solid #19C6C6;
+  background-color: white;
+  border-radius: 25px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  color: #36A5A5;
+  left: 50%;
+  bottom: -15px;
+  transform: translateX(-50%);
+  text-align: center;
+
+  &:after {
+    content: 'confirm';
+  }
+
+  &:hover {
+    color: white;
+    background-color: #19C6C6;
+  }
+}

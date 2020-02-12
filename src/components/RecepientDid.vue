@@ -1,35 +1,46 @@
 <template>
-    <b-modal id="recepient-did" title="Enter the Recipient's DID" hide-footer>
-        <ValidationObserver v-slot="{ invalid }">
-            <ValidationProvider v-slot="{ errors }" rules="did">
-                <b-form-input class="form-control" name="did" aria-describedby="did-error" v-model="did"
-                              :state="!did ? null : !errors[0]" />
-                <b-form-invalid-feedback id="did-error">
-                    {{ errors[0] }}
-                </b-form-invalid-feedback>
-            </ValidationProvider>
-            <b-button @click="confirm" :disabled="invalid" block variant="success">
-                Confirm
-            </b-button>
-        </ValidationObserver>
+    <b-modal id="recepient-did" title="Recipient's DID" hide-footer
+             size="sm" centered
+             content-class="recipient-modal"
+             header-class="recipient-modal__header">
+        <div class="recipient-modal__content">
+            <ValidationObserver v-slot="{ invalid }">
+                <ValidationProvider v-slot="{ errors }" rules="did">
+                    <b-form-textarea v-model="did" name="did"
+                        spellcheck="false"
+                        :placeholder="placeholder"
+                        class="form-control word-break "
+                        size="sm" rows="3" no-resize
+                        aria-describedby="did-error"
+                        :state="!did ? null : !errors[0]" />
+                    <b-form-invalid-feedback id="did-error">
+                        {{ errors[0] }}
+                    </b-form-invalid-feedback>
+                </ValidationProvider>
+                <div class="recipient-modal__button" @click="confirm" />
+            </ValidationObserver>
+        </div>
     </b-modal>
 </template>
 
 <script>
-import { setRecipient } from '@src/helpers/VeridaTransmitter'
+import { createNamespacedHelpers } from 'vuex'
+const { mapMutations: userMutations } = createNamespacedHelpers('did')
 
 export default {
     name: 'RecepientDid',
     data () {
         return {
-            did: 'did:ethr:0x57127C0C0b891125af4441a51BF37F465cDb9d73'
+            placeholder: 'did:ethr:0x57127C0C0b891125af4441a51BF37F465cDb9d73',
+            did: null
         }
     },
     methods: {
-        async confirm () {
-            setRecipient(this.did)
-            this.$emit('init-recepient')
+        ...userMutations([ 'setRecipient' ]),
+        confirm () {
+            this.setRecipient(this.did)
             this.$bvModal.hide('recepient-did')
+            this.$router.go()
         },
     }
 }

@@ -35,7 +35,7 @@ export async function getAddress () {
  * @param {*} auth Callback to fire when the user is authenticated
  * @param {*} unauth Callback to fire when the user is unauthenticated
  */
-export async function bind (auth, unauth) {
+export async function bind (auth, unauth = () => {}) {
   callbacks.auth = auth
   callbacks.unauth = unauth
 
