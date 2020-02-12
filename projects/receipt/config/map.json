@@ -1,0 +1,17 @@
+{
+    "shopping": {
+        "label": "Receipt",
+        "icon": "icons/receipt.svg",
+        "display": "cards",
+        "folders": [
+            "shopping/receipt",
+            "shopping/coupon"
+        ]
+    },
+    "shopping/receipt": {
+        "schema": "shopping/receipt"
+    },
+    "shopping/coupon": {
+        "schema": "shopping/coupon"
+    }
+}
