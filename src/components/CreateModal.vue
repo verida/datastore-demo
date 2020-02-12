@@ -90,7 +90,7 @@ export default {
             await this.internalSubmit({ saved, message })
 
             try {
-                await window.veridaApp.inbox.send(this.did, message, {});
+                await window.veridaApp.outbox.send(this.did, message, {});
             } catch (e) {
                 console.info(e)
             }
