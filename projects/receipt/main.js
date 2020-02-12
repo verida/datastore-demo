@@ -9,10 +9,13 @@ import '@src/plugins'
 
 window._ = _
 
-new Vue({
+const init = () => new Vue({
   router,
   store,
   render: h => h(App)
 }).$mount('#app')
 
 import '@src/assets/scss/index.scss'
+
+import { setAddress } from '@src/helpers/VeridaTransmitter'
+setAddress(init)

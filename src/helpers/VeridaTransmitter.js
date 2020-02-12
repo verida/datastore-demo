@@ -60,7 +60,19 @@ export function setRecipient (did) {
   const key = `VERIDA_SESSION_${VUE_APP_DATASTORE_NAME}recipient-did`
   return localStorage.setItem(key, did)
 }
+
 export function getRecipient () {
   const key = `VERIDA_SESSION_${VUE_APP_DATASTORE_NAME}recipient-did`
   return localStorage.getItem(key)
+}
+
+export function setAddress (callback) {
+  const key = `VERIDA_SESSION_${VUE_APP_DATASTORE_NAME}did:ethr`
+  const init = (err, accounts) => {
+    if (accounts.length) {
+      localStorage.setItem(key, accounts[0])
+    }
+    callback()
+  }
+  window.web3.eth.getAccounts(init)
 }

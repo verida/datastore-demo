@@ -14,9 +14,12 @@
 import RecepientDid from '@src/components/RecepientDid'
 
 import { createNamespacedHelpers } from 'vuex'
-const { mapGetters: userGetters } = createNamespacedHelpers('did')
+const {
+    mapGetters: userGetters,
+    mapMutations: userMutations
+} = createNamespacedHelpers('did')
 
-import { bind, connectVerida } from '@src/helpers/VeridaTransmitter'
+import { bind, connectVerida, logout } from '@src/helpers/VeridaTransmitter'
 
 export default {
     name: 'Landing',
@@ -24,26 +27,32 @@ export default {
         RecepientDid
     },
     computed: {
-        ...userGetters([
-            'recipient',
-            'authorized'
-        ])
+        ...userGetters(['recipient', 'authorized'])
     },
     methods: {
+        ...userMutations([ 'setAuthorized', 'setRecipient' ]),
         showRecipientDidModal () {
             this.$bvModal.show('recepient-did')
         },
         async connect () {
-            await bind(this.showRecipientDidModal)
-            await connectVerida()
+            if (!this.authorized) {
+                await bind(this.showRecipientDidModal, this.disconnect)
+                await connectVerida()
+            }
+            if (this.authorized && !this.recipient) {
+                this.showRecipientDidModal()
+            }
+        },
+        disconnect () {
+            this.setAuthorized(null)
+            this.setRecipient(null)
+            logout()
         }
     },
     async beforeMount () {
         if (this.authorized) {
-            await this.connect()
-        }
-        if (this.authorized && !this.recipient) {
-            this.showRecipientDidModal()
+            await bind(this.showRecipientDidModal, this.disconnect)
+            await connectVerida()
         }
     }
 }
