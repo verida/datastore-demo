@@ -9,7 +9,7 @@ import '@src/plugins'
 
 window._ = _
 
-const init = () => new Vue({
+new Vue({
   router,
   store,
   render: h => h(App)

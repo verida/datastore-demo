@@ -1,9 +1,9 @@
 <template>
-    <b-modal id="recepient-did" title="Recipient's DID" hide-footer
-             size="sm" centered
-             no-close-on-backdrop
-             no-close-on-esc
-             hide-header-close
+    <b-modal id="recipient-did" title="Recipient's DID" hide-footer
+             size="sm" centered v-model="modal"
+             :no-close-on-backdrop="closable"
+             :no-close-on-esc="closable"
+             :hide-header-close="closable"
              content-class="recipient-modal"
              header-class="recipient-modal__header">
         <div class="recipient-modal__content">
@@ -28,18 +28,18 @@
 
 <script>
 import { createNamespacedHelpers } from 'vuex'
-const {
-    mapMutations: userMutations
-} = createNamespacedHelpers('did')
-
-import { setRecipient } from '@src/helpers/VeridaTransmitter'
+const { mapMutations: userMutations } = createNamespacedHelpers('did')
 
 export default {
-    name: 'RecepientDid',
+    name: 'RecipientDid',
+    props: [
+        'closable'
+    ],
     data () {
         return {
             placeholder: 'did:ethr:0x57127C0C0b891125af4441a51BF37F465cDb9d73',
-            did: null
+            did: null,
+            modal: false
         }
     },
     methods: {
@@ -48,8 +48,14 @@ export default {
         }),
         confirm () {
             this.$emit('confirm', this.did)
-            this.$bvModal.hide('recepient-did')
+            this.$bvModal.hide('recipient-did')
+            this.did = null
         },
+    },
+    watch: {
+        modal () {
+            this.did = null
+        }
     }
 }
 </script>

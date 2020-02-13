@@ -24,12 +24,12 @@
         :loaded="loaded" />
       <create-modal :did="recipient" />
     </template>
-    <recepient-did @confirm="did => recipient = did" />
+    <recipient-did @confirm="did => recipient = did" :closable="!recipient" />
   </b-container>
 </template>
 
 <script>
-import RecepientDid from './RecepientDid'
+import RecipientDid from './RecipientDid'
 import CreateModal from './CreateModal'
 import DidStatistics from './DidStatistics'
 import Documents from './Documents'
@@ -51,7 +51,7 @@ export default {
     Documents,
     DidStatistics,
     CreateModal,
-    RecepientDid
+    RecipientDid
   },
   data () {
     return {
@@ -81,7 +81,7 @@ export default {
     await this.connect()
   },
   mounted () {
-    this.$bvModal.show('recepient-did')
+    this.$bvModal.show('recipient-did')
   }
 }
 </script>

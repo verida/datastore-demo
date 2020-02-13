@@ -1,22 +1,26 @@
 <template>
     <b-row v-if="!loaded">
         <b-col sm="12">
-            <CircleLoader color="#17a2b8"/>
+            <BarLoader class="loader"
+                color="#36D7B7"
+                :width="100"
+                :height="4" />
         </b-col>
     </b-row>
     <b-row v-else>
         <b-col sm="12" v-for="key in collections" :key="key">
             <h5 class="my-4 text-info">{{ key | title }}</h5>
-            <b-table hover
+            <b-table hover v-if="list[key] && list[key].length"
                 :items="list[key]"
                 :fields="headers[key]"
-                :responsive="true"/>
+                :responsive="true" />
+            <div v-else class="empty-list"> The {{ key | title }} list is empty </div>
         </b-col>
     </b-row>
 </template>
 
 <script>
-import { CircleLoader } from '@saeris/vue-spinners'
+import { BarLoader } from '@saeris/vue-spinners'
 
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters: mapSchemaGetters } = createNamespacedHelpers('schema')
@@ -24,7 +28,7 @@ const { mapGetters: mapSchemaGetters } = createNamespacedHelpers('schema')
 export default {
     name: 'Documents',
     components: {
-        CircleLoader
+        BarLoader
     },
     props: {
       loaded: {

@@ -8,3 +8,8 @@
 @import 'inputs';
 @import 'buttons';
 @import 'layouts';
+@import 'loaders';
+
+button:focus {
+  outline: none;
+}

@@ -6,12 +6,12 @@
 
 <script>
 import Home from '@/components/Home.vue'
-import RecepientDid from '@src/components/RecepientDid'
+import RecipientDid from '@src/components/RecipientDid'
 
 export default {
   name: 'app',
   components: {
-    RecepientDid,
+    RecipientDid,
     Home
   }
 }
