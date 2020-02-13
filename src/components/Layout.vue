@@ -68,12 +68,13 @@ export default {
     },
     async connect () {
       this.loaded = false
-      await bind(this.updateAddress, logout)
+      await bind(this.updateAddress, this.disconnect)
       await connectVerida()
       this.authorized = await getAddress()
     },
     async disconnect () {
       await logout()
+      await this.$router.push({ name: 'connect' })
     }
   },
   async beforeMount() {

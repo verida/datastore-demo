@@ -69,6 +69,8 @@ export async function getAccounts () {
 }
 
 export async function logout () {
-  window.veridaApp.disconnect()
-  window.veridaApp = null
+  if (window.veridaApp) {
+    window.veridaApp.disconnect()
+    window.veridaApp = null
+  }
 }
