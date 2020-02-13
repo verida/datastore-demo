@@ -31,6 +31,6 @@ export default {
             this.processing = true
             await connectVerida(true, () => { this.processing = false })
         }
-    }
+    },
 }
 </script>

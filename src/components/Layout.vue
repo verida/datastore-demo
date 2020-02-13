@@ -11,7 +11,8 @@
     <hr />
     <template>
       <b-row>
-        <did-statistics title="Recipient DID" :text="recipient" />
+        <did-statistics title="Recipient DID" :text="recipient"
+                        :update="!!recipient" />
         <b-col cols="12" sm="6">
           <div class="connection-statistics__action-panel">
             <slot name="actions" />

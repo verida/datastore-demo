@@ -4,12 +4,11 @@ import { getSignature } from '@src/helpers/LocalStorage'
 const redirect = async (to, next) => {
   const accounts = await getAccounts()
   const signature = getSignature()
-  const { guest, authorized } = to.meta
 
   switch (true) {
-    case accounts && signature && guest:
+    case accounts.length && signature:
       return next({ name: 'home' })
-    case accounts && !signature && authorized:
+    case (!signature || !accounts.length) && to.name !== 'connect':
       return next({ name: 'connect' })
     default: {
       return next()

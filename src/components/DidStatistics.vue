@@ -5,7 +5,7 @@
             <div>
                 <div>
                     <span class="connection-statistics__title">{{ title }}</span>
-                    <span class="text-sub link" @click="showRecipientModal">update</span>
+                    <span class="text-sub link" @click="showRecipientModal" v-if="update">update</span>
                 </div>
                 <div class="connection-statistics__text"> {{ text }} </div>
             </div>
