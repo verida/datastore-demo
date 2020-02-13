@@ -12,6 +12,8 @@
 
 <script>
 import { CircleLoader } from '@saeris/vue-spinners'
+
+import { resetSignature } from '@src/helpers/LocalStorage'
 import { bind, connectVerida, logout } from '@src/helpers/VeridaTransmitter'
 
 export default {
@@ -23,6 +25,9 @@ export default {
       return {
           processing: false
       }
+    },
+    beforeMount () {
+        resetSignature()
     },
     methods: {
         async connect () {
