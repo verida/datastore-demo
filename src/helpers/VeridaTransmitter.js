@@ -25,9 +25,6 @@ export async function connectVerida (force) {
 
   if (!window.veridaApp) {
     window.veridaApp = new VeridaApp(VUE_APP_DATASTORE_NAME, 'ethr', address, web3Provider, config)
-    window.veridaApp.inbox.on("newMessage", function(message) {
-      console.log("verida wallet detected new message", message);
-    });
   }
 
   let connected = await window.veridaApp.connect(force);
