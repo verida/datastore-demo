@@ -1,5 +1,5 @@
 <template>
-    <b-modal id="create-modal" title="Create Receipt" hide-footer v-model="visibility">
+    <b-modal id="create-modal" :title="`Create ${title}`" hide-footer v-model="visibility">
         <ValidationObserver v-slot="{ invalid }" ref="validator" mode="eager">
             <ValidationProvider v-slot="{ errors }"
                                 v-for="(item, key) in data"
@@ -54,9 +54,9 @@ export default {
       return {
           data: {},
           attributes: {},
-          title: null,
           visibility: false,
-          processing: false
+          processing: false,
+          title: null
       }
     },
     computed: {
