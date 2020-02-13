@@ -7,7 +7,10 @@
     <b-row v-else>
         <b-col sm="12" v-for="key in collections" :key="key">
             <h5 class="my-4 text-info">{{ key | title }}</h5>
-            <b-table hover :items="list[key]" :fields="headers[key]" />
+            <b-table hover
+                :items="list[key]"
+                :fields="headers[key]"
+                :responsive="true"/>
         </b-col>
     </b-row>
 </template>

@@ -1,8 +1,8 @@
 <template>
-  <b-container>
+  <b-container class="my-4">
     <b-row>
-      <b-col sm="12" md="6">
-        <b-button variant="success" @click="disconnect">
+      <b-col cols="12" sm="6">
+        <b-button variant="outline-success" @click="disconnect" class="mb-3" size="lg">
           Disconnect
         </b-button>
       </b-col>
@@ -12,7 +12,7 @@
     <template>
       <b-row>
         <did-statistics title="Recipient DID" :text="recipient" />
-        <b-col sm="12" md="6">
+        <b-col cols="12" sm="6">
           <div class="connection-statistics__action-panel">
             <slot name="actions" />
           </div>
@@ -78,7 +78,7 @@ export default {
       this.loaded = false
 
       await bind(this.updateAddress, this.disconnect)
-      await connectVerida(true)
+      await connectVerida()
 
       this.loaded = true
     },

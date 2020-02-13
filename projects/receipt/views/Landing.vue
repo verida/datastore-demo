@@ -36,17 +36,16 @@ export default {
         },
         async connect () {
             await bind(this.showRecipientDidModal, this.disconnect)
-            await connectVerida()
-
-            if (!this.recipient) {
-                this.showRecipientDidModal()
-            }
+            await connectVerida(!this.authorized)
         },
         disconnect () {
             this.setAuthorized(null)
             this.setRecipient(null)
             logout()
         }
+    },
+    async beforeMount () {
+        await this.connect()
     }
 }
 </script>
