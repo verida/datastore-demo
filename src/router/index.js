@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../../projects/receipt/views/Home'
-import Landing from '../../projects/receipt/views/Landing'
+import Landing from '@src/views/Landing'
 
 import { RouteGuard } from '@src/helpers/RouteGuard'
 

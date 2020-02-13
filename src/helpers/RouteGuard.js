@@ -1,12 +1,12 @@
-import store from '@src/store'
+import { getSignature } from '@src/helpers/LocalStorage'
 
-const redirect = (to, next) => {
-  const permitted = store.getters['did/permitted']
+const redirect = async (to, next) => {
+  const signature = getSignature()
 
   switch (true) {
-    case permitted && to.meta.guest:
+    case signature && to.meta.guest:
       return next({ name: 'home' })
-    case !permitted && to.meta.authorized:
+    case !signature && to.meta.authorized:
       return next({ name: 'connect' })
     default: {
       return next()

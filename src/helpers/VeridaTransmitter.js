@@ -1,4 +1,5 @@
 import VeridaApp from 'verida-datastore'
+import { getSignature } from '@src/helpers/LocalStorage'
 
 const {
   VUE_APP_DATASTORE_NAME,
@@ -37,7 +38,7 @@ export async function connectVerida (force) {
 }
 
 export async function getAddress () {
-  return await VeridaApp.WalletHelper.getAddress('ethr')
+  return VeridaApp.WalletHelper.getAddress('ethr')
 }
 
 /**
@@ -50,45 +51,17 @@ export async function bind (auth, unauth = () => {}) {
   callbacks.auth = auth
   callbacks.unauth = unauth
 
-  window.ethereum.on('accountsChanged', async (accounts) => {
-   accounts.length ? null : callbacks.unauth()
+  window.ethereum.on('accountsChanged', (accounts) => {
+    if (!accounts.length) {
+      return unauth()
+    }
+    if (accounts.length && getSignature()) {
+      return auth()
+    }
   })
 }
 
 export async function logout () {
   window.veridaApp.disconnect()
   window.veridaApp = null
-
-  const key1 = `VERIDA_SESSION_${VUE_APP_DATASTORE_NAME}recipient-did`
-  localStorage.removeItem(key1)
-
-  const key2 = `VERIDA_SESSION_${VUE_APP_DATASTORE_NAME}did`
-  localStorage.removeItem(key2)
-}
-
-export function isConnected () {
-  const address = Object.keys(localStorage).find(key => key.includes(`VERIDA_SESSION_${VUE_APP_DATASTORE_NAME}did`))
-  return localStorage.getItem(address)
-}
-
-export function setRecipient (did) {
-  const key = `VERIDA_SESSION_${VUE_APP_DATASTORE_NAME}recipient-did`
-  console.log('setRecipient')
-  return localStorage.setItem(key, did)
-}
-
-export function getRecipient () {
-  const key = `VERIDA_SESSION_${VUE_APP_DATASTORE_NAME}recipient-did`
-  return localStorage.getItem(key)
-}
-
-export function setAddress (callback) {
-  const key = `VERIDA_SESSION_${VUE_APP_DATASTORE_NAME}did`
-  const init = (err, accounts) => {
-    if (accounts.length) {
-      localStorage.setItem(key, accounts[0])
-    }
-    callback()
-  }
-  window.web3.eth.getAccounts(init)
 }

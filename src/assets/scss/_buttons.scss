@@ -10,9 +10,16 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  outline: none;
 
   &:hover {
     filter: brightness(0.9);
+  }
+
+  &:disabled {
+    opacity: 0.8;
+    cursor: not-allowed;
+    border-radius: 50%;
   }
 
   img {

@@ -16,6 +16,3 @@ const init = () => new Vue({
 }).$mount('#app')
 
 import '@src/assets/scss/index.scss'
-
-import { setAddress } from '@src/helpers/VeridaTransmitter'
-setAddress(init)

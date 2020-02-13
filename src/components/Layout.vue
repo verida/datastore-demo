@@ -34,17 +34,15 @@ import DidStatistics from './DidStatistics'
 import Documents from './Documents'
 
 const {
-  mapGetters: userGetters,
-  mapMutations: userMutations
+  mapState: didState,
+  mapMutations: didMutations
 } = createNamespacedHelpers('did')
 
 import {
   connectVerida,
-  isConnected,
-  getRecipient,
-  getAddress,
   logout,
-  bind
+  bind,
+  getAddress
 } from '@src/helpers/VeridaTransmitter'
 import {createNamespacedHelpers} from "vuex";
 
@@ -61,7 +59,7 @@ export default {
     RecepientDid
   },
   computed: {
-    ...userGetters(['recipient', 'authorized']),
+    ...didState(['recipient', 'authorized']),
   },
   data () {
     return {
@@ -69,7 +67,7 @@ export default {
     }
   },
   methods: {
-    ...userMutations(['setRecipient', 'setAuthorized']),
+    ...didMutations(['setRecipient', 'setAuthorized']),
     async updateAddress() {
       await this.$nextTick()
       await this.$refs.documents.initDatastore()
@@ -83,16 +81,10 @@ export default {
       this.loaded = true
     },
     async disconnect () {
-      await logout()
+      /*await logout()
       this.setRecipient(null)
       this.setAuthorized(null)
-      this.$router.push({ name: 'connect' })
-    }
-  },
-  async mounted () {
-    const did = isConnected()
-    if (did) {
-      await this.connect()
+      this.$router.push({ name: 'connect' })*/
     }
   }
 }

@@ -46,7 +46,7 @@ export default {
         confirm () {
             setRecipient(this.did)
             this.setRecipientDid(this.did)
-            this.$router.push({ name: 'home' })
+            this.$router.push('/')
         },
     }
 }
