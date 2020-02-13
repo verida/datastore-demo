@@ -56,7 +56,6 @@ export default {
   data () {
     return {
       loaded: false,
-      disconnect: logout,
       authorized: null,
       recipient: null
     }
@@ -72,6 +71,9 @@ export default {
       await bind(this.updateAddress, logout)
       await connectVerida()
       this.authorized = await getAddress()
+    },
+    async disconnect () {
+      await logout()
     }
   },
   async beforeMount() {

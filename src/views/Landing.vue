@@ -12,7 +12,6 @@
 
 <script>
 import { CircleLoader } from '@saeris/vue-spinners'
-
 import { bind, connectVerida, logout } from '@src/helpers/VeridaTransmitter'
 
 export default {
