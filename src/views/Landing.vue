@@ -26,10 +26,7 @@ export default {
     },
     methods: {
         async connect () {
-            const login = () => {
-                this.processing = false
-                this.$router.push({ name: 'home' })
-            }
+            const login = () => this.$router.push({ name: 'home' })
             await bind(login, logout)
             this.processing = true
             await connectVerida(true)
