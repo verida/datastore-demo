@@ -61,6 +61,13 @@ export async function bind (auth, unauth = () => {}) {
   })
 }
 
+export async function getAccounts () {
+  return new Promise((resolve, reject) => {
+    const handler = (err, accounts) => err ? reject(err) : resolve(accounts)
+    window.web3.eth.getAccounts(handler)
+  });
+}
+
 export async function logout () {
   window.veridaApp.disconnect()
   window.veridaApp = null

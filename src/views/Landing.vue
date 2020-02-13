@@ -7,12 +7,10 @@
             <img src="@src/assets/img/verida-logo.svg" v-if="!processing"/>
             <CircleLoader color="#fff" :size="100" v-else />
         </button>
-        <recepient-did />
     </div>
 </template>
 
 <script>
-import RecepientDid from '@src/components/RecepientDid'
 import { CircleLoader } from '@saeris/vue-spinners'
 
 import { bind, connectVerida, logout } from '@src/helpers/VeridaTransmitter'
@@ -20,7 +18,6 @@ import { bind, connectVerida, logout } from '@src/helpers/VeridaTransmitter'
 export default {
     name: 'Landing',
     components: {
-        RecepientDid,
         CircleLoader
     },
     data () {

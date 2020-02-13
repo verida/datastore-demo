@@ -24,19 +24,15 @@
         :loaded="loaded" />
       <create-modal :did="recipient" />
     </template>
+    <recepient-did />
   </b-container>
 </template>
 
 <script>
-import CreateModal from './CreateModal'
 import RecepientDid from './RecepientDid'
+import CreateModal from './CreateModal'
 import DidStatistics from './DidStatistics'
 import Documents from './Documents'
-
-const {
-  mapState: didState,
-  mapMutations: didMutations
-} = createNamespacedHelpers('did')
 
 import {
   connectVerida,
@@ -44,7 +40,6 @@ import {
   bind,
   getAddress
 } from '@src/helpers/VeridaTransmitter'
-import {createNamespacedHelpers} from "vuex";
 
 export default {
   name: 'Layout',
@@ -58,34 +53,29 @@ export default {
     CreateModal,
     RecepientDid
   },
-  computed: {
-    ...didState(['recipient', 'authorized']),
-  },
   data () {
     return {
-      loaded: false
+      loaded: false,
+      disconnect: logout,
+      authorized: null,
+      recipient: null
     }
   },
   methods: {
-    ...didMutations(['setRecipient', 'setAuthorized']),
     async updateAddress() {
       await this.$nextTick()
       await this.$refs.documents.initDatastore()
+      this.loaded = true
     },
     async connect () {
       this.loaded = false
-
-      await bind(this.updateAddress, this.disconnect)
+      await bind(this.updateAddress, logout)
       await connectVerida()
-
-      this.loaded = true
-    },
-    async disconnect () {
-      /*await logout()
-      this.setRecipient(null)
-      this.setAuthorized(null)
-      this.$router.push({ name: 'connect' })*/
+      this.authorized = await getAddress()
     }
+  },
+  async beforeMount() {
+    await this.connect()
   }
 }
 </script>
