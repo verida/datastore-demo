@@ -6,7 +6,7 @@ const redirect = async (to, next) => {
   const signature = getSignature()
 
   switch (true) {
-    case accounts.length && signature:
+    case accounts.length && signature && to.name !== 'home':
       return next({ name: 'home' })
     case (!signature || !accounts.length) && to.name !== 'connect':
       return next({ name: 'connect' })
