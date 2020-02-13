@@ -1,6 +1,9 @@
 <template>
     <b-modal id="recepient-did" title="Recipient's DID" hide-footer
              size="sm" centered
+             no-close-on-backdrop
+             no-close-on-esc
+             hide-header-close
              content-class="recipient-modal"
              header-class="recipient-modal__header">
         <div class="recipient-modal__content">
@@ -44,9 +47,8 @@ export default {
             'setRecipientDid': 'setRecipient'
         }),
         confirm () {
-            setRecipient(this.did)
-            this.setRecipientDid(this.did)
-            this.$router.push('/')
+            this.$emit('confirm', this.did)
+            this.$bvModal.hide('recepient-did')
         },
     }
 }

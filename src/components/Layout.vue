@@ -24,7 +24,7 @@
         :loaded="loaded" />
       <create-modal :did="recipient" />
     </template>
-    <recepient-did />
+    <recepient-did @confirm="did => recipient = did" />
   </b-container>
 </template>
 
@@ -76,6 +76,9 @@ export default {
   },
   async beforeMount() {
     await this.connect()
+  },
+  mounted () {
+    this.$bvModal.show('recepient-did')
   }
 }
 </script>
