@@ -19,8 +19,9 @@ let callbacks = {}
  * Connect the user to their Verida Datastore Application
  *
  * @param {boolean} force True if the connection should be forced (open a Metamask dialog to login to their app)
+ * @param {function} canceled if sign up is cancelled by user
  */
-export async function connectVerida (force) {
+export async function connectVerida (force, canceled = () => {}) {
   const web3Provider = await VeridaApp.WalletHelper.connectWeb3('ethr')
   const address = await VeridaApp.WalletHelper.getAddress('ethr')
 
@@ -31,9 +32,13 @@ export async function connectVerida (force) {
     });
   }
 
-  let connected = await window.veridaApp.connect(force);
-  if (connected) {
-    callbacks.auth()
+  try {
+    let connected = await window.veridaApp.connect(force);
+    if (connected) {
+      callbacks.auth()
+    }
+  } catch (e) {
+    canceled()
   }
 }
 
