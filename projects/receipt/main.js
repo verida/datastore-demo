@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-import App from './App.vue'
+import App from './App'
 import router from '@src/router'
 import store from '@src/store'
 
@@ -9,13 +9,10 @@ import '@src/plugins'
 
 window._ = _
 
-const init = () => new Vue({
+new Vue({
   router,
   store,
   render: h => h(App)
 }).$mount('#app')
 
 import '@src/assets/scss/index.scss'
-
-import { setAddress } from '@src/helpers/VeridaTransmitter'
-setAddress(init)

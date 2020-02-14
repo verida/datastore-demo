@@ -1,9 +1,10 @@
 <template>
-    <b-modal id="create-modal" title="Create Receipt" hide-footer v-model="visibility">
-        <ValidationObserver v-slot="{ invalid }">
+    <b-modal id="create-modal" :title="`Create ${title}`" hide-footer v-model="visibility">
+        <ValidationObserver v-slot="{ invalid }" ref="validator" mode="eager">
             <ValidationProvider v-slot="{ errors }"
                                 v-for="(item, key) in data"
                                 :key="key"
+                                :rules="{ required: attributes[key].required }"
                                 :name="attributes[key].title">
                 <label>{{attributes[key].title}}</label>
                 <b-form-group v-if="attributes[key].enum">
@@ -53,14 +54,14 @@ export default {
       return {
           data: {},
           attributes: {},
-          title: null,
           visibility: false,
-          processing: false
+          processing: false,
+          title: null
       }
     },
     computed: {
         ...mapSchemaGetters(['create']),
-        ...mapModalState([ 'category', 'internalSubmit' ]),
+        ...mapModalState(['category', 'internalSubmit']),
     },
     methods: {
         async init () {
@@ -74,6 +75,9 @@ export default {
                 this.$set(this.data, key, null)
                 this.$set(this.attributes, key, properties[key])
             })
+
+            await this.$nextTick()
+            this.$refs.validator.reset()
         },
         async submit () {
             this.processing = true
@@ -94,7 +98,6 @@ export default {
             } catch (e) {
                 console.info(e)
             }
-
 
             this.processing = false
             this.$bvModal.hide('create-modal')

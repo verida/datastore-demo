@@ -1,12 +1,14 @@
-import store from '@src/store'
+import { getAccounts } from '@src/helpers/VeridaTransmitter'
+import { getSignature } from '@src/helpers/LocalStorage'
 
-const redirect = (to, next) => {
-  const permitted = store.getters['did/permitted']
+const redirect = async (to, next) => {
+  const accounts = await getAccounts()
+  const signature = getSignature()
 
   switch (true) {
-    case permitted && to.meta.guest:
+    case accounts.length && signature && to.name !== 'home':
       return next({ name: 'home' })
-    case !permitted && to.meta.authorized:
+    case (!signature || !accounts.length) && to.name !== 'connect':
       return next({ name: 'connect' })
     default: {
       return next()

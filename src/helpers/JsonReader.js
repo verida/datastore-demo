@@ -10,7 +10,7 @@ export class JsonReader {
 
   async filter (property) {
     const action = require(`@/config/layouts.json`)[this.tab][property]
-    const { title, properties, color } = await this.schema()
+    const { title, properties, color, required } = await this.schema()
 
     let icon = null
     try {
@@ -19,11 +19,17 @@ export class JsonReader {
       console.log(e)
     }
 
+    const fields = _.chain(properties)
+        .pick(action)
+        .mapObject((item, key) =>  {
+          return {...item, required: required.includes(key)}
+        }).value()
+
     return {
       title,
       color,
       icon,
-      properties: _.pick(properties, action)
+      properties: fields
     }
   }
 

@@ -1,4 +1,5 @@
 import VeridaApp from 'verida-datastore'
+import { getSignature } from '@src/helpers/LocalStorage'
 
 const {
   VUE_APP_DATASTORE_NAME,
@@ -18,8 +19,9 @@ let callbacks = {}
  * Connect the user to their Verida Datastore Application
  *
  * @param {boolean} force True if the connection should be forced (open a Metamask dialog to login to their app)
+ * @param {function} canceled if sign up is cancelled by user
  */
-export async function connectVerida (force) {
+export async function connectVerida (force, canceled = () => {}) {
   const web3Provider = await VeridaApp.WalletHelper.connectWeb3('ethr')
   const address = await VeridaApp.WalletHelper.getAddress('ethr')
 
@@ -27,14 +29,18 @@ export async function connectVerida (force) {
     window.veridaApp = new VeridaApp(VUE_APP_DATASTORE_NAME, 'ethr', address, web3Provider, config)
   }
 
-  let connected = await window.veridaApp.connect(force);
-  if (connected) {
-    callbacks.auth()
+  try {
+    let connected = await window.veridaApp.connect(force);
+    if (connected) {
+      callbacks.auth()
+    }
+  } catch (e) {
+    canceled()
   }
 }
 
 export async function getAddress () {
-  return await VeridaApp.WalletHelper.getAddress('ethr')
+  return VeridaApp.WalletHelper.getAddress('ethr')
 }
 
 /**
@@ -47,45 +53,26 @@ export async function bind (auth, unauth = () => {}) {
   callbacks.auth = auth
   callbacks.unauth = unauth
 
-  window.ethereum.on('accountsChanged', async (accounts) => {
-   accounts.length ? null : callbacks.unauth()
+  window.ethereum.on('accountsChanged', (accounts) => {
+    if (!accounts.length) {
+      return unauth()
+    }
+    if (accounts.length && getSignature()) {
+      return auth()
+    }
   })
 }
 
+export async function getAccounts () {
+  return new Promise((resolve, reject) => {
+    const handler = (err, accounts) => err ? reject(err) : resolve(accounts)
+    window.web3.eth.getAccounts(handler)
+  });
+}
+
 export async function logout () {
-  window.veridaApp.disconnect()
-  window.veridaApp = null
-
-  const key1 = `VERIDA_SESSION_${VUE_APP_DATASTORE_NAME}recipient-did`
-  localStorage.removeItem(key1)
-
-  const key2 = `VERIDA_SESSION_${VUE_APP_DATASTORE_NAME}did`
-  localStorage.removeItem(key2)
-}
-
-export function isConnected () {
-  const address = Object.keys(localStorage).find(key => key.includes(`VERIDA_SESSION_${VUE_APP_DATASTORE_NAME}did`))
-  return localStorage.getItem(address)
-}
-
-export function setRecipient (did) {
-  const key = `VERIDA_SESSION_${VUE_APP_DATASTORE_NAME}recipient-did`
-  console.log('setRecipient')
-  return localStorage.setItem(key, did)
-}
-
-export function getRecipient () {
-  const key = `VERIDA_SESSION_${VUE_APP_DATASTORE_NAME}recipient-did`
-  return localStorage.getItem(key)
-}
-
-export function setAddress (callback) {
-  const key = `VERIDA_SESSION_${VUE_APP_DATASTORE_NAME}did`
-  const init = (err, accounts) => {
-    if (accounts.length) {
-      localStorage.setItem(key, accounts[0])
-    }
-    callback()
+  if (window.veridaApp) {
+    window.veridaApp.disconnect()
+    window.veridaApp = null
   }
-  window.web3.eth.getAccounts(init)
 }

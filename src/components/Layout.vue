@@ -11,7 +11,8 @@
     <hr />
     <template>
       <b-row>
-        <did-statistics title="Recipient DID" :text="recipient" />
+        <did-statistics title="Recipient DID" :text="recipient"
+                        :update="!!recipient" />
         <b-col cols="12" sm="6">
           <div class="connection-statistics__action-panel">
             <slot name="actions" />
@@ -24,29 +25,22 @@
         :loaded="loaded" />
       <create-modal :did="recipient" />
     </template>
+    <recipient-did @confirm="did => recipient = did" :closable="!recipient" />
   </b-container>
 </template>
 
 <script>
+import RecipientDid from './RecipientDid'
 import CreateModal from './CreateModal'
-import RecepientDid from './RecepientDid'
 import DidStatistics from './DidStatistics'
 import Documents from './Documents'
 
-const {
-  mapGetters: userGetters,
-  mapMutations: userMutations
-} = createNamespacedHelpers('did')
-
 import {
   connectVerida,
-  isConnected,
-  getRecipient,
-  getAddress,
   logout,
-  bind
+  bind,
+  getAddress
 } from '@src/helpers/VeridaTransmitter'
-import {createNamespacedHelpers} from "vuex";
 
 export default {
   name: 'Layout',
@@ -58,42 +52,37 @@ export default {
     Documents,
     DidStatistics,
     CreateModal,
-    RecepientDid
-  },
-  computed: {
-    ...userGetters(['recipient', 'authorized']),
+    RecipientDid
   },
   data () {
     return {
-      loaded: false
+      loaded: false,
+      authorized: null,
+      recipient: null
     }
   },
   methods: {
-    ...userMutations(['setRecipient', 'setAuthorized']),
     async updateAddress() {
       await this.$nextTick()
       await this.$refs.documents.initDatastore()
+      this.loaded = true
     },
     async connect () {
       this.loaded = false
-
       await bind(this.updateAddress, this.disconnect)
       await connectVerida()
-
-      this.loaded = true
+      this.authorized = await getAddress()
     },
     async disconnect () {
       await logout()
-      this.setRecipient(null)
-      this.setAuthorized(null)
-      this.$router.push({ name: 'connect' })
+      await this.$router.push({ name: 'connect' })
     }
   },
-  async mounted () {
-    const did = isConnected()
-    if (did) {
-      await this.connect()
-    }
+  async beforeMount() {
+    await this.connect()
+  },
+  mounted () {
+    this.$bvModal.show('recipient-did')
   }
 }
 </script>
