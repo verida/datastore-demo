@@ -29,6 +29,7 @@
 
 <script>
 import DidStatistics from './DidStatistics'
+import { logout } from '@src/helpers/VeridaTransmitter'
 
 export default {
     name: 'Navbar',
@@ -40,8 +41,9 @@ export default {
         DidStatistics
     },
     methods: {
-        disconnect () {
-
+        async disconnect () {
+            await logout()
+            await this.$router.push({ name: 'connect' })
         }
     }
 }

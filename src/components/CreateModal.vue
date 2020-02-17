@@ -91,12 +91,12 @@ export default {
             message.push(payload)
             const saved = await store.save(payload)
             await this.internalSubmit({ saved, message })
-
+            /*
             try {
                 await window.veridaApp.outbox.send(this.did, "/schemas/base/inbox/type/dataSend", message, "Here is your data", {});
             } catch (e) {
                 console.info(e)
-            }
+            }*/
 
             this.processing = false
             this.$bvModal.hide('create-modal')

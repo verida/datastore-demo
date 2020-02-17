@@ -12,9 +12,7 @@
             <b-col sm="12" v-for="key in collections" :key="key">
                 <h5 class="my-4 text-info">{{ key | title }}</h5>
                 <b-table hover v-if="list[key] && list[key].length"
-                    :items="list[key]"
-                    :fields="headers[key]"
-                    :responsive="true" />
+                    :items="list[key]" :fields="headers[key]" :responsive="true" />
                 <div v-else class="empty-list"> The {{ key | title }} list is empty </div>
             </b-col>
         </b-row>

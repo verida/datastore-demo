@@ -16,7 +16,6 @@ import Navbar from './Navbar'
 
 import {
   connectVerida,
-  logout,
   bind,
   getAddress
 } from '@src/helpers/VeridaTransmitter'
@@ -51,10 +50,6 @@ export default {
       await bind(this.updateAddress, this.disconnect)
       await connectVerida()
       this.authorized = await getAddress()
-    },
-    async disconnect () {
-      await logout()
-      await this.$router.push({ name: 'connect' })
     }
   },
   async beforeMount() {
