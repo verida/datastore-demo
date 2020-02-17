@@ -93,8 +93,12 @@ export default {
             const saved = await store.save(payload)
             await this.internalSubmit({ saved, message })
 
+            let outboxItem = {
+                "data": message
+            }
+
             try {
-                await window.veridaApp.outbox.send(this.did, "/schemas/base/inbox/type/dataSend", message, "Here is your data", {});
+                await window.veridaApp.outbox.send(this.did, "/schemas/base/inbox/type/dataSend", outboxItem, "Sending you a "+this.category, {});
             } catch (e) {
                 console.info(e)
             }
