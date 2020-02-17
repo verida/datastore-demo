@@ -8,7 +8,9 @@
             <b-button v-on:click="login" variant="primary">Login</b-button>
           </div>
           <div v-if="loggedIn">
-            <b-button v-on:click="logout" variant="danger" size="sm" class="disconnect">Logout</b-button>
+            <b-button v-on:click="logout" variant="danger" size="sm" class="disconnect">
+              Logout
+            </b-button>
             <h2>User</h2>
             <b-row>
               <b-col>

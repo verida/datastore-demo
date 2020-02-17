@@ -1,19 +1,13 @@
 <template>
-  <Layout title="Identities" :collections="collections">
-    <template v-slot:actions>
-      <b-button
-          variant="info" size="sm"
-          v-b-modal.create-modal
-          @click="createVerification">
-        Create Citizen Verification
-      </b-button>
-    </template>
-  </Layout>
+  <Layout title="Identities" :collections="collections" />
 </template>
 
 <script>
 import Layout from '@src/components/Layout'
 import CreateModalMixin from '@src/mixins/create-modal'
+
+import { createNamespacedHelpers } from 'vuex'
+const { mapMutations: mapSystemMutations } = createNamespacedHelpers('system')
 
 const category = 'identity/kyc/AU'
 
@@ -27,10 +21,20 @@ export default {
   },
   data () {
     return {
-      collections: [category]
+      collections: [category],
+      navigation: [
+        {
+          title: 'Create Citizen Verification',
+          click: this.createVerification
+        }
+      ]
     }
   },
+  beforeMount () {
+    this.setActions(this.navigation)
+  },
   methods: {
+    ...mapSystemMutations([ 'setActions' ]),
     createVerification () {
       this.showModal(category)
     }

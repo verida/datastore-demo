@@ -1,22 +1,23 @@
 <template>
-    <b-row v-if="!loaded">
-        <b-col sm="12">
-            <BarLoader class="loader"
-                color="#36D7B7"
-                :width="100"
-                :height="4" />
-        </b-col>
-    </b-row>
-    <b-row v-else>
-        <b-col sm="12" v-for="key in collections" :key="key">
-            <h5 class="my-4 text-info">{{ key | title }}</h5>
-            <b-table hover v-if="list[key] && list[key].length"
-                :items="list[key]"
-                :fields="headers[key]"
-                :responsive="true" />
-            <div v-else class="empty-list"> The {{ key | title }} list is empty </div>
-        </b-col>
-    </b-row>
+    <b-container class="my-4">
+        <b-row v-if="!loaded">
+            <b-col sm="12">
+                <BarLoader class="loader"
+                    color="#36D7B7"
+                    :width="100"
+                    :height="4" />
+            </b-col>
+        </b-row>
+        <b-row v-else>
+            <b-col sm="12" v-for="key in collections" :key="key">
+                <h5 class="my-4 text-info">{{ key | title }}</h5>
+                <b-table hover v-if="list[key] && list[key].length"
+                         class="list-demo" borderless
+                         :items="list[key]" :fields="headers[key]" :responsive="true" />
+                <div v-else class="empty-list"> The {{ key | title }} list is empty </div>
+            </b-col>
+        </b-row>
+    </b-container>
 </template>
 
 <script>
