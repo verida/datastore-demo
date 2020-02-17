@@ -1,6 +1,16 @@
 <template>
     <b-modal id="create-modal" :title="`Create ${title}`" hide-footer v-model="visibility">
         <ValidationObserver v-slot="{ invalid }" ref="validator" mode="eager">
+            <div class="recipient-area">
+                <ValidationProvider v-slot="{ errors }" rules="required"
+                                    name="Recipient DID" key="recipient-did">
+                    <label> Recipient DID </label>
+                    <b-form-input class="form-control"
+                                  aria-describedby="did-error"
+                                  v-model="did"
+                                  :state="!did ? null : !errors[0]" />
+                </ValidationProvider>
+            </div>
             <ValidationProvider v-slot="{ errors }"
                                 v-for="(item, key) in data"
                                 :key="key"
@@ -55,7 +65,8 @@ export default {
           attributes: {},
           visibility: false,
           processing: false,
-          title: null
+          title: null,
+          did: null
       }
     },
     computed: {
@@ -66,6 +77,7 @@ export default {
         async init () {
             const { title, properties } =  await this.create(this.category)
 
+            this.did = null
             this.title = title
             this.data = {}
             this.attributes = {}
