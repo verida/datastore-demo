@@ -1,14 +1,7 @@
 <template>
-  <Layout title="Identities" :collections="collections">
-    <template v-slot:actions>
-      <b-button
-          variant="info" size="sm"
-          v-b-modal.create-modal
-          @click="createVerification">
-        Create Citizen Verification
-      </b-button>
-    </template>
-  </Layout>
+  <Layout title="Identities"
+          :collections="collections"
+          :navigation="navigation" />
 </template>
 
 <script>
@@ -27,7 +20,13 @@ export default {
   },
   data () {
     return {
-      collections: [category]
+      collections: [category],
+      navigation: [
+        {
+          title: 'Create Citizen Verification',
+          click: this.createVerification
+        }
+      ]
     }
   },
   methods: {

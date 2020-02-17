@@ -1,26 +1,7 @@
 <template>
-  <Layout
-    title="Receipts"
-    :collections="collections">
-    <template v-slot:actions>
-      <b-button
-        variant="outline-info" size="sm"
-        v-b-modal.create-modal
-        @click="sendCoupon">
-        Send Coupon
-      </b-button>
-      <b-button variant="outline-info" size="sm">
-        Request...
-      </b-button>
-      <b-button
-        variant="info"
-        size="sm"
-        v-b-modal.create-modal
-        @click="createReceipt">
-        Create Receipt
-      </b-button>
-    </template>
-  </Layout>
+  <Layout title="Receipts"
+          :collections="collections"
+          :navigation="navigation" />
 </template>
 
 <script>
@@ -47,6 +28,16 @@ export default {
         'shopping/coupon',
         'shopping/receipt',
         'shopping/receipt/item'
+      ],
+      navigation: [
+        {
+          title: 'Send Coupon',
+          click: this.sendCoupon
+        },
+        {
+          title: ' Create Receipt',
+          click: this.createReceipt
+        }
       ]
     }
   },
@@ -61,7 +52,7 @@ export default {
       }
     },
     sendCoupon () {
-      this.showModal('shopping/coupon',() => {})
+      this.showModal('shopping/coupon')
     },
     createReceipt () {
       this.showModal('shopping/receipt', this.submit)

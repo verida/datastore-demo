@@ -48,7 +48,6 @@ import DateFormatMixin from '../mixins/date-format'
 
 export default {
     name: 'CreateModal',
-    props: [ 'did' ],
     mixins: [ DateFormatMixin ],
     data () {
       return {
