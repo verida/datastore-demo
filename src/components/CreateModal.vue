@@ -94,7 +94,7 @@ export default {
             await this.internalSubmit({ saved, message })
 
             try {
-                await window.veridaApp.outbox.send(this.did, message, {});
+                await window.veridaApp.outbox.send(this.did, "/schemas/base/inbox/type/dataSend", message, "Here is your data", {});
             } catch (e) {
                 console.info(e)
             }
