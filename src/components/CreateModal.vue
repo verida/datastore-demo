@@ -2,13 +2,19 @@
     <b-modal id="create-modal" :title="`Create ${title}`" hide-footer v-model="visibility">
         <ValidationObserver v-slot="{ invalid }" ref="validator" mode="eager">
             <div class="recipient-area">
-                <ValidationProvider v-slot="{ errors }" rules="required"
+                <ValidationProvider v-slot="{ errors }" rules="required|did"
                                     name="Recipient DID" key="recipient-did">
                     <label> Recipient DID </label>
-                    <b-form-input class="form-control"
-                                  aria-describedby="did-error"
-                                  v-model="did"
-                                  :state="!did ? null : !errors[0]" />
+                    <b-form-textarea v-model="did" name="did"
+                                     spellcheck="false"
+                                     :placeholder="placeholder"
+                                     class="form-control word-break "
+                                     size="sm" rows="1" no-resize
+                                     aria-describedby="did-error"
+                                     :state="!did ? null : !errors[0]" />
+                    <b-form-invalid-feedback id="did-error">
+                        {{ errors[0] }}
+                    </b-form-invalid-feedback>
                 </ValidationProvider>
             </div>
             <ValidationProvider v-slot="{ errors }"
@@ -35,6 +41,7 @@
                               class="form-control"
                               aria-describedby="did-error"
                               v-model="data[key]"
+                              size="sm"
                               :state="!data[key] ? null : !errors[0]" />
                 <b-form-invalid-feedback id="did-error">
                     {{ errors[0] }}
@@ -67,7 +74,9 @@ export default {
           visibility: false,
           processing: false,
           title: null,
-          did: null
+
+          did: null,
+          placeholder: 'did:ethr:0x57127C0C0b891125af4441a51BF37F465cDb9d73'
       }
     },
     computed: {
