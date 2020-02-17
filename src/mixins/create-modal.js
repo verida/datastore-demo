@@ -1,5 +1,5 @@
 import { createNamespacedHelpers } from 'vuex'
-const { mapMutations } = createNamespacedHelpers('modal')
+const { mapMutations } = createNamespacedHelpers('system')
 
 export default {
     methods: {

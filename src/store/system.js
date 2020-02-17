@@ -1,11 +1,15 @@
 const state = {
     category: null,
-    internalSubmit: () => {}
+    internalSubmit: () => {},
+    buttons: []
 };
 
 const mutations = {
     init (state, payload) {
         Object.assign(state, payload)
+    },
+    setActions (state, payload) {
+        state.buttons = payload
     }
 };
 

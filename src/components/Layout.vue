@@ -1,6 +1,6 @@
 <template>
   <div>
-    <navbar :navigation="navigation" :authorized="authorized" />
+    <navbar :authorized="authorized" />
     <documents ref="documents"
       :collections="collections"
       :loaded="loaded" />
@@ -24,8 +24,7 @@ export default {
   name: 'Layout',
   props: [
     'collections',
-    'title',
-    'navigation'
+    'title'
   ],
   components: {
     Navbar,

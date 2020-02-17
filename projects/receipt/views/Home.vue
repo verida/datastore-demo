@@ -1,7 +1,5 @@
 <template>
-  <Layout title="Receipts"
-          :collections="collections"
-          :navigation="navigation" />
+  <Layout title="Receipts" :collections="collections" />
 </template>
 
 <script>
@@ -9,6 +7,7 @@ import Layout from '@src/components/Layout'
 import CreateModalMixin from '@src/mixins/create-modal'
 
 import { createNamespacedHelpers } from 'vuex'
+const { mapMutations: mapSystemMutations } = createNamespacedHelpers('system')
 const { mapGetters: mapItemGetters } = createNamespacedHelpers('receipt')
 
 export default {
@@ -41,7 +40,11 @@ export default {
       ]
     }
   },
+  beforeMount () {
+    this.setActions(this.navigation)
+  },
   methods: {
+    ...mapSystemMutations([ 'setActions' ]),
     async submit ({ saved, message }) {
       const itemStore = await window.veridaApp.openDatastore(`shopping/receipt/item`)
       const items = this.getRandomReceiptItems(saved.id)

@@ -59,7 +59,7 @@
 import { createNamespacedHelpers } from 'vuex'
 import extract from '../helpers/NameModifier'
 const { mapGetters: mapSchemaGetters } = createNamespacedHelpers('schema')
-const { mapState: mapModalState } = createNamespacedHelpers('modal')
+const { mapState: mapModalState } = createNamespacedHelpers('system')
 const inboxType = '/schemas/inbox/type/dataSend'
 
 import DateFormatMixin from '../mixins/date-format'

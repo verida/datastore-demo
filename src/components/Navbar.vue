@@ -8,7 +8,8 @@
 
         <b-collapse id='nav-collapse' is-nav>
             <b-navbar-nav>
-                <b-nav-item v-for="item in navigation" :key="item.title" @click="item.click">
+                <b-nav-item v-for="item in buttons"
+                            :key="item.title" @click="item.click">
                     {{ item.title }}
                 </b-nav-item>
             </b-navbar-nav>
@@ -31,10 +32,12 @@
 import DidStatistics from './DidStatistics'
 import { logout } from '@src/helpers/VeridaTransmitter'
 
+import { createNamespacedHelpers } from 'vuex'
+const { mapState: mapSystemState } = createNamespacedHelpers('system')
+
 export default {
     name: 'Navbar',
     props: [
-        'navigation',
         'authorized'
     ],
     components: {
@@ -45,6 +48,11 @@ export default {
             await logout()
             await this.$router.push({ name: 'connect' })
         }
+    },
+    computed: {
+        ...mapSystemState([
+            'buttons'
+        ])
     }
 }
 </script>
