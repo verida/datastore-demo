@@ -119,7 +119,7 @@ export default {
             }
 
             try {
-                await window.veridaApp.outbox.send(this.did, "/schemas/base/inbox/type/dataSend", outboxItem, "Sending you a "+this.category, {});
+                await window.veridaApp.outbox.send(this.did, "/schemas/inbox/type/dataSend", outboxItem, "Sending you a "+this.category, {});
             } catch (e) {
                 console.info(e)
             }
