@@ -60,7 +60,6 @@ import { createNamespacedHelpers } from 'vuex'
 import extract from '../helpers/NameModifier'
 const { mapGetters: mapSchemaGetters } = createNamespacedHelpers('schema')
 const { mapState: mapModalState } = createNamespacedHelpers('system')
-const inboxType = '/schemas/inbox/type/dataSend'
 
 import DateFormatMixin from '../mixins/date-format'
 
@@ -112,20 +111,25 @@ export default {
 
             message.push(payload)
             const saved = await store.save(payload)
+
             await this.internalSubmit({ saved, message })
-
-            let outboxItem = {
-                "data": message
-            }
-
-            try {
-                await window.veridaApp.outbox.send(this.did, "/schemas/inbox/type/dataSend", outboxItem, "Sending you a "+this.category, {});
-            } catch (e) {
-                console.info(e)
-            }
+            await this.sendInbox(message)
 
             this.processing = false
             this.$bvModal.hide('create-modal')
+        },
+        async sendInbox (message) {
+            const { outbox } = window.veridaApp
+
+            const inboxType = '/schemas/inbox/type/dataSend'
+            const outboxItem = { 'data': message }
+            const text = `Sending you a ${this.category}`
+
+            try {
+                await outbox.send(this.did, inboxType, outboxItem, text, {})
+            } catch (e) {
+                console.info(e)
+            }
         }
     },
     watch: {
