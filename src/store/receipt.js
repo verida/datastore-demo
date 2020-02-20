@@ -1,34 +1,44 @@
 const state = {
     receiptItemsList: [
         {
-            "totalAmount": 2000,
-            "totalTax": 20,
-            "totalDiscount": 12,
-            "currency": 'USD',
+            name: 'Spackling Paste',
+            totalAmount: 2000,
+            totalTax: 20,
+            totalDiscount: 12,
+            currency: 'USD',
+            barcode: '3424657657'
         },
         {
-            "totalAmount": 2000,
-            "totalTax": 20,
-            "totalDiscount": 12,
-            "currency": 'USD',
+            name: 'Plaster',
+            totalAmount: 1336,
+            totalTax: 7,
+            totalDiscount: 25,
+            currency: 'USD',
+            barcode: '3424666857'
         },
         {
-            "totalAmount": 2000,
-            "totalTax": 20,
-            "totalDiscount": 12,
-            "currency": 'USD',
+            name: 'Tile',
+            totalAmount: 3025,
+            totalTax: 20,
+            totalDiscount: 8,
+            currency: 'EUR',
+            barcode: '1276478434'
         },
         {
-            "totalAmount": 2000,
-            "totalTax": 20,
-            "totalDiscount": 12,
-            "currency": 'USD',
+            name: 'Chisel',
+            totalAmount: 68,
+            totalTax: 7,
+            totalDiscount: 12,
+            currency: 'USD',
+            barcode: '3454667657'
         },
         {
-            "totalAmount": 2000,
-            "totalTax": 20,
-            "totalDiscount": 12,
-            "currency": 'USD',
+            name: 'Waterpass',
+            totalAmount: 120,
+            totalTax: 11,
+            totalDiscount: 5,
+            currency: 'EUR',
+            barcode: '342167454557'
         }
     ]
 };
