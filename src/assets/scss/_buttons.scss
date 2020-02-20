@@ -27,3 +27,10 @@
     animation: heartbeat 2.5s ease-in-out infinite both;
   }
 }
+
+a, input[type='button'] {
+  outline: none;
+}
+a, input[type='button']::-moz-focus-inner {
+  border: 0;
+}

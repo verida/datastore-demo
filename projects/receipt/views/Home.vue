@@ -34,8 +34,12 @@ export default {
           click: this.sendCoupon
         },
         {
-          title: ' Create Receipt',
+          title: 'Create Receipt',
           click: this.createReceipt
+        },
+        {
+          title: 'Request Profile',
+          click: this.requestProfile
         }
       ]
     }
@@ -59,6 +63,9 @@ export default {
     },
     createReceipt () {
       this.showModal('shopping/receipt', this.submit)
+    },
+    requestProfile () {
+      console.log('hello world')
     }
   }
 }
