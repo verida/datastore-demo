@@ -1,11 +1,8 @@
 <template>
     <b-container class="my-4">
-        <b-row v-if="!loaded">
+        <b-row v-if="spinner[SPINNER.DATA]">
             <b-col sm="12">
-                <BarLoader class="loader"
-                    color="#36D7B7"
-                    :width="100"
-                    :height="4" />
+                <dashboard-loader color="#36D7B7" />
             </b-col>
         </b-row>
         <b-row v-else>
@@ -21,21 +18,23 @@
 </template>
 
 <script>
-import { BarLoader } from '@saeris/vue-spinners'
+import { SPINNER } from '../constants/spinner'
+import DashboardLoader from './spinners/DashboardLoader'
 
 import { createNamespacedHelpers } from 'vuex'
-const { mapGetters: mapSchemaGetters } = createNamespacedHelpers('schema')
+const {
+    mapGetters: mapSchemaGetters
+} = createNamespacedHelpers('schema')
+const {
+    mapState: mapSystemState
+} = createNamespacedHelpers('system')
 
 export default {
     name: 'Documents',
     components: {
-        BarLoader
+        DashboardLoader
     },
     props: {
-      loaded: {
-          type: Boolean,
-          default: false
-      },
       collections: {
         type: Array,
         default: []
@@ -51,11 +50,13 @@ export default {
         return {
             headers: {},
             store: {},
-            list: {}
+            list: {},
+            SPINNER
         }
     },
     computed: {
         ...mapSchemaGetters(['fields']),
+        ...mapSystemState(['spinner'])
     },
     methods: {
         async initDatastore() {

@@ -16,7 +16,10 @@
 
             <b-navbar-nav class="ml-auto">
                 <b-nav-item active>
-                    <did-statistics :img="true" title="User DID" :text="`did:ethr:${authorized}`" />
+                    <dashboard-loader color="#fff" v-if="spinner[SPINNER.NAVIGATION]" />
+                    <did-statistics v-else
+                        :img="true" :title="user[USER.NAME]"
+                        :text="`did:ethr:${user[USER.ADDRESS]}`" />
                 </b-nav-item>
                 <b-nav-item>
                     <b-button variant="primary" @click="disconnect">
@@ -30,18 +33,25 @@
 
 <script>
 import DidStatistics from './DidStatistics'
+import DashboardLoader from './spinners/DashboardLoader'
+
 import { logout } from '@src/helpers/VeridaTransmitter'
+
+import { SPINNER, USER } from '../constants/spinner';
 
 import { createNamespacedHelpers } from 'vuex'
 const { mapState: mapSystemState } = createNamespacedHelpers('system')
 
 export default {
     name: 'Navbar',
-    props: [
-        'authorized'
-    ],
     components: {
+        DashboardLoader,
         DidStatistics
+    },
+    data () {
+      return {
+          USER, SPINNER
+      }
     },
     methods: {
         async disconnect () {
@@ -51,7 +61,9 @@ export default {
     },
     computed: {
         ...mapSystemState([
-            'buttons'
+            'buttons',
+            'user',
+            'spinner'
         ])
     }
 }

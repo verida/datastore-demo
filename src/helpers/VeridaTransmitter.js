@@ -1,5 +1,6 @@
 import VeridaApp from 'verida-datastore'
 import { getSignature } from '@src/helpers/LocalStorage'
+import ProfileManager from './ProfileManager'
 
 const {
   VUE_APP_DATASTORE_NAME,
@@ -28,6 +29,9 @@ export async function connectVerida (force, canceled = () => {}) {
   if (!window.veridaApp) {
     window.veridaApp = new VeridaApp(VUE_APP_DATASTORE_NAME, 'ethr', address, web3Provider, config)
   }
+
+  window.profileManager = new ProfileManager(window.veridaApp)
+  await window.profileManager.init()
 
   try {
     let connected = await window.veridaApp.connect(force);
