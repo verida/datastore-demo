@@ -113,17 +113,17 @@ export default {
             const saved = await store.save(payload)
 
             await this.internalSubmit({ saved, message })
-            await this.sendInbox(message)
+            await this.sendInbox(message, payload.name)
 
             this.processing = false
             this.$bvModal.hide('create-modal')
         },
-        async sendInbox (message) {
+        async sendInbox (message, name) {
             const { outbox } = window.veridaApp
 
             const inboxType = '/schemas/inbox/type/dataSend'
             const outboxItem = { 'data': message }
-            const text = `Sending you a ${this.category}`
+            const text = `Sending you the <strong>${this.title}</strong> called "${name}"`
 
             try {
                 await outbox.send(this.did, inboxType, outboxItem, text, {})
