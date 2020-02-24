@@ -24,7 +24,7 @@ const mutations = {
     initUser (state, payload) {
         state.user = {
             [USER.ADDRESS]: payload[USER.ADDRESS],
-            [USER.NAME]: payload[USER.NAME] || 'Name Surname'
+            [USER.NAME]: payload[USER.NAME] || '<unknown>'
         }
     },
     setSpinner (state, payload) {
