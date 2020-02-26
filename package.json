@@ -9,7 +9,9 @@
     "serve:receipt-demo": "vue-cli-service serve --mode receipt-demo",
     "build:receipt-demo": "vue-cli-service build --mode receipt-demo --no-clean",
     "serve:id-verify-demo": "vue-cli-service serve --mode id-verify-demo",
-    "build:id-verify-demo": "vue-cli-service build --mode id-verify-demo --no-clean"
+    "build:id-verify-demo": "vue-cli-service build --mode id-verify-demo --no-clean",
+    "serve:health-demo": "vue-cli-service serve --mode health-demo",
+    "build:health-demo": "vue-cli-service build --mode health-demo --no-clean"
   },
   "dependencies": {
     "@saeris/vue-spinners": "^1.0.8",
