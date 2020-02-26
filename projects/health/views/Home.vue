@@ -19,7 +19,17 @@
           </div>
         </div>
         <div class="health__card">
+          <div class="health__card--navigation">
+            <div class="health__card--navigation-item">
+              CREATE
+            </div>
+            <div class="health__card--navigation-item">
+              VIEW
+            </div>
+          </div>
+          <div class="health__card--body">
 
+          </div>
         </div>
       </div>
     </div>

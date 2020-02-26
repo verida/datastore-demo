@@ -73,7 +73,8 @@ body {
   background: white;
   width: 100%;
   height: 500px;
-  margin-top: 5px;
+  margin-top: 30px;
+  box-shadow: 0 0 3px 1px rgba(0,0,0,0.75);
 }
 
 .health__navigation {
@@ -118,7 +119,7 @@ body {
   font-weight: 400;
   cursor: pointer;
   &:hover {
-    background-color: #df2862;
+    background-color: white;
     height: 48px;
   }
 }
@@ -135,5 +136,30 @@ body {
   width: 100%;
   max-width: 700px;
   margin: 50px auto;
-  box-shadow: 0 0 3px 1px rgba(0,0,0,0.75);
+}
+
+.health__card--navigation {
+  width: 100%;
+  background-color: #df2862;
+  color: white;
+  font-weight: 600;
+  display: flex;
+  flex-direction: row;
+  border: 1px solid #AB2A53;
+}
+
+.health__card--navigation-item {
+  padding: 5px 30px;
+  cursor: pointer;
+  border: 1px solid #df2862;
+
+  &:hover {
+    background-color: white;
+    color: #df2862;
+    border: 1px solid white;
+  }
+}
+
+.health__card--body {
+  padding: 20px;
 }
