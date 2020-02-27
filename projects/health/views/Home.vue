@@ -1,65 +1,51 @@
 <template>
-  <div class="health__body">
-    <div class="health__body--gradient">
-      <div class="health__body--container">
-        <div class="health__navigation">
-          <div class="health__navigation--logo">
-            <img src="../assets/logo.png" />
-            <span class="health__navigation--text"> Patient Medical Data </span>
-          </div>
-          <div class="health__navigation-actions">
-            <div>
-              <div v-for="action in navigation" class="action__item">
-                {{ action }}
-              </div>
-            </div>
-            <div class="action__item">
-              Logout
-            </div>
-          </div>
+  <div>
+    <b-navbar toggleable="lg" type="dark" class="navbar-demo">
+      <b-navbar-brand href='/'>
+        <img src="@/assets/logo.png"/>
+        <span>Patient | Medical Data</span>
+      </b-navbar-brand>
+    </b-navbar>
+    <div></div>
+    <div class="filler">
+      <div class="filler--shadow">
+        <div class="action-panel">
+          <b-button v-for="action in actions" variant="outline-light">
+            {{ action.title }}
+          </b-button>
         </div>
-        <div class="health__card">
-          <div class="health__card--navigation">
-            <div class="health__card--navigation-item">
-              CREATE
-            </div>
-            <div class="health__card--navigation-item">
-              VIEW
-            </div>
+        <b-container>
+          <div class="layout">
+            test
           </div>
-          <div class="health__card--body">
-
-          </div>
-        </div>
+        </b-container>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import Layout from '@src/components/Layout'
-import CreateModalMixin from '@src/mixins/create-modal'
-
 import { createNamespacedHelpers } from 'vuex'
 const { mapMutations: mapSystemMutations } = createNamespacedHelpers('system')
-
-const category = 'identity/kyc/AU'
+const { mapGetters: mapItemGetters } = createNamespacedHelpers('receipt')
 
 export default {
   name: 'home',
-  mixins: [
-    CreateModalMixin
-  ],
-  components: {
-    Layout
-  },
   data () {
     return {
-      collections: [category],
-      navigation: [
-        'Note',
-        'Prescription',
-        'Inbox'
+      collections: [
+        'shopping/coupon',
+        'shopping/receipt'
+      ],
+      actions: [
+        {
+          title: 'create',
+          click: () => {}
+        },
+        {
+          title: 'view',
+          click: () => {}
+        }
       ]
     }
   },
@@ -68,8 +54,14 @@ export default {
   },
   methods: {
     ...mapSystemMutations([ 'setActions' ]),
-    createVerification () {
-      this.showModal(category)
+    sendCoupon () {
+      this.showModal('shopping/coupon')
+    },
+    createReceipt () {
+      this.showModal('shopping/receipt', this.submit)
+    },
+    requestProfile () {
+      console.log('hello world')
     }
   }
 }
