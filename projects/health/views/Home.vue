@@ -1,68 +1,34 @@
 <template>
   <div>
-    <b-navbar toggleable="lg" type="dark" class="navbar-demo">
-      <b-navbar-brand href='/'>
-        <img src="@/assets/logo.png"/>
-        <span>Patient | Medical Data</span>
-      </b-navbar-brand>
-    </b-navbar>
-    <div></div>
+    <navigation />
     <div class="filler">
       <div class="filler--shadow">
-        <div class="action-panel">
-          <b-button v-for="action in actions" variant="outline-light">
-            {{ action.title }}
-          </b-button>
-        </div>
-        <b-container>
+        <b-container class="container">
+          <action-panel />
           <div class="layout">
-            test
+            <component :is="$route.params.mode" />
           </div>
         </b-container>
       </div>
     </div>
+    <sidebar />
   </div>
 </template>
 
 <script>
-import { createNamespacedHelpers } from 'vuex'
-const { mapMutations: mapSystemMutations } = createNamespacedHelpers('system')
-const { mapGetters: mapItemGetters } = createNamespacedHelpers('receipt')
+import View from '@/components/View'
+import Create from '@/components/Create'
+import ActionPanel from '@/components/ActionPanel'
+import Navigation from '@/components/Navigation'
+import Sidebar from '@/components/Sidebar';
 
 export default {
   name: 'home',
-  data () {
-    return {
-      collections: [
-        'shopping/coupon',
-        'shopping/receipt'
-      ],
-      actions: [
-        {
-          title: 'create',
-          click: () => {}
-        },
-        {
-          title: 'view',
-          click: () => {}
-        }
-      ]
-    }
-  },
-  beforeMount () {
-    this.setActions(this.navigation)
-  },
-  methods: {
-    ...mapSystemMutations([ 'setActions' ]),
-    sendCoupon () {
-      this.showModal('shopping/coupon')
-    },
-    createReceipt () {
-      this.showModal('shopping/receipt', this.submit)
-    },
-    requestProfile () {
-      console.log('hello world')
-    }
+  components: {
+    Sidebar,
+    Navigation,
+    ActionPanel,
+    View, Create
   }
 }
 </script>
