@@ -79,7 +79,7 @@ button:focus {
 
 .sidebar {
   position: absolute;
-  padding: 40px 20px;
+  padding: 40px 0;
   right: 0;
   top: 50px;
   width: 270px;
@@ -87,9 +87,21 @@ button:focus {
   background: white;
   box-shadow: 0 0 2px 0 rgba(0,0,0,0.75);
 
+  .active {
+    background-color: #df2447;
+    a {
+      color: white;
+    }
+  }
+
   a {
     color: red;
     font-size: 14px;
+    padding: 12px 25px;
+
+    &:hover {
+      color: #ff5555;
+    }
   }
 
   img {
@@ -102,10 +114,4 @@ button:focus {
     border-radius: 50%;
     padding: 10px;
   }
-}
-
-.main {
-  position: relative;
-  display: flex;
-  flex-direction: row;
 }

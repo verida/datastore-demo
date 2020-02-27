@@ -1,8 +1,11 @@
 <template>
     <div class="sidebar">
         <b-nav vertical>
-            <b-nav-item v-for="item in navigation" :key="item" >
-                <div @click="() => navigate(item)">{{ item }}</div>
+            <b-nav-item v-for="item in navigation" :key="item"
+                :class="{ 'active': active(item) }">
+                <div @click="() => !active(item) && navigate(item)">
+                    {{ item }}
+                </div>
             </b-nav-item>
         </b-nav>
         <img src="@/assets/img/logo-red.png" />
@@ -22,16 +25,14 @@ export default {
         }
     },
     methods: {
+        active (item) {
+            const { entity } = this.$route.params
+            return item.toLowerCase() === entity
+        },
         navigate (item) {
-            let { mode, entity } = this.$route.params
-            const next = item.toLowerCase()
-
-            if (next === entity) {
-                return
-            }
-
+            const { mode } = this.$route.params
             const params = {
-                entity: next,
+                entity: item.toLowerCase(),
                 mode: item === 'Inbox' ? 'view' : mode
             }
             this.$router.push({ params })
