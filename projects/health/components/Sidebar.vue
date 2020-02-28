@@ -18,8 +18,8 @@ export default {
     data () {
         return {
             navigation: [
-                'Notes',
-                'Prescriptions',
+                'Note',
+                'Prescription',
                 'Inbox'
             ]
         }

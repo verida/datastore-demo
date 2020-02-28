@@ -77,8 +77,20 @@ button:focus {
   margin: 30px auto 0;
   border-radius: 2px;
   border: 1px solid grey;
-  height: calc(100vh - 280px);
-  padding: 20px;
+  min-height: 100px;
+  padding: 16px;
+}
+
+.recipient-area {
+  padding-bottom: 20px;
+  background-color: #fff;
+  color: red;
+}
+
+.create {
+  button {
+    margin-top: 40px;
+  }
 }
 
 .spinner {
@@ -136,7 +148,7 @@ button:focus {
 }
 
 .shadow--middle {
-  @include shadow(-10deg, 250px);
+  @include shadow(-10deg, 320px);
 }
 .shadow--footer {
   @include shadow(10deg, -150px);

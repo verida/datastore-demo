@@ -14,29 +14,28 @@
 <script>
 export default {
     name: 'List',
-    async beforeMount () {
-        await this.init()
-    },
     data () {
       return {
           list: []
       }
     },
     computed: {
-        entity () {
-            return this.$route.params.entity
+        params () {
+            return this.$route.params
         }
     },
     methods: {
         async init () {
-            const { openDatastore } = window.veridaApp
-            const store = await openDatastore(`health/${this.entity}`)
+            const store = await window.veridaApp.openDatastore(`health/${this.params.entity}`)
             this.list = await store.getMany()
         }
     },
     watch: {
-        async entity () {
-            await this.init()
+        params: {
+            deep: true,
+            async handler () {
+                await this.init()
+            }
         }
     }
 }
