@@ -79,6 +79,7 @@ button:focus {
   border: 1px solid grey;
   min-height: 100px;
   padding: 16px;
+  box-shadow: 0 0 4px 0 rgba(0,0,0,0.75);
 }
 
 .recipient-area {
@@ -88,8 +89,47 @@ button:focus {
 }
 
 .create {
-  button {
-    margin-top: 40px;
+  position: relative;
+  margin-bottom: 40px;
+
+  textarea, input {
+    font-size: 13px;
+    border-radius: 4px;
+    border: 1px solid grey;
+    box-shadow: none !important;
+  }
+
+  input {
+    height: 40px;
+  }
+
+  .submit {
+    position: absolute;
+    margin-top: -10px;
+    border-radius: 50%;
+    box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.75);
+    padding: 10px;
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(180deg, rgba(47, 47, 47, 0.891194) 0%, rgba(0, 0, 0, 0.154499) 100%);
+    display: flex;
+    justify-content: center;
+    left: 50%;
+    transform: translateX(-50%);
+
+    &:disabled {
+      background: #fff;
+      cursor: not-allowed;
+    }
+
+    &:hover {
+      filter: brightness(1.1);
+    }
+
+    img {
+      width: 50px;
+      height: 50px;
+    }
   }
 }
 
@@ -134,17 +174,6 @@ button:focus {
       color: #ff5555;
     }
   }
-
-  img {
-    position: absolute;
-    bottom: 50px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80px;
-    box-shadow: 0 0 2px 0 rgba(0,0,0,0.75);
-    border-radius: 50%;
-    padding: 10px;
-  }
 }
 
 .shadow--middle {
@@ -152,4 +181,15 @@ button:focus {
 }
 .shadow--footer {
   @include shadow(10deg, -150px);
+}
+
+.schema__item {
+  display: block;
+  margin-top: 15px;
+  font-size: 13px;
+}
+
+.validation-section {
+  margin: 30px 0;
+  padding: 0 10px;
 }

@@ -11,7 +11,7 @@
       "date"
     ]
   },
-  "health/prescription": {
+  "health/prescription/AU": {
     "create": [
       "notes",
       "medication",

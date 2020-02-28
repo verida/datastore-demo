@@ -8,7 +8,6 @@
                 </div>
             </b-nav-item>
         </b-nav>
-        <img src="@/assets/img/logo-red.png" />
     </div>
 </template>
 

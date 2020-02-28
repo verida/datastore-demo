@@ -80,3 +80,17 @@ export async function logout () {
     window.veridaApp = null
   }
 }
+
+export async function bindInbox (cb) {
+  if (window.veridaApp) {
+    window.veridaApp.inbox.on('newMessage', cb)
+  }
+}
+
+export async function fetchInbox (filter = {}) {
+  if (!window.veridaApp) {
+    return []
+  }
+  const inbox = await window.veridaApp.inbox.getInbox()
+  return inbox.getMany(filter)
+}

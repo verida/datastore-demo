@@ -25,10 +25,14 @@ export default {
         }
     },
     methods: {
+        ...mapInboxActions([
+            'getInboxAmount',
+            'getInboxMessages'
+        ]),
         async init () {
             const store = await window.veridaApp.openDatastore(`health/${this.params.entity}`)
             this.list = await store.getMany()
-        }
+        },
     },
     watch: {
         params: {
