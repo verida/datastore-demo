@@ -1,7 +1,6 @@
 <template>
     <div class="action-panel">
         <b-button v-for="mode in modes" variant="outline-light"
-                  v-if="params.entity !== 'inbox'"
                   :class="{'active': mode === params.mode}"
                   @click="() => changeMode(mode)">
             {{ mode }}
@@ -10,7 +9,7 @@
 </template>
 
 <script>
-const modes = [ 'create', 'list']
+const modes = [ 'create', 'list', 'inbox' ]
 
 export default {
     name: 'ActionPanel',

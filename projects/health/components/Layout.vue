@@ -18,6 +18,7 @@
 import ActionPanel from '@/components/ActionPanel'
 import List from '@/components/modes/List'
 import Create from '@/components/modes/Create'
+import Inbox from '@/components/modes/Inbox'
 import { FadeLoader } from '@saeris/vue-spinners'
 
 import {
@@ -30,6 +31,7 @@ export default {
     components: {
         List,
         Create,
+        Inbox,
         ActionPanel,
         FadeLoader
     },

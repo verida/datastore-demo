@@ -18,8 +18,7 @@ export default {
         return {
             navigation: [
                 'Note',
-                'Prescription',
-                'Inbox'
+                'Prescription'
             ]
         }
     },
@@ -32,7 +31,7 @@ export default {
             const { mode } = this.$route.params
             const params = {
                 entity: item.toLowerCase(),
-                mode: item === 'Inbox' ? 'list' : mode
+                mode
             }
             this.$router.push({ params })
         }

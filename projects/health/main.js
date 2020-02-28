@@ -4,10 +4,13 @@ import App from './App'
 import router from '@/router'
 import store from '@src/store'
 
-import * as _ from 'underscore'
 import '@src/plugins'
 
+import _ from 'underscore'
+import moment from 'moment'
+
 window._ = _
+window.moment = moment
 
 new Vue({
   router,

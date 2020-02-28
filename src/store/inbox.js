@@ -1,7 +1,5 @@
 import { fetchInbox } from '@src/helpers/VeridaTransmitter'
 
-import Inbox1 from ''
-
 const state = {
   amount: null,
   messages: []
@@ -27,7 +25,6 @@ const getters = {
     .map(msg => {
       return {
         did: msg.sentBy.did,
-        img: Inbox1,
         title: msg.message,
         text: ' from MyLocalDoctor',
         raw: JSON.parse(JSON.stringify(msg)),

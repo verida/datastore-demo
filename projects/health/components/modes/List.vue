@@ -1,9 +1,6 @@
 <template>
     <div>
-        <div v-if="!list.length" class="text-center">
-            <div class="m-3 empty-list"> The list is empty </div>
-            <img src="@src/assets/img/empty-list.svg" class="my-3"/>
-        </div>
+        <empty-list v-if="!list.length"/>
         <div class="view" v-else
              v-for="(item, index) in list"
              :key="`view-${index}`">
@@ -13,21 +10,31 @@
 </template>
 
 <script>
+import EmptyList from '../stubs/EmptyList'
+
 export default {
     name: 'List',
+    components: {
+        EmptyList
+    },
     data () {
-      return {
-          list: []
-      }
+        return {
+            list: []
+        }
     },
     computed: {
-        params () {
-            return this.$route.params
+        entity () {
+            return this.$route.params.entity
         }
+    },
+    async beforeMount () {
+        await this.init()
     },
     methods: {
         async init () {
-            const store = await window.veridaApp.openDatastore(`health/${this.params.entity}`)
+            const schemas = require(`@/config/map.json`)
+            const { schema } = schemas[`health/${this.entity}`]
+            const store = await window.veridaApp.openDatastore(schema)
             this.list = await store.getMany()
         },
     },
