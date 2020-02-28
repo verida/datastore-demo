@@ -1,7 +1,8 @@
 <template>
     <div class="action-panel">
         <b-button v-for="mode in modes" variant="outline-light"
-                  :class="{'active': mode === selected}"
+                  v-if="params.entity !== 'inbox'"
+                  :class="{'active': mode === params.mode}"
                   @click="() => changeMode(mode)">
             {{ mode }}
         </b-button>
@@ -17,8 +18,8 @@ export default {
         return { modes }
     },
     computed: {
-        selected () {
-            return this.$route.params.mode
+        params () {
+            return this.$route.params
         }
     },
     methods: {

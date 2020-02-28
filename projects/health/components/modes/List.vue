@@ -1,7 +1,8 @@
 <template>
     <div>
-        <div v-if="!list.length">
-            The list is empty
+        <div v-if="!list.length" class="text-center">
+            <div class="m-3 empty-list"> The list is empty </div>
+            <img src="@src/assets/img/empty-list.svg" class="my-3"/>
         </div>
         <div class="view" v-else
              v-for="(item, index) in list"
@@ -25,10 +26,6 @@ export default {
         }
     },
     methods: {
-        ...mapInboxActions([
-            'getInboxAmount',
-            'getInboxMessages'
-        ]),
         async init () {
             const store = await window.veridaApp.openDatastore(`health/${this.params.entity}`)
             this.list = await store.getMany()
