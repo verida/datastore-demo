@@ -33,7 +33,7 @@ export default {
             const { mode } = this.$route.params
             const params = {
                 entity: item.toLowerCase(),
-                mode: item === 'Inbox' ? 'view' : mode
+                mode: item === 'Inbox' ? 'list' : mode
             }
             this.$router.push({ params })
         }

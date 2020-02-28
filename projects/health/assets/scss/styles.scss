@@ -5,6 +5,7 @@
 
 body {
   font-family: 'Montserrat';
+  overflow-y: hidden;
 }
 
 @mixin shadow ($degrees, $bottom) {
@@ -76,9 +77,15 @@ button:focus {
   margin: 30px auto 0;
   border-radius: 2px;
   border: 1px solid grey;
-  box-shadow: 0 0 2px 0 rgba(0,0,0,0.75);
   height: calc(100vh - 280px);
   padding: 20px;
+}
+
+.spinner {
+  position: absolute;
+  top: 210px;
+  left: 53%;
+  transform: translate(-50%, -50%);
 }
 
 .container {
@@ -129,7 +136,7 @@ button:focus {
 }
 
 .shadow--middle {
-  @include shadow(-10deg, 350px);
+  @include shadow(-10deg, 250px);
 }
 .shadow--footer {
   @include shadow(10deg, -150px);
