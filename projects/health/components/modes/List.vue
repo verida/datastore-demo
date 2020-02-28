@@ -1,11 +1,13 @@
 <template>
-    <div>
+    <div class="">
         <empty-list v-if="!list.length"/>
-        <div class="view" v-else
-             v-for="(item, index) in list"
-             :key="`view-${index}`">
-            {{ item }}
-        </div>
+        <b-row v-else>
+            <b-col md="6" v-for="(item, index) in list"
+                   class="mb-3"
+                 :key="`view-${index}`">
+                <div class="view">{{ item.notes }}</div>
+            </b-col>
+        </b-row>
     </div>
 </template>
 

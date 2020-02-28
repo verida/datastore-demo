@@ -14,7 +14,6 @@ const { mapGetters, mapActions } = createNamespacedHelpers('inbox')
 import EmptyList from '../stubs/EmptyList'
 import InboxCard from "../InboxCard";
 
-
 export default {
     name: 'Inbox',
     components: {
