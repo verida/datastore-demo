@@ -1,9 +1,11 @@
 <template>
   <div>
     <navigation />
-    <div class="filler">
-      <div class="filler--shadow">
-        <b-container class="container">
+    <div class="shadow--footer" />
+    <div class="shadow--middle" />
+    <div class="main">
+      <div class="shadow--main">
+        <b-container>
           <action-panel />
           <div class="layout">
             <component :is="$route.params.mode" />
@@ -16,7 +18,7 @@
 </template>
 
 <script>
-import View from '@/components/View'
+import List from '@/components/List'
 import Create from '@/components/Create'
 import ActionPanel from '@/components/ActionPanel'
 import Navigation from '@/components/Navigation'
@@ -28,7 +30,7 @@ export default {
     Sidebar,
     Navigation,
     ActionPanel,
-    View, Create
+    List, Create
   }
 }
 </script>

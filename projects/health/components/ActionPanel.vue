@@ -9,7 +9,7 @@
 </template>
 
 <script>
-const modes = [ 'create', 'view']
+const modes = [ 'create', 'list']
 
 export default {
     name: 'ActionPanel',
