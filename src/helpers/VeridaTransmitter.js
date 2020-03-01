@@ -1,4 +1,4 @@
-import VeridaApp from 'verida-datastore'
+import VeridaApp from '@verida/datastore'
 import { getSignature } from '@src/helpers/LocalStorage'
 import ProfileManager from './ProfileManager'
 import InboxManager from './InboxManager'
