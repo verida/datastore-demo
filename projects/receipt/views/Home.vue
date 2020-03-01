@@ -23,6 +23,7 @@ export default {
   },
   data () {
     return {
+      inboxBind: false,
       collections: [
         'shopping/coupon',
         'shopping/receipt',
@@ -64,8 +65,34 @@ export default {
     createReceipt () {
       this.showModal('shopping/receipt', this.submit)
     },
-    requestProfile () {
-      console.log('hello world')
+    async requestProfile () {
+      if (!this.inboxBind) {
+        this.inboxBind = true;
+        console.log("inboxBind");
+        // Define a callback function that handles inbox messages
+        let cb = function(message) {
+          let dataItems = message.data.data;
+          if (dataItems.length) {
+            let requestedProfileData = dataItems[0];
+            console.log("Received the following extended profile data:", requestedProfileData);
+          }
+        }
+
+        window.veridaApp.inbox.on('newMessage', cb);
+      }
+
+      // Generate a request for a user's email from their private profile
+      let emailRequest = {
+          "requestSchema": "profile/private",
+          "filter": {
+              "key": "email"
+          }
+      };
+
+      // TODO: Put this in a modal
+      let userDid = "did:ethr:0xb42bc405e47dc1e17110dc9849ed405636f2e7f6";
+
+      await window.veridaApp.outbox.send(userDid, "/schemas/inbox/type/dataRequest", emailRequest, "Requesting access to your email");
     }
   }
 }
