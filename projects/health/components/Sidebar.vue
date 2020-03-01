@@ -8,7 +8,6 @@
                 </div>
             </b-nav-item>
         </b-nav>
-        <img src="@/assets/img/logo-red.png" />
     </div>
 </template>
 
@@ -18,9 +17,8 @@ export default {
     data () {
         return {
             navigation: [
-                'Notes',
-                'Prescriptions',
-                'Inbox'
+                'Note',
+                'Prescription'
             ]
         }
     },
@@ -33,7 +31,7 @@ export default {
             const { mode } = this.$route.params
             const params = {
                 entity: item.toLowerCase(),
-                mode: item === 'Inbox' ? 'view' : mode
+                mode
             }
             this.$router.push({ params })
         }

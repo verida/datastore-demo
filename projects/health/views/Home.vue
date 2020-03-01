@@ -1,34 +1,24 @@
 <template>
   <div>
     <navigation />
-    <div class="filler">
-      <div class="filler--shadow">
-        <b-container class="container">
-          <action-panel />
-          <div class="layout">
-            <component :is="$route.params.mode" />
-          </div>
-        </b-container>
-      </div>
-    </div>
+    <div class="shadow--footer" />
+    <div class="shadow--middle" />
+    <layout />
     <sidebar />
   </div>
 </template>
 
 <script>
-import View from '@/components/View'
-import Create from '@/components/Create'
-import ActionPanel from '@/components/ActionPanel'
 import Navigation from '@/components/Navigation'
 import Sidebar from '@/components/Sidebar';
+import Layout from '@/components/Layout'
 
 export default {
   name: 'home',
   components: {
     Sidebar,
     Navigation,
-    ActionPanel,
-    View, Create
+    Layout
   }
 }
 </script>

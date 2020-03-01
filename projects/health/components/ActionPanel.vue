@@ -1,7 +1,7 @@
 <template>
     <div class="action-panel">
         <b-button v-for="mode in modes" variant="outline-light"
-                  :class="{'active': mode === selected}"
+                  :class="{'active': mode === params.mode}"
                   @click="() => changeMode(mode)">
             {{ mode }}
         </b-button>
@@ -9,7 +9,7 @@
 </template>
 
 <script>
-const modes = [ 'create', 'view']
+const modes = [ 'create', 'list', 'inbox' ]
 
 export default {
     name: 'ActionPanel',
@@ -17,8 +17,8 @@ export default {
         return { modes }
     },
     computed: {
-        selected () {
-            return this.$route.params.mode
+        params () {
+            return this.$route.params
         }
     },
     methods: {

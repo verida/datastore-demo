@@ -1,28 +1,28 @@
 {
-  "identity/kyc/AU": {
+  "health/note": {
     "create": [
-      "firstName",
-      "middleName",
-      "lastName",
-      "gender",
-      "dateOfBirth",
-      "streetAddress1",
-      "streetAddress2",
-      "suburb",
-      "state",
-      "postcode"
+      "name",
+      "notes",
+      "date"
     ],
     "view": [
-      "firstName",
-      "middleName",
-      "lastName",
-      "gender",
-      "dateOfBirth",
-      "streetAddress1",
-      "streetAddress2",
-      "suburb",
-      "state",
-      "postcode"
+      "name",
+      "notes",
+      "date"
+    ]
+  },
+  "health/prescription/AU": {
+    "create": [
+      "notes",
+      "medication",
+      "purpose",
+      "issueDate"
+    ],
+    "view": [
+      "notes",
+      "medication",
+      "purpose",
+      "issueDate"
     ]
   }
 }

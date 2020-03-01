@@ -1,7 +1,7 @@
 <template>
     <b-navbar toggleable="lg" type="dark" class="navbar-demo">
         <b-navbar-brand href='/'>
-            <img src="@/assets/logo.png"/>
+            <img src="@/assets/img/logo.png"/>
             <span>Patient | Medical Data</span>
         </b-navbar-brand>
         <!--<b-navbar-nav class="ml-auto">
