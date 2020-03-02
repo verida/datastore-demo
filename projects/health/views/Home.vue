@@ -19,6 +19,9 @@ export default {
     Sidebar,
     Navigation,
     Layout
+  },
+  beforeRouteEnter (to, from, next) {
+    to.path === '/' ? next('/note/create') : next()
   }
 }
 </script>
