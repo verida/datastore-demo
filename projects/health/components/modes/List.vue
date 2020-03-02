@@ -2,8 +2,7 @@
     <div class="">
         <empty-list v-if="!list.length"/>
         <b-row v-else>
-            <b-col sm="12" v-for="(item, index) in list"
-                   class="mb-3"
+            <b-col sm="12" v-for="(item, index) in list" class="mb-3"
                  :key="`view-${index}`">
                 <div class="view">
                     <div v-for="(value, key) in item">
@@ -20,21 +19,28 @@
 
 <script>
 import EmptyList from '../stubs/EmptyList'
-import DateFormatMixin from '@src/mixins/date-format'
 
 import { createNamespacedHelpers } from 'vuex'
 const {
     mapGetters: mapSchemaGetters
 } = createNamespacedHelpers('schema')
 
+const formatValue = (value, key) => {
+    switch (key) {
+        case 'date':
+            return moment(value).format('DD MMM YYYY')
+        case 'date-time':
+            return moment(value).format('DD MMM YYYY HH:ss')
+        default:
+            return value
+    }
+}
+
 export default {
     name: 'List',
     components: {
         EmptyList
     },
-    mixins: [
-        DateFormatMixin
-    ],
     data () {
         return {
             list: [],
@@ -66,10 +72,7 @@ export default {
             this.properties = properties
         },
         formatItem (obj) {
-            return _.mapObject(obj, (value, key) => {
-                const str = this.format(key)
-                return str ? moment(value).format(str) : value
-            })
+            return _.mapObject(obj, formatValue)
         }
     },
     watch: {

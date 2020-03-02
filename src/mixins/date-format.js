@@ -3,9 +3,9 @@ export default {
         format (str) {
             switch (str) {
                 case 'date-time':
-                    return 'DD MMMM YYYY HH:mm'
+                    return 'dd-LL-yyyy HH:mm'
                 case 'date':
-                    return 'DD MMMM YYYY'
+                    return 'dd-LL-yyyy'
                 default:
                     return ''
             }

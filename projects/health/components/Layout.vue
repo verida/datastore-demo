@@ -1,13 +1,11 @@
 <template>
     <div class="main">
         <div class="shadow--main">
-            <div class="container-layout">
-                <fade-loader v-if="!connected"
-                     class="spinner"
-                     size="80px" :width="2" color="#fff" />
-            </div>
+            <div class="container-layout" />
             <action-panel />
-            <div class="layout" v-if="connected">
+            <fade-loader v-if="!connected" class="spinner"
+                size="80px" :width="2" color="#14BFF1" />
+            <div class="layout" v-else>
                 <component :is="$route.params.mode" ref="content"/>
             </div>
         </div>

@@ -127,9 +127,9 @@ button:focus {
 
 .spinner {
   position: absolute;
-  top: 210px;
-  left: 53%;
-  transform: translate(-50%, -50%);
+  top: 150px;
+  left: calc(50% + 30px);
+  transform: translateX(calc(-50% - 5px));
 }
 
 .container {

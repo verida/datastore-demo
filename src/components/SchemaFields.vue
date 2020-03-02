@@ -137,7 +137,7 @@ export default {
             const text = `Sending you the <strong>${this.title}</strong> called "${name}"`
 
             try {
-                await outbox.send(this.did, inboxType, outboxItem, text, {})
+                await outbox.send(this.did.toLowerCase(), inboxType, outboxItem, text, {})
             } catch (e) {
                 console.info(e)
             }
