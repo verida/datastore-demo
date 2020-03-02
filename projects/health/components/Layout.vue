@@ -21,7 +21,7 @@ import { FadeLoader } from '@saeris/vue-spinners'
 
 import {
     connectVerida,
-    bind
+    bind, logout
 } from '@src/helpers/VeridaTransmitter'
 
 export default {
@@ -49,8 +49,9 @@ export default {
         async connect () {
             this.connected = true
         },
-        disconnect () {
-
+        async disconnect () {
+            await logout()
+            await this.$router.push({ name: 'connect' })
         }
     }
 }
