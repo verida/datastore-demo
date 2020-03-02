@@ -6,7 +6,10 @@
                     <div>
                         <div class="black--text" v-html="card.title" />
                         <div class="service-card__sender">
-                            <div>{{ sender }}</div>
+                            <div v-if="sender">{{ sender }}</div>
+                            <div v-else>
+                                <BarLoader :width="100" :height="4" />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -31,13 +34,23 @@
 </template>
 
 <script>
+import { BarLoader } from '@saeris/vue-spinners'
+
 import { createNamespacedHelpers } from 'vuex'
 const { mapActions } = createNamespacedHelpers('inbox')
 
+import SenderMixin from '@/mixins/sender'
+
 export default {
     name: 'InboxCard',
+    components: {
+        BarLoader
+    },
     props: [
         'card'
+    ],
+    mixins: [
+        SenderMixin
     ],
     data () {
         return {
