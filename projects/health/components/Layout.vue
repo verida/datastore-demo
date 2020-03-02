@@ -19,9 +19,14 @@ import Create from '@/components/modes/Create'
 import Inbox from '@/components/modes/Inbox'
 import { FadeLoader } from '@saeris/vue-spinners'
 
+import { createNamespacedHelpers } from 'vuex'
+const { mapActions } = createNamespacedHelpers('inbox')
+
 import {
     connectVerida,
-    bind, logout
+    bind,
+    logout,
+    bindInbox
 } from '@src/helpers/VeridaTransmitter'
 
 export default {
@@ -42,9 +47,18 @@ export default {
         await this.init()
     },
     methods: {
+        ...mapActions([
+            'getInboxAmount',
+            'getInboxMessages'
+        ]),
         async init () {
             await bind(this.connect, this.disconnect)
             await connectVerida()
+            await bindInbox(this.handleInbox)
+        },
+        async handleInbox () {
+            await this.getInboxAmount()
+            await this.getInboxMessages()
         },
         async connect () {
             this.connected = true

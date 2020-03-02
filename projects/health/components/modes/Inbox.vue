@@ -21,17 +21,31 @@ export default {
         EmptyList
     },
     computed: {
-        ...mapGetters([ 'cards' ])
+        ...mapGetters([ 'cards' ]),
+        entity () {
+            return this.$route.params.entity
+        }
     },
     methods: {
         ...mapActions([
             'getInboxAmount',
             'getInboxMessages'
-        ])
+        ]),
+        async init () {
+            const requests = [
+                this.getInboxAmount(),
+                this.getInboxMessages()
+            ]
+            return Promise.all(requests)
+        }
     },
-    beforeMount () {
-        this.getInboxAmount()
-        this.getInboxMessages()
+    async beforeMount () {
+        await this.init()
+    },
+    watch: {
+        async entity () {
+            await this.init()
+        }
     }
 }
 </script>
