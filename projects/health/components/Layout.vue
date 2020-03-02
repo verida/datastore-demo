@@ -1,15 +1,15 @@
 <template>
     <div class="main">
         <div class="shadow--main">
-            <b-container>
-                <action-panel />
+            <div class="container-layout">
                 <fade-loader v-if="!connected"
                      class="spinner"
                      size="80px" :width="2" color="#fff" />
-                <div class="layout" v-else>
-                    <component :is="$route.params.mode" ref="content"/>
-                </div>
-            </b-container>
+            </div>
+            <action-panel />
+            <div class="layout" v-if="connected">
+                <component :is="$route.params.mode" ref="content"/>
+            </div>
         </div>
     </div>
 </template>

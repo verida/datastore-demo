@@ -1,10 +1,12 @@
 <template>
     <div class="action-panel">
-        <b-button v-for="mode in modes" variant="outline-light"
-                  :class="{'active': mode === params.mode}"
-                  @click="() => changeMode(mode)">
-            {{ mode }}
-        </b-button>
+        <div class="action-panel__buttons">
+            <b-button v-for="mode in modes" variant="outline-light"
+                      :class="{'active': mode === params.mode}"
+                      @click="() => changeMode(mode)">
+                {{ mode }}
+            </b-button>
+        </div>
     </div>
 </template>
 
