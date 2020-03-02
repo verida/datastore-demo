@@ -3,7 +3,6 @@
         <b-row class="d-flex flex-row justify-space-between">
             <b-col cols="12" sm="12" md="auto" :order-md="1" :order="2">
                 <div class="d-flex flex-row">
-                    <img :src="card.img" class="service-card__img mr-2" />
                     <div>
                         <div class="black--text" v-html="card.title" />
                         <div class="service-card__sender">
