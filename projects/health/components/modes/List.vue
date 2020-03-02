@@ -73,11 +73,8 @@ export default {
         }
     },
     watch: {
-        params: {
-            deep: true,
-            async handler () {
-                await this.init()
-            }
+        async entity () {
+            await this.init()
         }
     }
 }
