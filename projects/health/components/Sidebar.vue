@@ -14,6 +14,7 @@
                     </div>
                 </b-nav-item>
             </b-nav>
+            <div class="sidebar--middle-shadow" />
             <img src="@/assets/img/logo-red.png" class="logout" @click="disconnect" />
         </div>
     </div>

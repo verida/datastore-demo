@@ -12,7 +12,7 @@ const state = {
         [SPINNER.DATA]: true,
         [SPINNER.NAVIGATION]: true
     },
-    sidebar: true,
+    sidebar: false,
     mobile: false
 };
 
