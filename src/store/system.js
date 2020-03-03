@@ -39,7 +39,7 @@ const mutations = {
     setMobile (state, payload) {
         state.mobile = payload
     },
-    setRecipientInfo (state, { data }) {
+    setRecipientInfo (state, data) {
         const { data: items } = data;
         state.info = _.first(items)
         console.log("Received the following extended profile data:", requestedProfileData);

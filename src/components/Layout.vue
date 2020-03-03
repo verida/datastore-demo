@@ -14,6 +14,8 @@ import Navbar from './Navbar'
 
 import LayoutMixin from '@src/mixins/layout'
 
+import { bindInbox } from '@src/helpers/VeridaTransmitter'
+
 import { createNamespacedHelpers } from 'vuex'
 const { mapMutations: mapSystemMutations } = createNamespacedHelpers('system')
 
@@ -35,11 +37,10 @@ export default {
   methods: {
     ...mapSystemMutations([ 'setRecipientInfo' ]),
     async connect() {
+      await bindInbox(this.setRecipientInfo)
       await this.$nextTick()
       await this.$refs.documents.initDatastore()
       this.setSpinner({ [this.SPINNER.DATA]: false })
-
-      window.veridaApp.inbox.on('newMessage', this.setRecipientInfo);
     }
   }
 }
