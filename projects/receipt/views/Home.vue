@@ -1,10 +1,18 @@
 <template>
-  <Layout title="Receipts" :collections="collections" />
+  <div>
+    <Layout title="Receipts" :collections="collections" />
+
+    <RequestRecipient />
+    <ShowRecipientData />
+  </div>
 </template>
 
 <script>
 import Layout from '@src/components/Layout'
 import CreateModalMixin from '@src/mixins/create-modal'
+
+import RequestRecipient from '../components/modals/RequestRecipient';
+import ShowRecipientData from '../components/modals/ShowRecipientData';
 
 import { createNamespacedHelpers } from 'vuex'
 const { mapMutations: mapSystemMutations } = createNamespacedHelpers('system')
@@ -16,6 +24,8 @@ export default {
     CreateModalMixin
   ],
   components: {
+    ShowRecipientData,
+    RequestRecipient,
     Layout
   },
   computed: {
@@ -23,7 +33,6 @@ export default {
   },
   data () {
     return {
-      inboxBind: false,
       collections: [
         'shopping/coupon',
         'shopping/receipt',
@@ -65,34 +74,8 @@ export default {
     createReceipt () {
       this.showModal('shopping/receipt', this.submit)
     },
-    async requestProfile () {
-      if (!this.inboxBind) {
-        this.inboxBind = true;
-        // Define a callback function that handles inbox messages
-        let cb = function(message) {
-          console.log(message, 'message')
-         /* let dataItems = message.data.data;
-          if (dataItems.length) {
-            let requestedProfileData = dataItems[0];
-            console.log("Received the following extended profile data:", requestedProfileData);
-          }*/
-        }
-
-        window.veridaApp.inbox.on('newMessage', cb);
-      }
-
-      // Generate a request for a user's email from their private profile
-      let emailRequest = {
-          "requestSchema": "profile/private",
-          "filter": {
-              "key": "email"
-          }
-      };
-
-      // TODO: Put this in a modal
-      let userDid = "did:ethr:0x57127C0C0b891125af4441a51BF37F465cDb9d73";
-
-      await window.veridaApp.outbox.send(userDid, "/schemas/inbox/type/dataRequest", emailRequest, "Requesting access to your email");
+    requestProfile () {
+      this.$bvModal.show('request-recipient')
     }
   }
 }

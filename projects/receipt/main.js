@@ -16,3 +16,4 @@ new Vue({
 }).$mount('#app')
 
 import '@src/assets/scss/index.scss'
+import '@/assets/scss/index.scss'
