@@ -67,7 +67,7 @@ button:focus {
   button {
     margin: 30px 10px 10px;
     text-transform: uppercase;
-    width: 200px;
+    //width: 200px;
     height: 40px;
 
     &.active {
@@ -170,6 +170,21 @@ button:focus {
   }
 }
 
+@media (max-width: 767px) {
+  .sidebar {
+    display: none;
+    position: fixed;
+  }
+  .shadow--main,
+  .main {
+    width: 100%;
+  }
+  .action-panel__buttons button {
+    min-width: 80px;
+    font-size: 12px;
+  }
+}
+
 .shadow--middle {
   @include shadow(-10deg, 320px);
 }
@@ -211,6 +226,7 @@ button:focus {
   position: absolute;
   top: 0;
   bottom: 0;
+  height: calc(100vh - 50px);
 }
 
 .layout {
@@ -222,6 +238,8 @@ button:focus {
   left: 50%;
   transform: translateX(-50%);
   top: 170px;
+  overflow-y: auto;
+  height: calc(100vh - 250px);
 }
 
 .action-panel__buttons {

@@ -6,7 +6,7 @@
                     <div>
                         <div class="black--text" v-html="card.title" />
                         <div class="service-card__sender">
-                            <div v-if="sender">{{ sender }}</div>
+                            <div v-if="sender" v-html="sender" />
                             <div v-else>
                                 <BarLoader :width="100" :height="4" />
                             </div>

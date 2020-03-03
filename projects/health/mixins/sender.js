@@ -19,7 +19,7 @@ export default {
         profile('employer', '---')
       ]
 
-      this.sender = `${name} from ${employer}`
+      this.sender = `<strong>${name}</strong> from <strong>${employer}</strong>`
     },
     async getProfileItem () {
       const profile = await this.getInboxSender(this.card.did)
