@@ -36,6 +36,7 @@ export default {
             this.category = schema
             await this.$nextTick()
             await this.$refs['schema-fields'].init()
+            this.$emit('set-loaded', true)
         },
         async submit (internal) {
             await internal()

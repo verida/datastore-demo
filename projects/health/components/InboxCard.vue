@@ -1,34 +1,30 @@
 <template>
     <div class="service-card">
         <b-row class="d-flex flex-row justify-space-between">
-            <b-col cols="12" sm="12" md="auto" :order-md="1" :order="2">
+            <b-col cols="12" class="text-right pb-sm-0 pb-4">
+                <strong>{{ card.updated }}</strong>
+            </b-col>
+            <b-col cols="12">
                 <div class="d-flex flex-row">
                     <div>
                         <div class="black--text" v-html="card.title" />
                         <div class="service-card__sender">
                             <div v-if="sender" v-html="sender" />
-                            <div v-else>
-                                <BarLoader :width="100" :height="4" />
-                            </div>
+                            <BarLoader :width="100" :height="4" v-else/>
                         </div>
                     </div>
                 </div>
             </b-col>
-            <b-col cols="12" sm="12" md="auto" class="text-right pb-sm-0 pb-4" :order="1">
-                {{ card.updated }}
-            </b-col>
         </b-row>
-        <b-row class="pt-2" v-if="!card.status">
-            <b-col class="d-flex justify-end">
-                <b-btn class="mr-2" color="primary" :disabled="processing"
-                       @click="() => click(card.raw, 'accept')">
-                    Accept
-                </b-btn>
-                <b-btn outlined color="error" :disabled="processing"
-                       @click="() => click(card.raw, 'reject')">
-                    Reject
-                </b-btn>
-            </b-col>
+        <b-row class="mt-4 justify-content-end" v-if="!card.status">
+            <b-button class="mr-2" size="sm" :disabled="processing"
+                   @click="() => click(card.raw, 'accept')">
+                Accept
+            </b-button>
+            <b-button class="mr-3" variant="outline-danger" size="sm" :disabled="processing"
+                   @click="() => click(card.raw, 'reject')">
+                Reject
+            </b-button>
         </b-row>
     </div>
 </template>
