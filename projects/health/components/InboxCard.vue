@@ -1,7 +1,7 @@
 <template>
     <div class="service-card">
         <b-row class="d-flex flex-row justify-space-between">
-            <b-col cols="12" class="text-right pb-sm-0 pb-4">
+            <b-col cols="12" class="text-right pb-2">
                 <strong>{{ card.updated }}</strong>
             </b-col>
             <b-col cols="12">
