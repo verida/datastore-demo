@@ -106,7 +106,9 @@ export default {
             })
 
             await this.$nextTick()
+
             this.$refs.validator.reset()
+            this.$emit('set-title', this.title)
         },
         async submit () {
             this.processing = true

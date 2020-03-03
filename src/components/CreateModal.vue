@@ -1,6 +1,9 @@
 <template>
     <b-modal id="create-modal" :title="`Create ${title}`" hide-footer v-model="visibility">
-        <schema-fields ref="schema-fields" :category="category" :internalSubmit="internalSubmit">
+        <schema-fields ref="schema-fields"
+           @set-title="value => title = value"
+           :category="category"
+           :internalSubmit="internalSubmit">
             <template v-slot:submit-section="props">
                 <b-button variant="danger" :disabled="props.disabled" @click="props.submit">
                     Submit
@@ -21,11 +24,15 @@ export default {
     components: { SchemaFields },
     data () {
       return {
-          visibility: false
+          visibility: false,
+          title: null
       }
     },
     computed: {
         ...mapModalState(['category', 'internalSubmit']),
+        fields () {
+            return this.$refs['schema-fields']
+        }
     },
     watch: {
         async visibility () {
