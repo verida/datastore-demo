@@ -11,7 +11,9 @@ const state = {
     spinner: {
         [SPINNER.DATA]: true,
         [SPINNER.NAVIGATION]: true
-    }
+    },
+    sidebar: true,
+    mobile: false
 };
 
 const mutations = {
@@ -29,6 +31,12 @@ const mutations = {
     },
     setSpinner (state, payload) {
         state.spinner = Object.assign(state.spinner, payload)
+    },
+    setSidebar (state, payload) {
+        state.sidebar = payload || !state.sidebar
+    },
+    setMobile (state, payload) {
+        state.mobile = payload
     }
 };
 

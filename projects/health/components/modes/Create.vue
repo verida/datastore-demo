@@ -2,10 +2,9 @@
     <div class="create">
         <schema-fields ref="schema-fields" :category="category">
             <template v-slot:submit-section="props">
-                <button class="submit" :disabled="props.disabled"
-                        @click="submit(props.submit)">
-                    <img :src="require(`@/assets/img/logo${props.disabled ? '-red' : ''}.png`)" />
-                </button>
+                <b-button variant="danger" class="float-right" :disabled="props.disabled" @click="submit(props.submit)">
+                    Submit
+                </b-button>
             </template>
         </schema-fields>
     </div>

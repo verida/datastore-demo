@@ -1,8 +1,8 @@
 <template>
   <div>
-    <navigation />
     <div class="shadow--footer" />
     <div class="shadow--middle" />
+    <navigation />
     <layout />
     <sidebar />
   </div>
