@@ -1,5 +1,5 @@
 <template>
-    <div class="">
+    <div v-if="loaded">
         <empty-list v-if="!list.length"/>
         <b-row v-else>
             <b-col sm="12" v-for="(item, index) in list" class="mb-3"
@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import { FadeLoader } from '@saeris/vue-spinners'
 import EmptyList from '../stubs/EmptyList'
 
 import { createNamespacedHelpers } from 'vuex'
@@ -39,8 +40,10 @@ const formatValue = (value, key) => {
 export default {
     name: 'List',
     components: {
-        EmptyList
+        EmptyList,
+        FadeLoader
     },
+    props: [ 'loaded' ],
     data () {
         return {
             list: [],
@@ -58,18 +61,22 @@ export default {
     },
     methods: {
         async init () {
+            this.$emit('set-loaded', false)
+
             const schemas = require(`@/config/map.json`)
             const { schema } = schemas[`health/${this.entity}`]
             const store = await window.veridaApp.openDatastore(schema)
-
             const list = await store.getMany()
+
             const { properties } = await this.fields(schema)
             const keys = _.keys(properties)
 
             this.list = list
                 .map(item => _.pick(item, keys))
                 .map(this.formatItem)
+
             this.properties = properties
+            this.$emit('set-loaded', true)
         },
         formatItem (obj) {
             return _.mapObject(obj, formatValue)

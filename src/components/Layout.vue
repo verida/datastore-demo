@@ -33,7 +33,7 @@ export default {
     async connect() {
       await this.$nextTick()
       await this.$refs.documents.initDatastore()
-      this.setSpinner({ [SPINNER.DATA]: false })
+      this.setSpinner({ [this.SPINNER.DATA]: false })
     }
   }
 }

@@ -3,12 +3,16 @@
         <div class="sidebar--shadow" :class="{'d-none': !(sidebar && mobile)}" />
         <div class="sidebar" v-if="sidebar || !mobile">
             <div class="profile">
-                <strong>{{ user[USER.NAME] }}</strong>
-                <div class="profile__did">did:ethr:{{ user[USER.ADDRESS] }}</div>
+                <fade-loader v-if="spinner[SPINNER.NAVIGATION]"
+                             class="ml-3" :width="2" size="80px"
+                             color="#808080" />
+                <template v-else>
+                    <strong>{{ user[USER.NAME] }}</strong>
+                    <div class="profile__did">did:ethr:{{ user[USER.ADDRESS] }}</div>
+                </template>
             </div>
             <b-nav vertical class="my-4">
-                <b-nav-item v-for="item in navigation" :key="item"
-                            :class="{ 'active': active(item) }">
+                <b-nav-item v-for="item in navigation" :key="item" :class="{ 'active': active(item) }">
                     <div @click="() => !active(item) && navigate(item)">
                         {{ item }}
                     </div>
@@ -22,7 +26,9 @@
 
 <script>
 import { logout } from '@src/helpers/VeridaTransmitter'
-import { USER } from '@src/constants/spinner'
+import { USER, SPINNER } from '@src/constants/spinner'
+
+import { FadeLoader } from '@saeris/vue-spinners'
 
 import { createNamespacedHelpers } from 'vuex'
 const {
@@ -32,6 +38,9 @@ const {
 
 export default {
     name: 'Sidebar',
+    components: {
+        FadeLoader
+    },
     data () {
         return {
             navigation: [
@@ -39,14 +48,19 @@ export default {
                 'Prescription'
             ],
             displayed: false,
-            USER
+            USER, SPINNER
         }
     },
     async mounted () {
         await this.setListener()
     },
     computed: {
-        ...mapSystemState(['sidebar', 'mobile', 'user'])
+        ...mapSystemState([
+            'sidebar',
+            'mobile',
+            'user',
+            'spinner'
+        ])
     },
     methods: {
         ...mapSystemMutations([

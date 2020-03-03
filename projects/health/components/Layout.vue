@@ -3,10 +3,11 @@
         <div class="shadow--main">
             <div class="container-layout" />
             <action-panel />
-            <fade-loader v-if="!connected" class="spinner"
-                size="80px" :width="2" color="#14BFF1" />
-            <div class="layout" v-else>
-                <component :is="$route.params.mode" ref="content"/>
+            <fade-loader class="spinner" v-if="connecting || !loaded"
+                :width="2" size="80px" color="#fff" />
+            <div class="layout" v-if="!connecting">
+                <component ref="content" :is="$route.params.mode"
+                   :loaded="loaded" @set-loaded="value => loaded = value" />
             </div>
         </div>
     </div>
@@ -19,12 +20,13 @@ import Create from '@/components/modes/Create'
 import Inbox from '@/components/modes/Inbox'
 import { FadeLoader } from '@saeris/vue-spinners'
 
-import { createNamespacedHelpers } from 'vuex'
-const { mapActions } = createNamespacedHelpers('inbox')
-
 import { bindInbox } from '@src/helpers/VeridaTransmitter'
 
 import LayoutMixin from '@src/mixins/layout'
+
+import { createNamespacedHelpers } from 'vuex'
+const { mapState: mapSystemState } = createNamespacedHelpers('system')
+const { mapActions: mapInboxActions } = createNamespacedHelpers('inbox')
 
 export default {
     name: 'Layout',
@@ -40,11 +42,11 @@ export default {
     },
     data () {
         return {
-            connected: false
+            loaded: false
         }
     },
     methods: {
-        ...mapActions([
+        ...mapInboxActions([
             'getInboxAmount',
             'getInboxMessages'
         ]),
@@ -54,7 +56,15 @@ export default {
         },
         async connect () {
             await bindInbox(this.handleInbox)
-            this.connected = true
+            this.setSpinner({ [this.SPINNER.DATA]: false })
+        }
+    },
+    computed: {
+        ...mapSystemState([
+            'spinner'
+        ]),
+        connecting () {
+            return this.spinner[this.SPINNER.DATA]
         }
     }
 }

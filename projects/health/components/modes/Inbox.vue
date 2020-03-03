@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="loaded">
         <empty-list v-if="!cards.length"/>
         <inbox-card v-else
             v-for="(card, index) in cards"
@@ -20,6 +20,7 @@ export default {
         InboxCard,
         EmptyList
     },
+    props: [ 'loaded' ],
     computed: {
         ...mapGetters([ 'cards' ]),
         entity () {
@@ -32,11 +33,14 @@ export default {
             'getInboxMessages'
         ]),
         async init () {
-            const requests = [
+            this.$emit('set-loaded', false)
+
+            await Promise.all([
                 this.getInboxAmount(),
                 this.getInboxMessages()
-            ]
-            return Promise.all(requests)
+            ])
+
+            this.$emit('set-loaded', true)
         }
     },
     async beforeMount () {
