@@ -20,6 +20,7 @@
   bottom: 0;
   background: white;
   box-shadow: 0 0 2px 0 rgba(0,0,0,0.75);
+  height: calc(100vh - 48px);
 
   .active {
     background-color: #df2447;

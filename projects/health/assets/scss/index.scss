@@ -1,8 +1,10 @@
 @import '~bootstrap/scss/bootstrap';
 @import '~bootstrap-vue/src/index';
 
+@import '~@src/assets/scss/animations';
 @import '~@src/assets/scss/inputs';
 @import '~@src/assets/scss/buttons';
+@import '~@src/assets/scss/layouts';
 @import '~@src/assets/scss/pages/landing';
 
 @import 'fonts';
