@@ -1,9 +1,14 @@
 <template>
     <b-modal id="request-recipient" title="Recipient's DID" hide-footer
              size="sm" centered v-model="shown"
+             :no-close-on-backdrop="true"
+             :no-close-on-esc="true"
              content-class="recipient-modal"
              header-class="recipient-modal__header">
         <div class="recipient-modal__content">
+            <div class="recipient-modal__shadow" v-if="processing">
+                <fade-loader class="spinner" :width="2" size="80px" color="#40E0D0" />
+            </div>
             <ValidationObserver v-slot="{ invalid }" ref="validator">
                 <ValidationProvider v-slot="{ errors }" rules="required|did">
                     <b-form-textarea v-model="did" name="did"
@@ -17,13 +22,14 @@
                         {{ errors[0] }}
                     </b-form-invalid-feedback>
                 </ValidationProvider>
-                <button class="recipient-modal__button" @click="submit" :disabled="invalid"/>
+                <button class="recipient-modal__button" @click="submit" :disabled="invalid || processing" />
             </ValidationObserver>
         </div>
     </b-modal>
 </template>
 
 <script>
+import { FadeLoader } from '@saeris/vue-spinners'
 const configs = {
     type: '/schemas/inbox/type/dataRequest',
     message: 'Requesting access to your email',
@@ -35,18 +41,27 @@ const configs = {
 
 export default {
     name: 'RequestRecipient',
+    components: {
+        FadeLoader
+    },
     data () {
         return {
             placeholder: 'did:ethr:0x57127C0C0b891125af4441a51BF37F465cDb9d73',
             did: null,
-            shown: false
+            shown: false,
+
+            processing: false
         }
     },
     methods: {
         async submit () {
+            this.processing = true
+
             await window.veridaApp.outbox.send(this.did, configs.type, configs.request, configs.message, {});
             await this.$nextTick()
             this.$bvModal.hide('request-recipient')
+
+            this.processing = false
         },
     },
     watch:{
