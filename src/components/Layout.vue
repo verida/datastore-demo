@@ -37,7 +37,7 @@ export default {
   methods: {
     ...mapSystemMutations([ 'setRecipientInfo' ]),
     async connect() {
-      await bindInbox(this.setRecipientInfo)
+      bindInbox(this.setRecipientInfo)
       await this.$nextTick()
       await this.$refs.documents.initDatastore()
       this.setSpinner({ [this.SPINNER.DATA]: false })

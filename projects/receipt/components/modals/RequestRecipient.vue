@@ -1,11 +1,11 @@
 <template>
     <b-modal id="request-recipient" title="Recipient's DID" hide-footer
-             size="sm" centered
+             size="sm" centered v-model="shown"
              content-class="recipient-modal"
              header-class="recipient-modal__header">
         <div class="recipient-modal__content">
             <ValidationObserver v-slot="{ invalid }">
-                <ValidationProvider v-slot="{ errors }" rules="did">
+                <ValidationProvider v-slot="{ errors }" rules="required|did">
                     <b-form-textarea v-model="did" name="did"
                                      spellcheck="false"
                                      :placeholder="placeholder"
@@ -17,7 +17,7 @@
                         {{ errors[0] }}
                     </b-form-invalid-feedback>
                 </ValidationProvider>
-                <button class="recipient-modal__button" @click="submit" :disabled="!did || invalid"/>
+                <button class="recipient-modal__button" @click="submit" :disabled="invalid"/>
             </ValidationObserver>
         </div>
     </b-modal>
@@ -38,15 +38,23 @@ export default {
     data () {
         return {
             placeholder: 'did:ethr:0x57127C0C0b891125af4441a51BF37F465cDb9d73',
-            did: null
+            did: 'did:ethr:0x57127C0C0b891125af4441a51BF37F465cDb9d73',
+            shown: false
         }
     },
     methods: {
         async submit () {
-            await window.veridaApp.outbox.send(this.did, configs.type, configs.request, configs.message);
+            await window.veridaApp.outbox.send(this.did, configs.type, configs.request, configs.message, {});
+            await this.$nextTick()
             this.$bvModal.hide('request-recipient')
-            this.did = null
         },
+    },
+    watch:{
+        shown () {
+            if (this.shown) {
+                //this.did = null
+            }
+        }
     }
 }
 </script>

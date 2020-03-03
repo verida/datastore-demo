@@ -1,13 +1,12 @@
 <template>
-    <b-modal id="recipient-data" title="Recipient Data" hide-footer
-             size="sm" centered
+    <b-modal id="recipient-data" title="Recipient Data" hide-footer centered
              content-class="recipient-modal"
              header-class="recipient-modal__header"
              v-model="shown">
         <div class="recipient-modal__content">
             {{info}}
         </div>
-        <b-button @cick="close">
+        <b-button @click="close">
             Close
         </b-button>
     </b-modal>
@@ -43,7 +42,9 @@ export default {
     },
     watch: {
         info () {
-            this.shown = Boolean(this.info)
+            if (this.info) {
+                this.$bvModal.show('recipient-data')
+            }
         }
     }
 }

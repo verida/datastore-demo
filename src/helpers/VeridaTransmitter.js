@@ -83,7 +83,7 @@ export async function logout () {
   }
 }
 
-export async function bindInbox (cb) {
+export function bindInbox (cb) {
   if (window.veridaApp) {
     window.veridaApp.inbox.on('newMessage', cb)
   }
