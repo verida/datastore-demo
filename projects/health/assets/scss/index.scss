@@ -1,0 +1,25 @@
+@import '~bootstrap/scss/bootstrap';
+@import '~bootstrap-vue/src/index';
+
+@import '~@src/assets/scss/inputs';
+@import '~@src/assets/scss/buttons';
+@import '~@src/assets/scss/pages/landing';
+
+@import 'fonts';
+@import 'mixins';
+@import 'particles';
+
+.scrollable {
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+  &::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.3);
+    border-radius: 5px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #36A5A5 0%, #4192A5 49%, #1E7053 100%);
+    outline: 1px solid slategrey;
+    border-radius: 5px;
+  }
+}

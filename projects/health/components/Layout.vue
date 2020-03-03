@@ -5,7 +5,7 @@
             <action-panel />
             <fade-loader class="spinner" v-if="connecting || !loaded"
                 :width="2" size="80px" color="#fff" />
-            <div class="layout" v-if="!connecting">
+            <div class="layout scrollable" v-if="!connecting">
                 <component ref="content" :is="$route.params.mode"
                    :loaded="loaded" @set-loaded="value => loaded = value" />
             </div>

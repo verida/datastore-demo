@@ -17,7 +17,7 @@
             </ValidationProvider>
         </div>
         <div class="validation-section">
-            <ValidationProvider class="schema__item"
+            <ValidationProvider class="validation-section__item"
                     v-slot="{ errors }"
                     v-for="(item, key) in data"
                     :key="key"

@@ -1,6 +1,7 @@
 @import '~bootstrap/scss/bootstrap';
 @import '~bootstrap-vue/src/index';
 
+@import 'pages/landing';
 @import 'fonts';
 @import 'typography';
 @import 'animations';
@@ -11,7 +12,3 @@
 @import 'layouts';
 @import 'loaders';
 @import 'tables';
-
-button:focus {
-  outline: none;
-}

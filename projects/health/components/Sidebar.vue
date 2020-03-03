@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="sidebar--shadow" :class="{'d-none': !(sidebar && mobile)}" />
+        <div class="shadow--sidebar" :class="{'d-none': !(sidebar && mobile)}" />
         <div class="sidebar" v-if="sidebar || !mobile">
             <div class="profile">
                 <fade-loader v-if="spinner[SPINNER.NAVIGATION]"
@@ -18,7 +18,7 @@
                     </div>
                 </b-nav-item>
             </b-nav>
-            <div class="sidebar--middle-shadow" />
+            <div class="shadow--sidebar-middle" />
             <img src="@/assets/img/logo-red.png" class="logout" @click="disconnect" />
         </div>
     </div>

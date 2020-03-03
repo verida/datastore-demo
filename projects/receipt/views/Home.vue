@@ -68,14 +68,14 @@ export default {
     async requestProfile () {
       if (!this.inboxBind) {
         this.inboxBind = true;
-        console.log("inboxBind");
         // Define a callback function that handles inbox messages
         let cb = function(message) {
-          let dataItems = message.data.data;
+          console.log(message, 'message')
+         /* let dataItems = message.data.data;
           if (dataItems.length) {
             let requestedProfileData = dataItems[0];
             console.log("Received the following extended profile data:", requestedProfileData);
-          }
+          }*/
         }
 
         window.veridaApp.inbox.on('newMessage', cb);
@@ -90,7 +90,7 @@ export default {
       };
 
       // TODO: Put this in a modal
-      let userDid = "did:ethr:0xb42bc405e47dc1e17110dc9849ed405636f2e7f6";
+      let userDid = "did:ethr:0x57127C0C0b891125af4441a51BF37F465cDb9d73";
 
       await window.veridaApp.outbox.send(userDid, "/schemas/inbox/type/dataRequest", emailRequest, "Requesting access to your email");
     }

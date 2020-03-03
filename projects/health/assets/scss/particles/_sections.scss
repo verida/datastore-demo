@@ -1,0 +1,59 @@
+.validation-section {
+  margin: 30px 0;
+}
+
+.validation-section__item {
+  display: block;
+  margin-top: 15px;
+  font-size: 13px;
+}
+
+.view {
+  font-size: 13px;
+  border-radius: 5px;
+  padding: 25px 15px 10px;
+  background-color: white;
+  border: 1px solid white;
+}
+
+.view--date {
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 10px 30px;
+  color: #36A5A5;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.empty-list {
+  font-size: 14px;
+  font-weight: bold;
+  color: #6E2AAB;
+}
+
+.recipient-area {
+  label {
+    margin-top: 15px;
+  }
+  padding-bottom: 20px;
+  background-color: #fff;
+  color: red;
+}
+
+.create {
+  position: relative;
+  margin-bottom: 40px;
+
+  textarea, input {
+    font-size: 13px;
+    border-radius: 4px;
+    border: 1px solid grey;
+    box-shadow: none !important;
+  }
+
+
+  input {
+    height: 40px;
+  }
+}
