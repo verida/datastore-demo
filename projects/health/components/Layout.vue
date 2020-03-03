@@ -22,15 +22,15 @@ import { FadeLoader } from '@saeris/vue-spinners'
 import { createNamespacedHelpers } from 'vuex'
 const { mapActions } = createNamespacedHelpers('inbox')
 
-import {
-    connectVerida,
-    bind,
-    logout,
-    bindInbox
-} from '@src/helpers/VeridaTransmitter'
+import { bindInbox } from '@src/helpers/VeridaTransmitter'
+
+import LayoutMixin from '@src/mixins/layout'
 
 export default {
     name: 'Layout',
+    mixins: [
+        LayoutMixin
+    ],
     components: {
         List,
         Create,
@@ -43,29 +43,18 @@ export default {
             connected: false
         }
     },
-    async beforeMount () {
-        await this.init()
-    },
     methods: {
         ...mapActions([
             'getInboxAmount',
             'getInboxMessages'
         ]),
-        async init () {
-            await bind(this.connect, this.disconnect)
-            await connectVerida()
-            await bindInbox(this.handleInbox)
-        },
         async handleInbox () {
             await this.getInboxAmount()
             await this.getInboxMessages()
         },
         async connect () {
+            await bindInbox(this.handleInbox)
             this.connected = true
-        },
-        async disconnect () {
-            await logout()
-            await this.$router.push({ name: 'connect' })
         }
     }
 }

@@ -4,7 +4,7 @@
             <img src="@/assets/img/logo.png"/>
             <span>Patient | Medical Data</span>
         </b-navbar-brand>
-        <button class="navbar-toggler d-md-none" @click="() => setSidebar()">
+        <button class="navbar-toggler d-block d-md-none" @click="() => setSidebar()">
             <span class="navbar-toggler-icon" />
         </button>
     </b-navbar>
