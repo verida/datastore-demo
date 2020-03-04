@@ -17,7 +17,6 @@ import LayoutMixin from '@src/mixins/layout'
 import { bindInbox } from '@src/helpers/VeridaTransmitter'
 
 import { createNamespacedHelpers } from 'vuex'
-const { mapMutations: mapSystemMutations } = createNamespacedHelpers('system')
 
 export default {
   name: 'Layout',
@@ -35,9 +34,16 @@ export default {
     CreateModal
   },
   methods: {
-    ...mapSystemMutations([ 'setRecipientInfo' ]),
+    handleInbox (payload) {
+      const { sentBy, message } = payload
+      this.$bvToast.toast(`Sent from: ${sentBy.did}`, {
+        title: message,
+        variant: 'primary',
+        solid: true
+      })
+    },
     async connect() {
-      bindInbox(this.setRecipientInfo)
+      bindInbox(this.handleInbox)
       await this.$nextTick()
       await this.$refs.documents.initDatastore()
       this.setSpinner({ [this.SPINNER.DATA]: false })

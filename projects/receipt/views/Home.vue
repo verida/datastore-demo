@@ -1,9 +1,7 @@
 <template>
   <div>
     <Layout title="Receipts" :collections="collections" />
-
     <RequestRecipient />
-    <ShowRecipientData />
   </div>
 </template>
 
@@ -11,8 +9,7 @@
 import Layout from '@src/components/Layout'
 import CreateModalMixin from '@src/mixins/create-modal'
 
-import RequestRecipient from '../components/modals/RequestRecipient';
-import ShowRecipientData from '../components/modals/ShowRecipientData';
+import RequestRecipient from '../components/modals/RequestRecipient'
 
 import { createNamespacedHelpers } from 'vuex'
 const { mapMutations: mapSystemMutations } = createNamespacedHelpers('system')
@@ -24,7 +21,6 @@ export default {
     CreateModalMixin
   ],
   components: {
-    ShowRecipientData,
     RequestRecipient,
     Layout
   },
