@@ -1,6 +1,9 @@
 .landing {
   position: fixed;
-  height: 100vh;
+  left: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%;
 }
 .landing__btn {
   width: 200px;
