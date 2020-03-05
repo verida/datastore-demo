@@ -38,12 +38,19 @@
                         :type="attributes[key].format.replace('-', '')"
                         input-class="form-control"
                         v-model="data[key]" />
-                <b-form-input v-else
-                              class="form-control"
-                              aria-describedby="did-error"
-                              v-model="data[key]"
-                              size="sm"
-                              :state="!data[key] ? null : !errors[0]" />
+                <b-form-textarea
+                        v-else-if="attributes[key].inputType === 'textarea'"
+                        class="form-control word-break" spellcheck="false"
+                        v-model="data[key]"
+                        :name="attributes[key].title"
+                        :state="!data[key] ? null : !errors[0]"
+                        size="sm" rows="3" />
+                <b-form-input
+                    v-else
+                    class="form-control"
+                    v-model="data[key]" size="sm"
+                    :name="attributes[key].title"
+                    :state="!data[key] ? null : !errors[0]" />
                 <b-form-invalid-feedback id="did-error">
                     {{ errors[0] }}
                 </b-form-invalid-feedback>
