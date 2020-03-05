@@ -17,16 +17,12 @@
 import ActionPanel from '@/components/ActionPanel'
 import List from '@/components/modes/List'
 import Create from '@/components/modes/Create'
-import Inbox from '@/components/modes/Inbox'
 import { FadeLoader } from '@saeris/vue-spinners'
-
-import { bindInbox } from '@src/helpers/VeridaTransmitter'
 
 import LayoutMixin from '@src/mixins/layout'
 
 import { createNamespacedHelpers } from 'vuex'
 const { mapState: mapSystemState } = createNamespacedHelpers('system')
-const { mapActions: mapInboxActions } = createNamespacedHelpers('inbox')
 
 export default {
     name: 'Layout',
@@ -36,7 +32,6 @@ export default {
     components: {
         List,
         Create,
-        Inbox,
         ActionPanel,
         FadeLoader
     },
@@ -46,16 +41,7 @@ export default {
         }
     },
     methods: {
-        ...mapInboxActions([
-            'getInboxAmount',
-            'getInboxMessages'
-        ]),
-        async handleInbox () {
-            await this.getInboxAmount()
-            await this.getInboxMessages()
-        },
         async connect () {
-            await bindInbox(this.handleInbox)
             this.setSpinner({ [this.SPINNER.DATA]: false })
         }
     },
