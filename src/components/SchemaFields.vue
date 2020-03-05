@@ -1,21 +1,5 @@
 <template>
     <ValidationObserver v-slot="{ invalid }" ref="validator" mode="eager">
-        <div class="recipient-area">
-            <ValidationProvider v-slot="{ errors }" rules="required|did"
-                                name="Recipient DID" key="recipient-did">
-                <label> Recipient DID </label>
-                <b-form-textarea v-model="did" name="did"
-                                 spellcheck="false"
-                                 :placeholder="placeholder"
-                                 class="form-control word-break "
-                                 size="sm" rows="1" no-resize
-                                 aria-describedby="did-error"
-                                 :state="!did ? null : !errors[0]" />
-                <b-form-invalid-feedback id="did-error">
-                    {{ errors[0] }}
-                </b-form-invalid-feedback>
-            </ValidationProvider>
-        </div>
         <div class="validation-section">
             <ValidationProvider class="validation-section__item"
                     v-slot="{ errors }"

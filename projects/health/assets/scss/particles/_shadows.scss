@@ -5,10 +5,10 @@
   height: calc(100vh - 49px);
 }
 .shadow--middle {
-  @include shadow(-10deg, 320px);
+  @include shadow(-10deg, 50%);
 }
 .shadow--footer {
-  @include shadow(10deg, -150px);
+  @include shadow(10deg, -15%);
 }
 .shadow--sidebar {
   position: absolute;
