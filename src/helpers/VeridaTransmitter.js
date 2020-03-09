@@ -5,14 +5,11 @@ import InboxManager from './InboxManager'
 
 const {
   VUE_APP_DATASTORE_NAME,
-  VUE_APP_DATASTORE_URL,
-  VUE_APP_DID_URL
+  VUE_APP_DATASTORE_ENVIRONMENT
 } = process.env
 
 const config = {
-  appServerUrl: VUE_APP_DATASTORE_URL,
-  didServerUrl: VUE_APP_DID_URL,
-  userServerUrl: VUE_APP_DATASTORE_URL
+  environment: VUE_APP_DATASTORE_ENVIRONMENT
 }
 
 let callbacks = {}

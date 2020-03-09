@@ -78,7 +78,7 @@
 </template>
 
 <script>
-import VeridaApp from '@verida-datastore';
+import VeridaApp from '@verida/datastore';
 
 export default {
   name: 'Home',
@@ -104,11 +104,7 @@ export default {
       this.address = await VeridaApp.WalletHelper.getAddress('ethr');
 
       window.App = this;
-      this.veridaApp = new VeridaApp("Verida Demo Application", 'ethr', this.address, web3Provider, {
-        //appServerUrl: "http://localhost:5000/",
-        //userServerUrl: "http://localhost:5000/",
-        //didServerUrl: "http://localhost:5001/",
-      });
+      this.veridaApp = new VeridaApp('Verida Demo Application', 'ethr', this.address, web3Provider);
       
       // Connect the user's wallet
       this.writeLog("Authenticating user with this demo app...");
