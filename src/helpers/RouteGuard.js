@@ -11,6 +11,8 @@ const redirect = async (to, next) => {
       return next({ name: 'home' })
     case (!signature || !accounts.length) && authorized:
       return next({ name: 'connect' })
+    case !to.matched.length:
+      return next('/')
     default: {
       return next()
     }
