@@ -4,8 +4,8 @@ import ProfileManager from './ProfileManager'
 import InboxManager from './InboxManager'
 
 const {
-  TITLE,
-  VUE_APP_DATASTORE_ENVIRONMENT
+  VUE_APP_DATASTORE_ENVIRONMENT,
+  VUE_APP_TITLE
 } = process.env
 
 const config = {
@@ -25,7 +25,7 @@ export async function connectVerida (force, canceled = () => {}) {
   const address = await VeridaApp.WalletHelper.getAddress('ethr')
 
   if (!window.veridaApp) {
-    window.veridaApp = new VeridaApp(TITLE, 'ethr', address, web3Provider, config)
+    window.veridaApp = new VeridaApp(VUE_APP_TITLE, 'ethr', address, web3Provider, config)
     window.inboxManager = new InboxManager(window.veridaApp)
   }
 

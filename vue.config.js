@@ -43,7 +43,7 @@ module.exports = {
     },
     plugins: [
       new HtmlPlugin({
-        title: process.env.TITLE,
+        title: process.env.VUE_APP_TITLE,
         template: `src/assets/index.html`,
         favicon: `${directory.app}/assets/favicon.png`,
         hash: true
