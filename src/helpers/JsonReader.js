@@ -4,20 +4,15 @@ export class JsonReader {
   }
 
   async schema () {
-    const schema = await window.veridaApp.getSchema(this.tab)
-    return schema.getSpecification()
+    return window.veridaApp.getSchema(this.tab)
   }
 
   async filter (property) {
     const action = require(`@/config/layouts.json`)[this.tab][property]
-    const { title, properties, color, required } = await this.schema()
 
-    let icon = null
-    try {
-      icon = require.resolve(`@schemas/${this.tab}/icon.svg`)
-    } catch (e) {
-      console.log(e)
-    }
+    const schema = await this.schema()
+    const { title, properties, color, required } = await schema.getSpecification()
+    const icon = await schema.getIcon()
 
     const fields = _.chain(properties)
         .pick(action)
