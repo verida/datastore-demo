@@ -124,7 +124,7 @@ export default {
             this.processing = true
             const message = []
 
-            const store = await window.veridaApp.openDatastore(this.category)
+            const store = await window.veridaApp.openDatastore('https://schemas.alpha.verida.io/' + this.category + '/schema.json')
             const payload = {
                 name: extract(this.data, this.category),
                 ...this.data
@@ -144,7 +144,7 @@ export default {
         async sendInbox (message, name) {
             const { outbox } = window.veridaApp
 
-            const inboxType = '/schemas/inbox/type/dataSend'
+            const inboxType = 'inbox/type/dataSend'
             const outboxItem = { 'data': message }
             const text = `Sending you the <strong>${this.title}</strong> called "${name}"`
 
