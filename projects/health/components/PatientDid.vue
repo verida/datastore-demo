@@ -58,7 +58,6 @@ const configs = {
     message: 'Requesting an access to documents',
     request: {
         requestSchema: null,
-        filter: { 'key': 'email' },
         userSelect: true,
         userSelectLimit: 10
     }
