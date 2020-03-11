@@ -22,9 +22,8 @@ import { FadeLoader } from '@saeris/vue-spinners'
 import EmptyList from '../stubs/EmptyList'
 
 import { createNamespacedHelpers } from 'vuex'
-const {
-    mapGetters: mapSchemaGetters
-} = createNamespacedHelpers('schema')
+const { mapGetters: mapSchemaGetters } = createNamespacedHelpers('schema')
+const { mapState: mapPatientState } = createNamespacedHelpers('patient')
 
 const formatValue = (value, key) => {
     switch (key) {
@@ -52,6 +51,7 @@ export default {
     },
     computed: {
         ...mapSchemaGetters(['fields']),
+        ...mapPatientState(['cards']),
         entity () {
             return this.$route.params.entity
         }
@@ -65,8 +65,8 @@ export default {
 
             const schemas = require(`@/config/map.json`)
             const { schema } = schemas[`health/${this.entity}`]
-            const store = await window.veridaApp.openDatastore(schema)
-            const list = await store.getMany()
+
+            const list = await this.getList(schema)
 
             const { properties } = await this.fields(schema)
             const keys = _.keys(properties)
@@ -80,10 +80,23 @@ export default {
         },
         formatItem (obj) {
             return _.mapObject(obj, formatValue)
+        },
+        async getList (schema) {
+           const { mode } = this.$route.params
+           switch (mode) {
+               case 'list':
+                   return new Promise(resolve => resolve(this.cards))
+               case 'custom':
+                   const store = await window.veridaApp.openDatastore(schema)
+                   return store.getMany()
+           }
         }
     },
     watch: {
         async entity () {
+            await this.init()
+        },
+        async '$route.params.mode' () {
             await this.init()
         }
     }

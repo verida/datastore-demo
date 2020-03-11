@@ -6,7 +6,7 @@
             <fade-loader class="spinner" v-if="connecting || !loaded"
                 :width="2" size="80px" color="#fff" />
             <div class="layout scrollable" v-if="!connecting">
-                <component ref="content" :is="$route.params.mode"
+                <component ref="content" :is="mode"
                    :loaded="loaded" @set-loaded="value => loaded = value" />
             </div>
         </div>
@@ -23,6 +23,9 @@ import LayoutMixin from '@src/mixins/layout'
 
 import { createNamespacedHelpers } from 'vuex'
 const { mapState: mapSystemState } = createNamespacedHelpers('system')
+const { mapMutations: mapPatientMutations } = createNamespacedHelpers('patient')
+
+import { bindInbox } from '@src/helpers/VeridaTransmitter'
 
 export default {
     name: 'Layout',
@@ -41,9 +44,17 @@ export default {
         }
     },
     methods: {
+        ...mapPatientMutations([
+            'setPatientCards'
+        ]),
         async connect () {
+            bindInbox(this.handleInbox)
             this.setSpinner({ [this.SPINNER.DATA]: false })
-        }
+        },
+        handleInbox (msg) {
+            const { data } = msg.data
+            this.setPatientCards(data)
+        },
     },
     computed: {
         ...mapSystemState([
@@ -51,6 +62,10 @@ export default {
         ]),
         connecting () {
             return this.spinner[this.SPINNER.DATA]
+        },
+        mode () {
+            const { mode } = this.$route.params
+            return mode !== 'create' ? 'list' : 'create'
         }
     }
 }

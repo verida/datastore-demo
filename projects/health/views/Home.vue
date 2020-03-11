@@ -26,8 +26,6 @@ import PatientDid from '@/components/PatientDid'
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters: mapPatientGetters } = createNamespacedHelpers('patient')
 
-import { bindInbox } from '@src/helpers/VeridaTransmitter'
-
 export default {
   name: 'home',
   components: {
@@ -37,16 +35,10 @@ export default {
     PatientDid,
     RingLoader
   },
-  beforeMount () {
-    bindInbox(this.handleInbox)
-  },
   computed: {
     ...mapPatientGetters([
       'identified'
     ])
-  },
-  handleInbox (msg) {
-    console.log(msg)
   },
   beforeRouteEnter (to, from, next) {
     to.path === '/' ? next('/note/create') : next()

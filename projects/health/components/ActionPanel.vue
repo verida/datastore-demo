@@ -11,7 +11,7 @@
 </template>
 
 <script>
-const modes = [ 'create', 'list' ]
+const modes = [ 'create', 'list', 'custom' ]
 
 export default {
     name: 'ActionPanel',

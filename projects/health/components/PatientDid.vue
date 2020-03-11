@@ -19,25 +19,35 @@
                     <div class="form-group">
                         <label>Patient DID</label>
                         <b-form-textarea
-                            v-model="did"
+                            v-model="data.did"
                             spellcheck="false"
                             class="form-control word-break "
                             size="sm" rows="3" no-resize
                             aria-describedby="did-error"
                             :placeholder="placeholder"
-                            :state="!did ? null : !errors[0]" />
+                            :state="!data.did ? null : !errors[0]" />
                     </div>
                     <b-form-invalid-feedback>
                         {{ errors[0] }}
                     </b-form-invalid-feedback>
                 </ValidationProvider>
                 <ValidationProvider v-slot="{ errors }" rules="required" name="documents">
-                    <b-form-group label="Document groups:">
-                        <b-form-checkbox-group v-model="documents" switches>
+                    <b-form-group label="Document groups">
+                        <b-form-checkbox-group v-model="data.documents" switches>
                             <b-form-checkbox value="health/note">Note</b-form-checkbox>
                             <b-form-checkbox value="health/prescription">Prescription</b-form-checkbox>
                         </b-form-checkbox-group>
                     </b-form-group>
+                    <b-form-invalid-feedback>
+                        {{ errors[0] }}
+                    </b-form-invalid-feedback>
+                </ValidationProvider>
+                <ValidationProvider v-slot="{ errors }" name="limit"
+                    rules="min_value:1|max_value:10|integer|numeric|required">
+                    <label>Limit</label>
+                    <b-form-input class="form-control"
+                                  v-model="data.limit" size="sm"
+                                  :state="!data.limit ? null : !errors[0]" />
                     <b-form-invalid-feedback>
                         {{ errors[0] }}
                     </b-form-invalid-feedback>
@@ -69,8 +79,12 @@ export default {
         return {
             visible: true,
             placeholder: 'did:ethr:0x57127C0C0b891125af4441a51BF37F465cDb9d73',
-            did: null,
-            documents: null
+
+            data: {
+                did: null,
+                documents: null,
+                limit: null
+            }
         }
     },
     methods: {
@@ -83,9 +97,12 @@ export default {
                 return
             }
 
-            this.setPatientDid(this.did)
-            configs.request.requestSchema = this.documents
-            window.veridaApp.outbox.send(this.did, configs.type, configs.request, configs.message, {});
+            this.setPatientDid(this.data.did)
+            Object.assign(configs.request, {
+                requestSchema: this.data.documents,
+                userSelectLimit: this.data.limit
+            })
+            window.veridaApp.outbox.send(this.data.did, configs.type, configs.request, configs.message, {});
             this.$bvModal.hide('patient-modal')
         }
     }

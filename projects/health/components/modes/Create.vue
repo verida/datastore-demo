@@ -1,6 +1,6 @@
 <template>
     <div class="create">
-        <schema-fields ref="schema-fields" :category="category">
+        <schema-fields ref="schema-fields" :category="category" :recipient="false">
             <template v-slot:submit-section="props">
                 <b-button variant="danger" class="float-right" :disabled="props.disabled" @click="submit(props.submit)">
                     Submit
