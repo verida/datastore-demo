@@ -9,7 +9,10 @@ const {
 } = process.env
 
 const config = {
-  environment: VUE_APP_DATASTORE_ENVIRONMENT
+  environment: VUE_APP_DATASTORE_ENVIRONMENT,
+  schemas: {
+    basePath: 'https://schemas.verida.alpha.io/'
+  }
 }
 
 let callbacks = {}
