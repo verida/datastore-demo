@@ -124,7 +124,7 @@ export default {
             this.processing = true
             const message = []
 
-            const store = await window.veridaApp.openDatastore('https://schemas.alpha.verida.io/' + this.category + '/schema.json')
+            const store = await window.veridaApp.openDatastore(this.category)
             const payload = {
                 name: extract(this.data, this.category),
                 ...this.data

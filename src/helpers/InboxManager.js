@@ -22,9 +22,9 @@ class InboxManager {
     ]
 
     switch (inboxEntry.type) {
-      case '/schemas/inbox/type/dataSend':
+      case 'inbox/type/dataSend':
         return acceptOptions;
-        case '/schemas/inbox/type/dataRequest':
+        case 'inbox/type/dataRequest':
           return acceptOptions;
       default:
         return []
@@ -50,7 +50,7 @@ class InboxManager {
     await inbox.save(inboxEntry)
 
     switch (inboxEntry.type) {
-      case '/schemas/inbox/type/dataSend':
+      case 'inbox/type/dataSend':
         // save the data
         if (action === 'accept') {
           let dataSend = inboxEntry.data.data
@@ -61,7 +61,7 @@ class InboxManager {
           }
         }
         break;
-      case '/schemas/inbox/type/dataRequest/schema.json':
+      case 'inbox/type/dataRequest/schema.json':
         if (action === 'accept') {
           let dataRequest = inboxEntry.data
           let vid = inboxEntry.sentBy.vid

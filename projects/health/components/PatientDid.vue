@@ -54,7 +54,7 @@ const {
 } = createNamespacedHelpers('patient')
 
 const configs = {
-    type: '/schemas/inbox/type/dataRequest',
+    type: 'inbox/type/dataRequest',
     message: 'Requesting an access to documents',
     request: {
         requestSchema: null,
