@@ -1,14 +1,16 @@
+import { DATA_SEND, DATA_REQUEST } from '@src/constants/inbox'
+
 class InboxManager {
   constructor (app) {
     this._app = app
   }
 
   /**
-     * Given an inbox entry it will return an array of actions that can be
-     * performed on the inbox entry. This is for display purposes.
-     *
-     * @param {*} inboxEntry
-     */
+   * Given an inbox entry it will return an array of actions that can be
+   * performed on the inbox entry. This is for display purposes.
+   *
+   * @param {*} inboxEntry
+   */
   getActions (inboxEntry) {
     let acceptOptions = [
       {
@@ -22,23 +24,23 @@ class InboxManager {
     ]
 
     switch (inboxEntry.type) {
-      case 'inbox/type/dataSend':
-        return acceptOptions;
-        case 'inbox/type/dataRequest':
-          return acceptOptions;
+      case DATA_SEND:
+      case DATA_REQUEST:
+        return acceptOptions
       default:
         return []
     }
   }
 
   /**
-     * Perform the requested action on an inbox entry
-     *
-     * @param {*} inboxEntry
-     * @param {*} action
-     */
-  async handleAction (inboxEntry, action) {
-    let inbox = await this._app.inbox.getInbox();
+   * Perform the requested action on an inbox entry
+   *
+   * @param {*} inboxEntry
+   * @param {*} action
+   * @param payload
+   */
+  async handleAction (inboxEntry, action, payload = []) {
+    let inbox = await this._app.inbox.getInbox()
 
     if (inboxEntry.data.status) {
       throw new Error('Data has already been ' + inboxEntry.data.status)
@@ -50,7 +52,7 @@ class InboxManager {
     await inbox.save(inboxEntry)
 
     switch (inboxEntry.type) {
-      case 'inbox/type/dataSend':
+      case DATA_SEND:
         // save the data
         if (action === 'accept') {
           let dataSend = inboxEntry.data.data
@@ -60,24 +62,31 @@ class InboxManager {
             await store.save(dataEntry)
           }
         }
-        break;
-      case 'inbox/type/dataRequest/schema.json':
+        break
+      case DATA_REQUEST:
+        // This is a request for a group of data (ie: All my health notes)
         if (action === 'accept') {
           let dataRequest = inboxEntry.data
-          let vid = inboxEntry.sentBy.vid
           let did = inboxEntry.sentBy.did
-          let response = {
-            "_id": inboxEntry._id
-          };
+          let appName = inboxEntry.sentBy.app
 
-          // TODO: Show a modal popup asking user to select data
-          // that matches the given schema with (optional) filter
-          // applied
-          //let dataResponse = askUserForData(dataRequest);
+          const store = await this._app.openDatastore(dataRequest.requestSchema)
+          const response = {
+            data: null,
+            replyId: inboxEntry._id
+          }
 
-          // TODO: update `response` with inbox reply and send
-          // to specfic VID
-          //window.veridaApp.outbox.send();
+          if (dataRequest.userSelect) {
+            response.data = payload
+          } else {
+            let foundData = await store.getMany(dataRequest.filter ? dataRequest.filter : {})
+            response.data = [ foundData ]
+          }
+
+          const [type, msg] = [ DATA_SEND, 'Send you the requested data' ]
+          await this._app.outbox.send(did, type, response, msg, {
+            appName: appName
+          })
         }
         break
       default:

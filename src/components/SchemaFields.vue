@@ -1,6 +1,6 @@
 <template>
     <ValidationObserver v-slot="{ invalid }" ref="validator" mode="eager">
-        <div class="recipient-area" v-if="recipient">
+        <div class="recipient-area" v-if="!recipient">
             <ValidationProvider v-slot="{ errors }" rules="required|did"
                                 name="Recipient DID" key="recipient-did">
                 <label> Recipient DID </label>
@@ -64,8 +64,8 @@
 
 <script>
 import extract from '../helpers/NameModifier'
-
 import DateFormatMixin from '../mixins/date-format'
+import { DATA_SEND } from '@src/constants/inbox'
 
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters: mapSchemaGetters } = createNamespacedHelpers('schema')
@@ -81,7 +81,7 @@ export default {
             default: () => {}
         },
         recipient: {
-            default: true
+            default: null
         }
     },
     mixins: [ DateFormatMixin ],
@@ -144,12 +144,13 @@ export default {
         async sendInbox (message, name) {
             const { outbox } = window.veridaApp
 
-            const inboxType = 'inbox/type/dataSend'
+            const inboxType = DATA_SEND
             const outboxItem = { 'data': message }
             const text = `Sending you the <strong>${this.title}</strong> called "${name}"`
 
             try {
-                await outbox.send(this.did.toLowerCase(), inboxType, outboxItem, text, {})
+                const did = this.did || this.recipient
+                await outbox.send(did, inboxType, outboxItem, text, {})
             } catch (e) {
                 console.info(e)
             }

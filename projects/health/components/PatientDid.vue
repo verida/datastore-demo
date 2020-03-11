@@ -63,8 +63,10 @@ const {
     mapMutations: mapPatientMutations
 } = createNamespacedHelpers('patient')
 
+import { DATA_REQUEST } from '@src/constants/inbox'
+
 const configs = {
-    type: 'inbox/type/dataRequest',
+    type: DATA_REQUEST,
     message: 'Requesting an access to documents',
     request: {
         requestSchema: null,

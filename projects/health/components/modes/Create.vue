@@ -1,6 +1,6 @@
 <template>
     <div class="create">
-        <schema-fields ref="schema-fields" :category="category" :recipient="false">
+        <schema-fields ref="schema-fields" :category="category" :recipient="did">
             <template v-slot:submit-section="props">
                 <b-button variant="danger" class="float-right" :disabled="props.disabled" @click="submit(props.submit)">
                     Submit
@@ -13,6 +13,9 @@
 <script>
 import SchemaFields from '@src/components/SchemaFields'
 
+import { createNamespacedHelpers } from 'vuex'
+const { mapState: mapPatientState } = createNamespacedHelpers('patient')
+
 export default {
     name: 'Create',
     components: { SchemaFields },
@@ -22,6 +25,7 @@ export default {
       }
     },
     computed: {
+        ...mapPatientState([ 'did' ]),
         entity () {
             const { entity } = this.$route.params
             return `health/${entity}`

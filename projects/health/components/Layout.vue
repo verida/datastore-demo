@@ -26,6 +26,7 @@ const { mapState: mapSystemState } = createNamespacedHelpers('system')
 const { mapMutations: mapPatientMutations } = createNamespacedHelpers('patient')
 
 import { bindInbox } from '@src/helpers/VeridaTransmitter'
+import { DATA_SEND } from '@src/constants/inbox'
 
 export default {
     name: 'Layout',
@@ -52,8 +53,10 @@ export default {
             this.setSpinner({ [this.SPINNER.DATA]: false })
         },
         handleInbox (msg) {
-            const { data } = msg.data
-            this.setPatientCards(data)
+            if (msg.type === DATA_SEND) {
+                const { data } = msg.data
+                this.setPatientCards(data)
+            }
         },
     },
     computed: {

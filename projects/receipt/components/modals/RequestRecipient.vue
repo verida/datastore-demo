@@ -30,8 +30,11 @@
 
 <script>
 import { FadeLoader } from '@saeris/vue-spinners'
+
+import { DATA_REQUEST } from '@src/constants/inbox'
+
 const configs = {
-    type: 'inbox/type/dataRequest',
+    type: DATA_REQUEST,
     message: 'Requesting access to your email',
     request: {
         'requestSchema': 'profile/private',
