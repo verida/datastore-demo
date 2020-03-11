@@ -11,7 +11,7 @@ const {
 const config = {
   environment: VUE_APP_DATASTORE_ENVIRONMENT,
   schemas: {
-    basePath: 'https://schemas.verida.alpha.io/'
+    basePath: 'https://schemas.alpha.verida.io/'
   }
 }
 
