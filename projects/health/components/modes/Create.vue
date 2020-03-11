@@ -1,6 +1,6 @@
 <template>
     <div class="create">
-        <schema-fields ref="schema-fields" :category="category" :recipient="did">
+        <schema-fields ref="schema-fields" :category="category" :recipient="patient.did">
             <template v-slot:submit-section="props">
                 <b-button variant="danger" class="float-right" :disabled="props.disabled" @click="submit(props.submit)">
                     Submit
@@ -25,7 +25,7 @@ export default {
       }
     },
     computed: {
-        ...mapPatientState([ 'did' ]),
+        ...mapPatientState([ 'patient' ]),
         entity () {
             const { entity } = this.$route.params
             return `health/${entity}`

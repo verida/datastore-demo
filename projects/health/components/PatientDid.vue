@@ -99,12 +99,14 @@ export default {
                 return
             }
 
-            this.setPatientDid(this.data.did)
+            const { did, documents, limit } = this.data
+            this.setPatientDid(did)
+
             Object.assign(configs.request, {
-                requestSchema: this.data.documents,
-                userSelectLimit: this.data.limit
+                requestSchema: documents,
+                userSelectLimit: limit
             })
-            window.veridaApp.outbox.send(this.data.did, configs.type, configs.request, configs.message, {});
+            window.veridaApp.outbox.send(did, configs.type, configs.request, configs.message, {});
             this.$bvModal.hide('patient-modal')
         }
     }

@@ -1,5 +1,8 @@
 const state = {
-    did: null,
+    patient: {
+        did: null,
+        info: null
+    },
     cards: null
 };
 
@@ -9,10 +12,20 @@ const getters = {
 
 const mutations = {
     setPatientDid (state, payload) {
-        state.did = payload
+        state.patient.did = payload
+    },
+    setPatientInfo (state, payload) {
+        state.patient.info = payload
     },
     setPatientCards (state, payload) {
         state.cards = payload
+    },
+    resetPatient (state) {
+        state.cards = null
+        state.patient = {
+            did: null,
+            info: null
+        }
     }
 };
 

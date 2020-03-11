@@ -20,10 +20,12 @@ import Create from '@/components/modes/Create'
 import { FadeLoader } from '@saeris/vue-spinners'
 
 import LayoutMixin from '@src/mixins/layout'
+import DetectUserMixin from '@/mixins/detect-user'
 
 import { createNamespacedHelpers } from 'vuex'
 const { mapState: mapSystemState } = createNamespacedHelpers('system')
 const { mapMutations: mapPatientMutations } = createNamespacedHelpers('patient')
+const { mapActions: mapInboxActions } = createNamespacedHelpers('inbox')
 
 import { bindInbox } from '@src/helpers/VeridaTransmitter'
 import { DATA_SEND } from '@src/constants/inbox'
@@ -31,7 +33,8 @@ import { DATA_SEND } from '@src/constants/inbox'
 export default {
     name: 'Layout',
     mixins: [
-        LayoutMixin
+        LayoutMixin,
+        DetectUserMixin
     ],
     components: {
         List,
@@ -45,17 +48,24 @@ export default {
         }
     },
     methods: {
+        ...mapInboxActions([ 'getInboxSender' ]),
         ...mapPatientMutations([
+            'setPatientInfo',
             'setPatientCards'
         ]),
         async connect () {
             bindInbox(this.handleInbox)
             this.setSpinner({ [this.SPINNER.DATA]: false })
         },
-        handleInbox (msg) {
-            if (msg.type === DATA_SEND) {
-                const { data } = msg.data
-                this.setPatientCards(data)
+        async handleInbox (msg) {
+            const { data, type, sentBy } = msg
+            if (type === DATA_SEND) {
+                this.did = sentBy.did
+                const profile = await this.getSender()
+                this.setPatientInfo(profile)
+
+                const { data: cards } = data
+                this.setPatientCards(cards)
             }
         },
     },

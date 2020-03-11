@@ -18,6 +18,13 @@
                     </div>
                 </b-nav-item>
             </b-nav>
+            <div v-if="patient.info" class="patient-info">
+                <div class="patient-info__btn" @click="changePatient">Change</div>
+                <div class="patient-info__text">
+                    Patient: <span v-html="patient.info" />
+                </div>
+                <small class="patient-info__did">{{ patient.did }}</small>
+            </div>
             <div class="shadow--sidebar-middle" />
             <img src="@/assets/img/logo-red.png" class="logout" @click="disconnect" />
         </div>
@@ -35,6 +42,10 @@ const {
     mapState: mapSystemState,
     mapMutations: mapSystemMutations
 } = createNamespacedHelpers('system')
+const {
+    mapState: mapPatientState,
+    mapMutations: mapPatientMutations
+} = createNamespacedHelpers('patient')
 
 export default {
     name: 'Sidebar',
@@ -60,11 +71,17 @@ export default {
             'mobile',
             'user',
             'spinner'
+        ]),
+        ...mapPatientState([
+            'patient'
         ])
     },
     methods: {
         ...mapSystemMutations([
             'setMobile'
+        ]),
+        ...mapPatientMutations([
+            'resetPatient'
         ]),
         async setListener () {
             window.addEventListener('resize', this.resize)
@@ -89,6 +106,10 @@ export default {
         async disconnect () {
             await logout()
             await this.$router.push({ name: 'connect' })
+        },
+        changePatient () {
+            this.resetPatient()
+            this.$router.push('/')
         }
     }
 }

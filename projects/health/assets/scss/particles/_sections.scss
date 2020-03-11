@@ -57,3 +57,33 @@
     height: 40px;
   }
 }
+
+.patient-info {
+  font-size: 14px;
+  padding: 25px;
+  border: 1px solid #df2447;
+  border-left: none;
+  border-right: none;
+  word-break: break-all;
+}
+
+.patient-info__did {
+  color: dimgrey;
+}
+
+.patient-info__btn {
+  display: block;
+  color: #df2447;
+  font-size: 12px;
+  font-weight: bold;
+  float: right;
+
+  &:hover {
+    color: #9c1c2f;
+    cursor: pointer;
+  }
+}
+
+.patient-info__text {
+  margin: 40px 0 15px;
+}
