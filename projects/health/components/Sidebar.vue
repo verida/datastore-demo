@@ -109,7 +109,8 @@ export default {
         },
         changePatient () {
             this.resetPatient()
-            this.$router.push('/')
+            this.$nextTick()
+            this.$router.push('/note/create')
         }
     }
 }

@@ -10,9 +10,6 @@ const {
 
 const config = {
   environment: VUE_APP_DATASTORE_ENVIRONMENT,
-  schemas: {
-    basePath: 'http://schema-tmp.alpha.verida.io:5010/'
-  }
 }
 
 let callbacks = {}

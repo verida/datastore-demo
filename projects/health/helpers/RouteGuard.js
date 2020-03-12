@@ -5,7 +5,7 @@ import store from '@/store/patient'
 const BASIC = '/note/create'
 const redirect = async (to, from, next) => {
   const { did } = store.state.patient
-  if (!did && to.path !== BASIC) {
+  if (!did && to.name === 'entity' && to.params.mode !== 'create') {
     next(BASIC)
   } else {
     RouteGuard(to, from, next)
