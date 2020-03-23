@@ -1,4 +1,4 @@
-import VeridaApp from '@verida/datastore'
+import VeridaApp from '@verida/datastore/src/app'
 import { getSignature } from '@src/helpers/LocalStorage'
 import ProfileManager from './ProfileManager'
 import InboxManager from './InboxManager'
@@ -8,8 +8,10 @@ const {
   VUE_APP_TITLE
 } = process.env
 
-const config = {
+const basic = {
+  name: VUE_APP_TITLE,
   environment: VUE_APP_DATASTORE_ENVIRONMENT,
+  chain: 'ethr',
   schemas: {
     basePath: 'http://schema-tmp.alpha.verida.io:5010/'
   }
@@ -24,11 +26,12 @@ let callbacks = {}
  * @param {function} canceled if sign up is cancelled by user
  */
 export async function connectVerida (force, canceled = () => {}) {
-  const web3Provider = await VeridaApp.WalletHelper.connectWeb3('ethr')
-  const address = await VeridaApp.WalletHelper.getAddress('ethr')
+  const web3Provider = await VeridaApp.WalletHelper.connectWeb3(basic.chain)
+  const address = await VeridaApp.WalletHelper.getAddress(basic.chain)
+  const config = { ...basic, address, web3Provider }
 
   if (!window.veridaApp) {
-    window.veridaApp = new VeridaApp(VUE_APP_TITLE, 'ethr', address, web3Provider, config)
+    window.veridaApp = new VeridaApp(config)
     window.inboxManager = new InboxManager(window.veridaApp)
   }
 
