@@ -111,8 +111,10 @@ export default {
             this.attributes = {}
 
             Object.keys(properties).forEach(key => {
-                this.$set(this.data, key, null)
-                this.$set(this.attributes, key, properties[key])
+                if (properties[key]) {
+                    this.$set(this.data, key)
+                    this.$set(this.attributes, key, properties[key])
+                }
             })
 
             await this.$nextTick()
@@ -132,6 +134,11 @@ export default {
 
             message.push(payload)
             const saved = await store.save(payload)
+
+            if (!saved) {
+                console.error(store.errors)
+                return false
+            }
 
             if (this.internalSubmit) {
                 await this.internalSubmit({ saved, message })
