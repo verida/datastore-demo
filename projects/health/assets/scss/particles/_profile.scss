@@ -1,0 +1,19 @@
+.profile {
+  height: 150px;
+  padding: 20px 20px;
+  word-break: break-all;
+  font-size: 14px;
+  line-height: 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile__did {
+  margin-top: 15px;
+  width: 200px;
+  text-align: center;
+  font-size: 13px;
+  color: #36A5A5;
+}

@@ -1,0 +1,28 @@
+{
+  "health/note": {
+    "create": [
+      "name",
+      "notes",
+      "date"
+    ],
+    "view": [
+      "name",
+      "notes",
+      "date"
+    ]
+  },
+  "health/prescription/AU": {
+    "create": [
+      "notes",
+      "medication",
+      "purpose",
+      "issueDate"
+    ],
+    "view": [
+      "notes",
+      "medication",
+      "purpose",
+      "issueDate"
+    ]
+  }
+}

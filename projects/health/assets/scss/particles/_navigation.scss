@@ -1,0 +1,37 @@
+.navbar-demo {
+  padding: 0 10%;
+  background: linear-gradient(90deg, rgba(255,85,85,1) 0%, rgba(255,88,88,1) 49%, rgba(223,36,71,1) 100%);
+}
+
+.navbar-brand {
+  font-size: 17px;
+  img {
+    width: 40px;
+    margin-right: 15px;
+  }
+}
+
+.sidebar {
+  position: absolute;
+  padding: 40px 0;
+  right: 0;
+  top: 50px;
+  width: 270px;
+  bottom: 0;
+  background: white;
+  box-shadow: 0 0 2px 0 rgba(0,0,0,0.75);
+  height: calc(100vh - 48px);
+
+  .active {
+    background-color: #df2447;
+    a {
+      color: white;
+    }
+  }
+
+  a {
+    color: red;
+    font-size: 14px;
+    padding: 12px 25px;
+  }
+}

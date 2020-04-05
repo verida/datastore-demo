@@ -1,0 +1,30 @@
+@import 'service-cards';
+@import 'shadows';
+@import 'profile';
+@import 'buttons';
+@import 'navigation';
+@import 'sections';
+@import 'spinners';
+@import 'layouts';
+@import 'modals';
+
+@media (max-width: 767px) {
+  .navbar-demo {
+    padding: 0 20px;
+  }
+  .navbar-toggler {
+    padding: 2px 7px;
+  }
+  .sidebar {
+    position: fixed;
+    animation: slide-in-right 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+  }
+  .shadow--main,
+  .main {
+    width: 100%;
+  }
+  .action-panel__buttons button {
+    width: 80px;
+    font-size: 12px;
+  }
+}

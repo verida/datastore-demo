@@ -1,0 +1,8 @@
+{
+    "health/note": {
+        "schema": "health/note"
+    },
+    "health/prescription": {
+        "schema": "health/prescription/AU"
+    }
+}

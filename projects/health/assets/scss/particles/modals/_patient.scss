@@ -1,0 +1,65 @@
+.patient-modal {
+  legend, div[role=group] {
+    outline: none;
+    box-shadow: none;
+    cursor: default;
+  }
+
+  .form-group {
+    margin-bottom: 0;
+  }
+
+  .invalid-feedback {
+    font-size: 12px;
+    min-height: 37px;
+    color: dodgerblue;
+  }
+
+  label, legend {
+    font-size: 14px;
+    color: dimgrey;
+    user-select: none;
+
+    &:not(.custom-control-label) {
+      font-weight: bold;
+    }
+  }
+
+  h5 {
+    font-size: 16px;
+    cursor: default;
+    user-select: none;
+  }
+
+  .custom-switch .custom-control-label::before {
+    outline: none;
+    box-shadow: none;
+  }
+  .custom-control-input:checked ~ .custom-control-label::before {
+    color: #fff;
+    border-color: #df2447;
+    background: linear-gradient(90deg, rgba(255, 85, 85, 1) 0%, rgba(255, 88, 88, 1) 49%, rgba(223, 36, 71, 1) 100%);
+  }
+}
+
+.patient-modal__header {
+  color: white;
+  background: linear-gradient(90deg, rgba(255,85,85,1) 0%, rgba(255,88,88,1) 49%, rgba(223,36,71,1) 100%);
+
+  h5 {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.patient-modal__actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.patient-modal__content {
+  margin-top: 20px;
+}
