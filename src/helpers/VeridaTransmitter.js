@@ -1,19 +1,14 @@
-import VeridaApp from '@verida/datastore'
-import { getSignature } from '@src/helpers/LocalStorage'
+import Verida from '@verida/datastore'
 import ProfileManager from './ProfileManager'
 import InboxManager from './InboxManager'
 
 const {
-  VUE_APP_DATASTORE_ENVIRONMENT,
-  VUE_APP_TITLE
+  VUE_APP_VERIDA_APP_NAME,
+  VUE_APP_VERIDA_ENVIRONMENT,
+  VUE_APP_VERIDA_SCHEMAS_BASE_PATH
 } = process.env
 
-const config = {
-  environment: VUE_APP_DATASTORE_ENVIRONMENT,
-  schemas: {
-    basePath: 'http://schema-tmp.alpha.verida.io:5010/'
-  }
-}
+const CHAIN = 'ethr'
 
 let callbacks = {}
 
@@ -24,19 +19,29 @@ let callbacks = {}
  * @param {function} canceled if sign up is cancelled by user
  */
 export async function connectVerida (force, canceled = () => {}) {
-  const web3Provider = await VeridaApp.WalletHelper.connectWeb3('ethr')
-  const address = await VeridaApp.WalletHelper.getAddress('ethr')
+  const web3Provider = await Verida.Helpers.wallet.connectWeb3(CHAIN)
+  const address = await Verida.Helpers.wallet.getAddress(CHAIN)
+
+  Verida.setConfig({
+    appName: VUE_APP_VERIDA_APP_NAME,
+    environment: VUE_APP_VERIDA_ENVIRONMENT,
+    baseSchemasPath: VUE_APP_VERIDA_SCHEMAS_BASE_PATH
+  })
 
   if (!window.veridaApp) {
-    window.veridaApp = new VeridaApp(VUE_APP_TITLE, 'ethr', address, web3Provider, config)
+    window.veridaApp = new Verida({
+      address: address,
+      chain: CHAIN,
+      web3Provider: web3Provider
+    })
+    window.profileManager = new ProfileManager(window.veridaApp)
     window.inboxManager = new InboxManager(window.veridaApp)
+
+    await window.profileManager.init()
   }
 
-  window.profileManager = new ProfileManager(window.veridaApp)
-  await window.profileManager.init()
-
   try {
-    let connected = await window.veridaApp.connect(force);
+    let connected = await window.veridaApp.connect(force)
     if (connected) {
       callbacks.auth()
     }
@@ -45,8 +50,11 @@ export async function connectVerida (force, canceled = () => {}) {
   }
 }
 
-export async function getAddress () {
-  return VeridaApp.WalletHelper.getAddress('ethr')
+export async function getAccounts () {
+  return new Promise((resolve, reject) => {
+    const handler = (err, accounts) => err ? reject(err) : resolve(accounts)
+    window.web3.eth.getAccounts(handler)
+  })
 }
 
 /**
@@ -55,25 +63,29 @@ export async function getAddress () {
  * @param {*} auth Callback to fire when the user is authenticated
  * @param {*} unauth Callback to fire when the user is unauthenticated
  */
-export async function bind (auth, unauth = () => {}) {
+export async function bind (auth, unauth) {
   callbacks.auth = auth
   callbacks.unauth = unauth
 
-  window.ethereum.on('accountsChanged', (accounts) => {
+  window.ethereum.on('accountsChanged', async (accounts) => {
     if (!accounts.length) {
+      await logout()
       return unauth()
     }
-    if (accounts.length && getSignature()) {
+
+    const webSessionExists = await Verida.webSessionExists('did:' + CHAIN + ':' + accounts[0], VUE_APP_VERIDA_APP_NAME)
+    const connected = accounts.length && webSessionExists
+
+    if (connected) {
       return auth()
     }
   })
 }
 
-export async function getAccounts () {
-  return new Promise((resolve, reject) => {
-    const handler = (err, accounts) => err ? reject(err) : resolve(accounts)
-    window.web3.eth.getAccounts(handler)
-  });
+export async function bindInbox (cb) {
+  if (window.veridaApp) {
+    window.veridaApp.inbox.on('newMessage', cb)
+  }
 }
 
 export async function logout () {
@@ -83,16 +95,16 @@ export async function logout () {
   }
 }
 
-export function bindInbox (cb) {
-  if (window.veridaApp) {
-    window.veridaApp.inbox.on('newMessage', cb)
-  }
-}
-
 export async function fetchInbox (filter = {}) {
   if (!window.veridaApp) {
     return []
   }
   const inbox = await window.veridaApp.inbox.getInbox()
-  return inbox.getMany(filter)
+  return inbox.getMany(filter, {
+    sort: [{ sentAt: 'desc' }]
+  })
+}
+
+export async function getAddress () {
+  return Verida.Helpers.wallet.getAddress(CHAIN)
 }

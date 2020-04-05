@@ -1,5 +1,5 @@
-const { VUE_APP_TITLE } = process.env
-const sessionKey = `VERIDA_SESSION_${VUE_APP_TITLE}did:ethr`
+const { VUE_APP_VERIDA_APP_NAME } = process.env
+const sessionKey = `VERIDA_SESSION_${VUE_APP_VERIDA_APP_NAME}did:ethr`
 
 const getSignatureKey = () => {
     return Object.keys(localStorage).find(k => k.includes(sessionKey))

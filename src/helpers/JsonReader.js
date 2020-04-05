@@ -1,10 +1,12 @@
+import Verida from '@verida/datastore';
+
 export class JsonReader {
   constructor (tab) {
     this.tab = tab
   }
 
   async schema () {
-    return window.veridaApp.getSchema(this.tab)
+    return Verida.getSchema(this.tab)
   }
 
   async filter (property) {
