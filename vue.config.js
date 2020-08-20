@@ -9,7 +9,7 @@ const directory = {
 module.exports = {
   lintOnSave: true,
   runtimeCompiler: true,
-  outputDir: directory.public,
+  outputDir: `dist/${process.env.APP_PATH}`,
   configureWebpack: {
     entry: { app: `${directory.app}/main.js` },
     resolve: {

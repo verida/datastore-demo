@@ -2,6 +2,94 @@
   <b-container id="home">
     <b-row>
       <b-col>
+        <b-card>
+          <h1>Sandbox</h1>
+          
+          <p>This simple sandbox demonstrates the basic concepts of the Verida Datastore.</p>
+
+          <ol>
+            <li>Make sure Metamask is installed or your are using Brave browser with Crypto Wallets enabled</li>
+            <li>Open your Javascript console</li>
+            <li>Copy and paste the code below into your console to create your own encrypted databases</li>
+          </ol>
+          
+          <p>Learn more by reading the <a href="https://docs.datastore.verida.io/" target="_blank">Verida Datastore documentation</a>.</p>
+
+          <h2>Connect</h2>
+
+          <p>Start by initialising Web3 in the browser and configuring the Verida Datastore library.</p>
+
+          <pre>
+            const web3Provider = await window.Verida.Helpers.wallet.connectWeb3('ethr');
+            const address = await window.Verida.Helpers.wallet.getAddress('ethr');
+            window.Verida.setConfig({appName: 'Verida: Sandbox'});
+
+            // Create a Verida instance
+            let app = new window.Verida({'chain': 'ethr', 'address': address, 'web3Provider': web3Provider});
+
+            // Connect the user, by asking them to sign a consent message using their Ethereum private key
+            await app.connect(true)
+            console.log("User is connected with DID: " + app.user.did)
+          </pre>
+
+          <h2>Databases</h2>
+
+          <p>Lets open a database (or create if it doesn't exist), save a record, then view the record.</p>
+
+          <p>We can also view the data locally (unencrypted) and on the remote server (encrypted) using private keys of the user</p>
+
+          <pre>
+            // Open / create a test database
+            let db = await app.openDatabase('test_db');
+            let item = await db.save({
+              hello: 'world'
+            });
+            let items = await db.getMany();
+            console.log(items);
+
+            // Show the data stored in the local (unencrypted) database and the remote (encrypted) database
+            let localData = await db._originalDb._localDb.allDocs({include_docs: true});
+            console.log("Local data", localData);
+            
+            let remoteData = await db._originalDb._remoteDbEncrypted.allDocs({include_docs: true});
+            console.log("Remote data", remoteData)
+          </pre>
+
+          <h2>Datastores</h2>
+
+          <p>
+            Datatores provide a fixed schema that must be validated before a record is saved. This allows data to be shared / syncronised
+            across multiple applications that agree to use the same schema.
+          </p>
+
+          <pre>
+            // Lets open a datastore with a defined schema, in this the `social/contact` datastore
+            let contacts = await app.openDatastore('social/contact')
+
+            // Lets save a result with an intentional error where the email is invalid
+            let contact = {
+              firstName: 'John',
+              lastName: 'Smith',
+              email: 'john__smith.com'
+            }
+            let success = await contacts.save(contact);
+
+            if (!success) {
+              console.error(contacts.errors);
+            } else {
+              console.log("Contact saved");
+            }
+
+            // Fix the email and save properly
+            contact.email = 'john@smith.com';
+            await contacts.save(contact);
+
+            // View the saved record
+            await contacts.getMany();
+          </pre>
+        </b-card>
+
+<!--
         <b-card class="user">
           <div v-if="!loggedIn">
             <h2>User</h2>
@@ -20,8 +108,10 @@
             </b-row>
           </div>
         </b-card>
+-->
       </b-col>
     </b-row>
+    <!--
     <b-row v-if="loggedIn">
       <b-col>
         <b-button-group>
@@ -74,11 +164,13 @@
         </b-card>
       </b-col>
     </b-row>
+    -->
   </b-container>
 </template>
 
 <script>
 import VeridaApp from '@verida/datastore';
+window.Verida = VeridaApp
 
 export default {
   name: 'Home',
@@ -259,6 +351,12 @@ li {
 }
 a {
   color: #42b983;
+}
+
+pre {
+  padding: 30px;
+  background: #f6f6f6;
+  border-radius: 20px;
 }
 
 .btn.disconnect {
