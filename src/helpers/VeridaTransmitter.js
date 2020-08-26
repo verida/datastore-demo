@@ -12,6 +12,8 @@ const CHAIN = 'ethr'
 
 let callbacks = {}
 
+window.Verida = Verida
+
 /**
  * Connect the user to their Verida Datastore Application
  *

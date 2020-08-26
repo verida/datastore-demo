@@ -25,7 +25,7 @@
             window.Verida.setConfig({appName: 'Verida: Sandbox'});
 
             // Create a Verida instance
-            let app = new window.Verida({'chain': 'ethr', 'address': address, 'web3Provider': web3Provider});
+            const app = new window.Verida({'chain': 'ethr', 'address': address, 'web3Provider': web3Provider});
 
             // Connect the user, by asking them to sign a consent message using their Ethereum private key
             await app.connect(true)
@@ -86,6 +86,42 @@
 
             // View the saved record
             await contacts.getMany();
+          </pre>
+
+          <h2>Messaging</h2>
+          
+          <p>
+            Every application has a built-in inbox for receiving messages and outbox for sending messages.
+            This allows users and applications to send data between each other knowing nothing than the other user's DID and application name.
+          </p>
+
+          <p>This example sends a contact record to a user's Verida Vault.</p>
+
+          <p><a href="https://vault.testnet.verida.io/">Open the Verida Vault on testnet</a> and copy your DID (from the profile page) into the code below</p>
+
+          <pre>
+            const did = 'did:ethr:0xf3beac30c498d9e26865f34fcaa57dbb935b0d74';
+            const type = 'inbox/type/dataSend';
+
+            // Generate an inbox message containing an array of data
+            const data = {
+              data: [
+                {
+                  name: 'Vitalik Buterin',
+                  firstName: 'Vitalik',
+                  lastName: 'Buterin',
+                  email: 'me@vitalik.eth',
+                  schema: 'https://schemas.verida.io/social/contact/schema.json'
+                }
+              ]
+            };
+
+            const message = 'New contact: ' + data.data.name;
+            const config = {
+              appName: 'Verida: Vault'
+            };
+
+            app.outbox.send(did, type, data, message, config)
           </pre>
         </b-card>
 
