@@ -22,7 +22,7 @@ window.Verida = Verida
  */
 export async function connectVerida (force, canceled = () => {}) {
   const web3Provider = await Verida.Helpers.wallet.connectWeb3(CHAIN)
-  const address = await Verida.Helpers.wallet.getAddress(CHAIN)
+  const address = await web3Provider.getAddress()
 
   Verida.setConfig({
     appName: VUE_APP_VERIDA_APP_NAME,

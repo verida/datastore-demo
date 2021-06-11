@@ -21,7 +21,7 @@
 
           <pre>
             const web3Provider = await window.Verida.Helpers.wallet.connectWeb3('ethr');
-            const address = await window.Verida.Helpers.wallet.getAddress('ethr');
+            const address = await web3Provider.getAddress()
             window.Verida.setConfig({appName: 'Verida: Sandbox'});
 
             // Create a Verida instance
